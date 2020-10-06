@@ -1,6 +1,8 @@
 #ifndef LTC_2_H
 #define LTC_2_H
 
+#include "stdarg.h"
+
 typedef struct LTC_command
 {
 	uint16_t NAME;			//Command name
@@ -100,7 +102,7 @@ typedef enum
 
 void LTC_init(LTC_config *config);
 void LTC_makeCommand(LTC_command *command);
-void LTC_sendCommand(LTC_config *config);
+void LTC_sendCommand(LTC_config *config, ...);
 void LTC_PEC();
 
 #endif
