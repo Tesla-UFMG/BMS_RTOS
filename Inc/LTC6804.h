@@ -65,28 +65,28 @@ typedef struct LTC_sensor
 }LTC_sensor;
 
 //Command codes definitions (Table 34)
-#define LTC_COMMAND_WRCFG 	0b00000000001		//Write configuration register group	*NOT IMPLEMENTED
-#define LTC_COMMAND_RDCFG 	0b00000000010		//Read configuration register group		*NOT IMPLEMENTED
-#define LTC_COMMAND_RDCVA 	0b00000000100		//Read cell voltage register group A	*NOT IMPLEMENTED
-#define LTC_COMMAND_RDCVB 	0b00000000110		//Read cell voltage register group B	*NOT IMPLEMENTED
-#define LTC_COMMAND_RDCVC 	0b00000001000		//Read cell voltage register group C	*NOT IMPLEMENTED
-#define LTC_COMMAND_RDCVD 	0b00000001010		//Read cell voltage register group D	*NOT IMPLEMENTED
-#define LTC_COMMAND_RDAUXA 	0b00000001100		//Read auxiliary register group A		*NOT IMPLEMENTED
-#define LTC_COMMAND_RDAUXB 	0b00000001110		//Read auxiliary register group B		*NOT IMPLEMENTED
-#define LTC_COMMAND_RDSTATA 0b00000010000		//Read status register group A			*NOT IMPLEMENTED
-#define LTC_COMMAND_RDSTATB 0b00000010010		//Read status register group B			*NOT IMPLEMENTED
-#define LTC_COMMAND_ADCV 	0b01001100000		//Start cell voltage ADC conversion and poll status			*NOT IMPLEMENTED
-#define LTC_COMMAND_ADOW 	0b01000101000		//Start open wire ADC conversion and poll status			*NOT IMPLEMENTED
-#define LTC_COMMAND_CVST 	0b01000000111		//Start self-test cell voltage conversion and poll status	*NOT IMPLEMENTED
-#define LTC_COMMAND_ADAX 	0b10001100000		//Start GPIOs ADC conversion and poll status				*NOT IMPLEMENTED
-#define LTC_COMMAND_AXST 	0b10000000111		//Start self-test GPIOs conversion and poll status			*NOT IMPLEMENTED
-#define LTC_COMMAND_ADSTAT 	0b10001101000		//Start status group ADC conversion and poll status			*NOT IMPLEMENTED
-#define LTC_COMMAND_STATST 	0b10000001111		//Start self-test status groups conversion and poll status	*NOT IMPLEMENTED
-#define LTC_COMMAND_ADCVAX 	0b10001101111		//Start combined cell voltage and GPIO1, GPIO2 conversion and poll status	*NOT IMPLEMENTED
-#define LTC_COMMAND_CLRCELL 0b11100010001		//Clear cell voltage register group		*NOT IMPLEMENTED
-#define LTC_COMMAND_CLRAUX 	0b11100010010		//Clear auxiliary register group		*NOT IMPLEMENTED
-#define LTC_COMMAND_CLRSTAT 0b11100010011		//Clear status register group			*NOT IMPLEMENTED
-#define LTC_COMMAND_PLADC 	0b11100010100		//Poll ADC conversion status			*NOT IMPLEMENTED
+#define LTC_COMMAND_WRCFG 	0b00000000001		//Write configuration register group
+#define LTC_COMMAND_RDCFG 	0b00000000010		//Read configuration register group
+#define LTC_COMMAND_RDCVA 	0b00000000100		//Read cell voltage register group A
+#define LTC_COMMAND_RDCVB 	0b00000000110		//Read cell voltage register group B
+#define LTC_COMMAND_RDCVC 	0b00000001000		//Read cell voltage register group C
+#define LTC_COMMAND_RDCVD 	0b00000001010		//Read cell voltage register group D
+#define LTC_COMMAND_RDAUXA 	0b00000001100		//Read auxiliary register group A
+#define LTC_COMMAND_RDAUXB 	0b00000001110		//Read auxiliary register group B
+#define LTC_COMMAND_RDSTATA 0b00000010000		//Read status register group A
+#define LTC_COMMAND_RDSTATB 0b00000010010		//Read status register group B
+#define LTC_COMMAND_ADCV 	0b01001100000		//Start cell voltage ADC conversion and poll status
+#define LTC_COMMAND_ADOW 	0b01000101000		//Start open wire ADC conversion and poll status
+#define LTC_COMMAND_CVST 	0b01000000111		//Start self-test cell voltage conversion and poll status
+#define LTC_COMMAND_ADAX 	0b10001100000		//Start GPIOs ADC conversion and poll status
+#define LTC_COMMAND_AXST 	0b10000000111		//Start self-test GPIOs conversion and poll status
+#define LTC_COMMAND_ADSTAT 	0b10001101000		//Start status group ADC conversion and poll status
+#define LTC_COMMAND_STATST 	0b10000001111		//Start self-test status groups conversion and poll status
+#define LTC_COMMAND_ADCVAX 	0b10001101111		//Start combined cell voltage and GPIO1, GPIO2 conversion and poll status
+#define LTC_COMMAND_CLRCELL 0b11100010001		//Clear cell voltage register group
+#define LTC_COMMAND_CLRAUX 	0b11100010010		//Clear auxiliary register group
+#define LTC_COMMAND_CLRSTAT 0b11100010011		//Clear status register group
+#define LTC_COMMAND_PLADC 	0b11100010100		//Poll ADC conversion status
 #define LTC_COMMAND_DIAGN 	0b11100010101		//Diagnose MUX and poll status			*NOT IMPLEMENTED
 #define LTC_COMMAND_WRCOMM 	0b11100100001		//Write COMM register group				*NOT IMPLEMENTED
 #define LTC_COMMAND_RDCOMM 	0b11100100010		//Read COMM register group				*NOT IMPLEMENTED

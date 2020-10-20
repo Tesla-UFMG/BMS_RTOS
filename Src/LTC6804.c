@@ -2,13 +2,103 @@
 #include "defines.h"
 
 /*******************************************************
+ Function uint16_t LTC_make_command(LTC_command*)
+
+V1.0:
+The function is responsible for returning the bits of a
+command divided into different parts of bits depending
+on the command about to use and its bits of interest.
+See Table 34 for clear understanding.
+
+ Version 1.0 - Initial release 20/10/2020 by Tesla UFMG
+*******************************************************/
+uint16_t LTC_make_command(LTC_command *command)
+{
+	switch(command->NAME)
+	{
+		case LTC_COMMAND_ADCV:
+			return command->NAME | command->MD | command->DCP | command->CH;
+			break;
+
+		case LTC_COMMAND_ADOW:
+			return command->NAME | command->MD | command->PUP | command->DCP | command->CH;
+			break;
+
+		case LTC_COMMAND_CVST:
+		case LTC_COMMAND_AXST:
+		case LTC_COMMAND_STATST:
+			return command->NAME | command->MD | command->ST;
+			break;
+
+		case LTC_COMMAND_ADAX:
+			return command->NAME | command->MD | command->CHG;
+			break;
+
+		case LTC_COMMAND_ADSTAT:
+			return command->NAME | command->MD | command->CHST;
+			break;
+
+		case LTC_COMMAND_ADCVAX:
+			return command->NAME | command->MD | command->CHG;
+			break;
+
+		default:
+			return command->NAME;
+			break;
+	}
+}
+
+/*******************************************************
+ Function void LTC_transmit_recieve (uint16_t, uint16_t*, uint16_t*)
+
+V1.0:
+The function is responsible for doing the transmit/receive messages'
+routine, following the steps described in the LTC6804 datasheet.
+
+ Version 1.0 - Initial release 20/10/2020 by Tesla UFMG
+*******************************************************/
+void LTC_transmit_receive (uint16_t command, uint16_t* tx_data, uint16_t* rx_data)
+{
+	uint16_t pec = LTC_pec(&command, 1);
+	uint16_t buffer[4] = {command, pec, 0, 0}; 	//Tx buffer
+
+	//Wake-up routine
+	LTC_CS(0);
+	LTC6804_spi(0);
+	LTC_CS(1);
+
+	//Send command routine
+	LTC_CS(0);
+	LTC6804_spi(buffer[0]);
+	LTC6804_spi(buffer[1]);
+
+	//Transmit/Receive data routine
+	for(uint8_t i = 0; i < 4; ++i)
+		buffer[i] = tx_data[i];
+
+	if((command & 0x07FF) == LTC_COMMAND_WRCFG)
+	{
+		pec = LTC_pec2(tx_data, 3, 1);
+		buffer[3] = pec;
+	}
+
+	if((buffer[0] & 0x07FF) < LTC_COMMAND_ADCV)
+	{
+		for (uint8_t i = 0; i < 4; ++i)
+			rx_data[i] = LTC6804_spi(buffer[i]);
+	}
+
+	LTC_CS(1);
+}
+
+/*******************************************************
  Function void LTC_send_command(LTC_config*, ...)
 
 V1.0:
 The function sends the command made in the LTC_make_command
 function and do the tasks accordingly to the command sent.
 
- Version 1.0 - Initial release 01/01/2018 by Tesla UFMG
+ Version 1.0 - Initial release 08/10/2020 by Tesla UFMG
 *******************************************************/
 void LTC_sendCommand(LTC_config *config, ...)
 {
@@ -35,7 +125,7 @@ void LTC_sendCommand(LTC_config *config, ...)
 		tx_data[2] |= ((config->DCTO & 0xf) << 4);
 	}
 
-	LTC_transmit_recieve(LTC_make_command(config->command), tx_data, rx_data);
+	LTC_transmit_receive(LTC_make_command(config->command), tx_data, rx_data);
 
 	switch(config->command->NAME & 0x07FF)
 	{
