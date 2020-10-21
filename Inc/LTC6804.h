@@ -2,6 +2,8 @@
 #define LTC_2_H
 
 #include "stdarg.h"
+#include "defines.h"
+#include "stm32f1xx_hal.h"
 
 typedef struct LTC_command
 {
