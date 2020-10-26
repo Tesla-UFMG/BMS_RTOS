@@ -47,6 +47,7 @@ typedef struct LTC_sensor
 	uint8_t V_ERROR[12];	//Cell voltage error
 	uint8_t T_ERROR[5];		//Temperature error
 	uint16_t V_MAX;			//Maximum measured voltage
+	uint16_t V_MIN;			//Minimum measured voltage
 	uint16_t T_MAX;			//Maximum measured temperature
 	uint16_t V_DELTA;		//Difference between maximum and minimum measured voltages
 
@@ -96,15 +97,32 @@ typedef struct LTC_sensor
 
 typedef enum
 {
+
+	LTC_READ_CELL 	= 0b0001,
+	LTC_READ_GPIO  	= 0b0010,
+	LTC_READ_STATUS = 0b0100,
+	LTC_READ_CONFIG = 0b1000,
+
+}LTC_READ;
+
+typedef enum
+{
 	MD_FAST 	= 0b0010000000,		//27kHz (fast) or 14kHz
 	MD_NORMAL 	= 0b0100000000,		//7kHz (normal) or  3kHz
 	MD_FILTERED = 0b0110000000,		//26Hz (filtered) or  2kHz
 
 }LTC_MD;
 
-void LTC_init(LTC_config *config);
-void LTC_makeCommand(LTC_command *command);
-void LTC_sendCommand(LTC_config *config, ...);
-void LTC_PEC();
+void LTC_init_pecTable();
+uint16_t LTC_pec(uint16_t* data, uint8_t len);
+uint16_t LTC_make_command(LTC_command* command);
+void LTC_CS(uint8_t level);
+uint16_t LTC_spi(uint16_t Tx_data);
+void LTC_transmit_receive (uint16_t command, uint16_t* tx_data, uint16_t* rx_data);
+void LTC_send_command(LTC_config* config, ...);
+void LTC_init(LTC_config* config);
+static void LTC_temperature_convert(LTC_sensor* sensor);
+void LTC_wait(LTC_config* config, LTC_sensor* sensor);
+void LTC_read(uint8_t LTC_READ, LTC_config* config, LTC_sensor* sensor);
 
 #endif

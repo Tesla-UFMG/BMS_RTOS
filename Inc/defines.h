@@ -1,6 +1,30 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
+//General defines
+#define BLINK_TIME					500
+#define BLINK_ERROR_TIME			200
+#define MAX_VOLTAGE					96
+#define OP_VOLTAGE					92
+#define ST_VOLTAGE					86
+#define MIN_V_CELL					1000
+#define MAX_V_CELL					1000
+#define N_OF_PACKS					6
+#define N_OF_SLAVES					9
+#define N_OF_CELLS					13
+#define N_OF_THERMISTORS			4
+#define MAX_CELL_V_DISCHARGE		36000//36500
+#define MAX_CELL_V_CHARGE			36000
+#define MAX_CELL_V_STORE			33000/
+#define MIN_CELL_V					26000//27500
+#define MIN_CELL_V_BALLANCE 		23000
+#define FUSE_LIMIT					1
+#define V_ERROR_COM					65528
+#define MAX_TEMPERATURE				59000
+#define T_ERROR_COM					1
+#define BALANCE_TIME				120
+#define BALANCE_V_ERROR				5
+
 //Logical defines
 #define FALSE 	0
 #define TRUE 	1

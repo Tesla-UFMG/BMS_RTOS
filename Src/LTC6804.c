@@ -3,6 +3,7 @@
 #define BYTESWAP(word) ((word >> 8) + (word << 8))
 
 uint16_t pecTable[256];
+extern int16_t THERMISTOR_ZEROS[N_OF_PACKS][5];
 
 /*******************************************************
  Function void LTC_init_pecTable()
@@ -47,7 +48,7 @@ on page 63 of LTC6804's datasheet.
 
  Version 1.0 - Initial release 21/10/2020 by Tesla UFMG
 *******************************************************/
-uint16_t LTC_pec(uint16_t *data, uint8_t len)
+uint16_t LTC_pec(uint16_t* data, uint8_t len)
 {
 	uint16_t remainder, address;
 
@@ -74,7 +75,7 @@ See Table 34 for clear understanding.
 
  Version 1.0 - Initial release 20/10/2020 by Tesla UFMG
 *******************************************************/
-uint16_t LTC_make_command(LTC_command *command)
+uint16_t LTC_make_command(LTC_command* command)
 {
 	switch(command->NAME)
 	{
@@ -194,7 +195,7 @@ function and do the tasks accordingly to the command sent.
 
  Version 1.0 - Initial release 08/10/2020 by Tesla UFMG
 *******************************************************/
-void LTC_sendCommand(LTC_config *config, ...)
+void LTC_send_command(LTC_config* config, ...)
 {
 	LTC_sensor *sensor;
 
@@ -321,7 +322,7 @@ configuration.
 
  Version 1.0 - Initial release 02/10/2020 by Tesla UFMG
 *******************************************************/
-void LTC_init(LTC_config *config)
+void LTC_init(LTC_config* config)
 {
 	config->GPIO = 0x1F;
 	config->REFON = 0;
@@ -334,5 +335,124 @@ void LTC_init(LTC_config *config)
 
 	config->command->MD = MD_FILTERED;
 	config->command->BROADCAST = TRUE;
-	LTC_sendCommand(config);
+	LTC_send_command(config);
+}
+
+/*******************************************************
+ Function void LTC_temperature_convert(LTC_sensor*)
+
+V1.0:
+The function converts the ADC value read by the LTC6804
+into a temperature value in °C. It follows the steps described
+in the LTC6804 datasheet, page 27.
+
+ Version 1.0 - Initial release 26/10/2020 by Tesla UFMG
+*******************************************************/
+static void LTC_temperature_convert(LTC_sensor* sensor)
+{
+	float t0, B, r, r0;
+	t0 = 25 + 273;
+	r0 = 10000;
+	B = 3380;
+
+	for (int i = 0; i < 5; ++i)
+	{
+		r = (float)(sensor->GxV[i]*10000) / (float)(sensor->REF-sensor->GxV[i]);
+		sensor->GxV[i] = ((t0*B) / (t0*log(r/r0) + B) - 273)*10;
+		sensor->GxV[i] += THERMISTOR_ZEROS[sensor->ADDR][i];
+	}
+}
+
+/*******************************************************
+ Function void LTC_wait(LTC_config*, LTC_sensor*)
+
+V1.0:
+The function is used as an auxiliary function for confirming
+whether the ADC is ready or not.
+
+ Version 1.0 - Initial release 26/10/2020 by Tesla UFMG
+*******************************************************/
+void LTC_wait(LTC_config* config, LTC_sensor* sensor)
+{
+	do
+	{
+		config->command->NAME = LTC_COMMAND_PLADC;
+		config->command->BROADCAST = FALSE;
+		LTC_send_command(config, sensor);
+	}
+	while(!config->ADC_READY);
+}
+
+/*******************************************************
+ Function void LTC_read(uint8_t, LTC_config*, LTC_sensor*)
+
+V1.0:
+The function reads the values stored in the LTC6804's registers.
+Those values can be the cells' voltages, the NTC resistors' tem-
+peratures or the IC's status and configuration. Also, it returns
+the calculation of the most and the least charged cell and the
+difference between them.
+
+ Version 1.0 - Initial release 26/10/2020 by Tesla UFMG
+*******************************************************/
+void LTC_read(uint8_t LTC_READ, LTC_config* config, LTC_sensor* sensor)
+{
+	config->command->BROADCAST = FALSE;
+
+	if(LTC_READ&LTC_READ_CELL)
+	{
+		LTC_wait(config, sensor);
+
+		config->command->NAME = LTC_COMMAND_RDCVA;
+		LTC_send_command(config, sensor);
+		config->command->NAME = LTC_COMMAND_RDCVB;
+		LTC_send_command(config, sensor);
+		config->command->NAME = LTC_COMMAND_RDCVC;
+		LTC_send_command(config, sensor);
+		config->command->NAME = LTC_COMMAND_RDCVD;
+		LTC_send_command(config, sensor);
+
+		sensor->V_MIN = 36000;
+		sensor->V_MAX = 28000;
+
+		for(uint8_t i = 0; i < N_OF_CELLS; i++)
+		{
+			if(sensor->CxV[i] < sensor->V_MIN)
+				sensor->V_MIN = sensor->CxV[i];
+			if(sensor->CxV[i] > sensor->V_MAX)
+				sensor->V_MAX = sensor->CxV[i];
+		}
+
+		sensor->V_DELTA = sensor->V_MAX - sensor->V_MIN;
+	}
+
+	if(LTC_READ&LTC_READ_GPIO)
+	{
+		LTC_wait(config, sensor);
+
+		config->command->NAME = LTC_COMMAND_RDAUXA;
+		LTC_send_command(config, sensor);
+		config->command->NAME = LTC_COMMAND_RDAUXB;
+		LTC_send_command(config, sensor);
+
+		LTC_temperature_convert(sensor);
+	}
+
+	if(LTC_READ&LTC_READ_STATUS)
+	{
+		LTC_wait(config, sensor);
+
+		config->command->NAME = LTC_COMMAND_RDSTATA;
+		LTC_send_command(config, sensor);
+		config->command->NAME = LTC_COMMAND_RDSTATB;
+		LTC_send_command(config, sensor);
+	}
+
+	if(LTC_READ&LTC_READ_CONFIG)
+	{
+		LTC_wait(config, sensor);
+
+		config->command->NAME = LTC_COMMAND_RDCFG;
+		LTC_send_command(config, sensor);
+	}
 }
