@@ -4,6 +4,9 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Src/BMS.c \
+../Src/CAN.c \
+../Src/LTC6804.c \
 ../Src/freertos.c \
 ../Src/main.c \
 ../Src/stm32f1xx_hal_msp.c \
@@ -13,6 +16,9 @@ C_SRCS += \
 ../Src/system_stm32f1xx.c 
 
 OBJS += \
+./Src/BMS.o \
+./Src/CAN.o \
+./Src/LTC6804.o \
 ./Src/freertos.o \
 ./Src/main.o \
 ./Src/stm32f1xx_hal_msp.o \
@@ -22,6 +28,9 @@ OBJS += \
 ./Src/system_stm32f1xx.o 
 
 C_DEPS += \
+./Src/BMS.d \
+./Src/CAN.d \
+./Src/LTC6804.d \
 ./Src/freertos.d \
 ./Src/main.d \
 ./Src/stm32f1xx_hal_msp.d \

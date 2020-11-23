@@ -46,12 +46,20 @@ extern "C" {
   */
 typedef enum
 {
-  HAL_CAN_STATE_RESET             = 0x00U,  /*!< CAN not yet initialized or disabled */
-  HAL_CAN_STATE_READY             = 0x01U,  /*!< CAN initialized and ready for use   */
-  HAL_CAN_STATE_LISTENING         = 0x02U,  /*!< CAN receive process is ongoing      */
-  HAL_CAN_STATE_SLEEP_PENDING     = 0x03U,  /*!< CAN sleep request is pending        */
-  HAL_CAN_STATE_SLEEP_ACTIVE      = 0x04U,  /*!< CAN sleep mode is active            */
-  HAL_CAN_STATE_ERROR             = 0x05U   /*!< CAN error state                     */
+	HAL_CAN_STATE_RESET             = 0x00U,  /*!< CAN not yet initialized or disabled */
+	HAL_CAN_STATE_READY             = 0x01U,  /*!< CAN initialized and ready for use   */
+	HAL_CAN_STATE_LISTENING         = 0x02U,  /*!< CAN receive process is ongoing      */
+	HAL_CAN_STATE_SLEEP_PENDING     = 0x03U,  /*!< CAN sleep request is pending        */
+	HAL_CAN_STATE_SLEEP_ACTIVE      = 0x04U,  /*!< CAN sleep mode is active            */
+	HAL_CAN_STATE_ERROR             = 0x05U,   /*!< CAN error state                     */
+	HAL_CAN_STATE_BUSY_RX0_RX1      = 0x62U,  /*!< CAN process is ongoing              */
+	HAL_CAN_STATE_BUSY_RX0          = 0x22U,  /*!< CAN process is ongoing              */
+	HAL_CAN_STATE_BUSY_RX1          = 0x32U,  /*!< CAN process is ongoing              */
+	HAL_CAN_STATE_BUSY_TX_RX0_RX1   = 0x72U,  /*!< CAN process is ongoing              */
+	HAL_CAN_STATE_BUSY_TX_RX0       = 0x42U,  /*!< CAN process is ongoing              */
+	HAL_CAN_STATE_BUSY_TX_RX1       = 0x52U,  /*!< CAN process is ongoing              */
+	HAL_CAN_STATE_BUSY_TX           = 0x12U,  /*!< CAN process is ongoing              */
+	HAL_CAN_STATE_TIMEOUT           = 0x03U  /*!< CAN in Timeout state                */
 
 } HAL_CAN_StateTypeDef;
 
@@ -166,6 +174,9 @@ typedef struct
   uint32_t DLC;      /*!< Specifies the length of the frame that will be transmitted.
                           This parameter must be a number between Min_Data = 0 and Max_Data = 8. */
 
+  uint8_t Data[8];   /*!< Contains the data to be transmitted.
+                          This parameter must be a number between Min_Data = 0 and Max_Data = 0xFF */
+
   FunctionalState TransmitGlobalTime; /*!< Specifies whether the timestamp counter value captured on start
                           of frame transmission, is sent in DATA6 and DATA7 replacing pData[6] and pData[7].
                           @note: Time Triggered Communication Mode must be enabled.
@@ -194,6 +205,12 @@ typedef struct
   uint32_t DLC;      /*!< Specifies the length of the frame that will be transmitted.
                           This parameter must be a number between Min_Data = 0 and Max_Data = 8. */
 
+  uint8_t Data[8];   /*!< Contains the data to be received.
+                          This parameter must be a number between Min_Data = 0 and Max_Data = 0xFF */
+
+  uint32_t FMI;      /*!< Specifies the index of the filter the message stored in the mailbox passes through.
+                          This parameter must be a number between Min_Data = 0 and Max_Data = 0xFF */
+
   uint32_t Timestamp; /*!< Specifies the timestamp counter value captured on start of frame reception.
                           @note: Time Triggered Communication Mode must be enabled.
                           This parameter must be a number between Min_Data = 0 and Max_Data = 0xFFFF. */
@@ -212,7 +229,13 @@ typedef struct __CAN_HandleTypeDef
 
   CAN_InitTypeDef             Init;                      /*!< CAN required parameters */
 
+  CAN_TxHeaderTypeDef*		  pTxMsg;					 /*!< Pointer to transmit structure  */
+
+  CAN_RxHeaderTypeDef*        pRxMsg;     				 /*!< Pointer to reception structure for RX FIFO0 msg */
+
   __IO HAL_CAN_StateTypeDef   State;                     /*!< CAN communication state */
+
+  HAL_LockTypeDef             Lock;       				 /*!< CAN locking object */
 
   __IO uint32_t               ErrorCode;                 /*!< CAN Error code.
                                                               This parameter can be a value of @ref CAN_Error_Code */
@@ -439,6 +462,14 @@ typedef  void (*pCAN_CallbackTypeDef)(CAN_HandleTypeDef *hcan); /*!< pointer to 
   * @}
   */
 
+/** @defgroup CAN_transmit_constants CAN Transmit Constants
+  * @{
+  */
+#define CAN_TXSTATUS_NOMAILBOX      ((uint8_t)0x04)  /*!< CAN cell did not provide CAN_TxStatus_NoMailBox */
+/**
+  * @}
+  */
+
 /** @defgroup CAN_receive_FIFO_number CAN Receive FIFO Number
   * @{
   */
@@ -586,6 +617,15 @@ typedef  void (*pCAN_CallbackTypeDef)(CAN_HandleTypeDef *hcan); /*!< pointer to 
   *         This parameter can be one of @arg CAN_flags
   * @retval The state of __FLAG__ (TRUE or FALSE).
   */
+#define __HAL_CAN_FIFO_RELEASE(__HANDLE__, __FIFONUMBER__) (((__FIFONUMBER__) == CAN_RX_FIFO0)? \
+((__HANDLE__)->Instance->RF0R = CAN_RF0R_RFOM0) : ((__HANDLE__)->Instance->RF1R = CAN_RF1R_RFOM1))
+
+/** @brief  Check whether the specified CAN flag is set or not.
+  * @param  __HANDLE__ specifies the CAN Handle.
+  * @param  __FLAG__ specifies the flag to check.
+  *         This parameter can be one of @arg CAN_flags
+  * @retval The state of __FLAG__ (TRUE or FALSE).
+  */
 #define __HAL_CAN_GET_FLAG(__HANDLE__, __FLAG__) \
   ((((__FLAG__) >> 8U) == 5U)? ((((__HANDLE__)->Instance->TSR) & (1U << ((__FLAG__) & CAN_FLAG_MASK))) == (1U << ((__FLAG__) & CAN_FLAG_MASK))): \
    (((__FLAG__) >> 8U) == 2U)? ((((__HANDLE__)->Instance->RF0R) & (1U << ((__FLAG__) & CAN_FLAG_MASK))) == (1U << ((__FLAG__) & CAN_FLAG_MASK))): \
@@ -683,6 +723,8 @@ uint32_t HAL_CAN_IsTxMessagePending(CAN_HandleTypeDef *hcan, uint32_t TxMailboxe
 uint32_t HAL_CAN_GetTxTimestamp(CAN_HandleTypeDef *hcan, uint32_t TxMailbox);
 HAL_StatusTypeDef HAL_CAN_GetRxMessage(CAN_HandleTypeDef *hcan, uint32_t RxFifo, CAN_RxHeaderTypeDef *pHeader, uint8_t aData[]);
 uint32_t HAL_CAN_GetRxFifoFillLevel(CAN_HandleTypeDef *hcan, uint32_t RxFifo);
+HAL_StatusTypeDef HAL_CAN_Receive_IT(CAN_HandleTypeDef *hcan, uint8_t FIFONumber);
+HAL_StatusTypeDef HAL_CAN_Transmit_IT(CAN_HandleTypeDef *hcan);
 
 /**
  * @}
@@ -765,6 +807,14 @@ HAL_StatusTypeDef HAL_CAN_ResetError(CAN_HandleTypeDef *hcan);
   * @{
   */
 #define CAN_FLAG_MASK  (0x000000FFU)
+/**
+  * @}
+  */
+
+/* Mailboxes definition */
+#define CAN_TXMAILBOX_0   ((uint8_t)0x00)
+#define CAN_TXMAILBOX_1   ((uint8_t)0x01)
+#define CAN_TXMAILBOX_2   ((uint8_t)0x02)
 /**
   * @}
   */

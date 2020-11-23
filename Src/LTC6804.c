@@ -4,6 +4,7 @@
 
 uint16_t pecTable[256];
 extern int16_t THERMISTOR_ZEROS[N_OF_PACKS][5];
+extern SPI_HandleTypeDef hspi1;
 
 /*******************************************************
  Function void LTC_init_pecTable()
