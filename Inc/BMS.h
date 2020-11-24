@@ -1,8 +1,10 @@
 #ifndef BMS_H
 #define BMS_H
 
+#include "stdlib.h"
 #include "LTC6804.h"
-
+#include "CAN.h"
+#include "eeprom.h"
 
 typedef struct BMS_struct
 {

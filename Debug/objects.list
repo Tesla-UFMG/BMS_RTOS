@@ -29,6 +29,8 @@
 "Src/BMS.o"
 "Src/CAN.o"
 "Src/LTC6804.o"
+"Src/eeprom.o"
+"Src/flash.o"
 "Src/freertos.o"
 "Src/main.o"
 "Src/stm32f1xx_hal_msp.o"
