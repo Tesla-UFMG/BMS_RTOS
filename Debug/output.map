@@ -60,6 +60,7 @@ defaultTaskHandle   0x4               Src/main.o
 htim4               0x40              Src/main.o
 errno               0x4               c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-reent.o)
 hdma_usart3_rx      0x44              Src/main.o
+NextError           0x5               Src/BMS.o
 huart3              0x40              Src/main.o
 vetTx               0x8               Src/CAN.o
 hcan                0x30              Src/CAN.o
@@ -3408,15 +3409,17 @@ Discarded input sections
  .group         0x00000000        0xc Src/BMS.o
  .text          0x00000000        0x0 Src/BMS.o
  .data          0x00000000        0x0 Src/BMS.o
- .bss           0x00000000        0x0 Src/BMS.o
+ .bss           0x00000000        0x5 Src/BMS.o
  .text.BMS_init
                 0x00000000       0xdc Src/BMS.o
- .debug_info    0x00000000     0x1468 Src/BMS.o
- .debug_abbrev  0x00000000      0x2a3 Src/BMS.o
- .debug_loc     0x00000000       0x3d Src/BMS.o
+ .text.BMS_error
+                0x00000000      0x1a0 Src/BMS.o
+ .debug_info    0x00000000     0x1605 Src/BMS.o
+ .debug_abbrev  0x00000000      0x2db Src/BMS.o
+ .debug_loc     0x00000000       0x77 Src/BMS.o
  .debug_aranges
-                0x00000000       0x20 Src/BMS.o
- .debug_ranges  0x00000000       0x10 Src/BMS.o
+                0x00000000       0x28 Src/BMS.o
+ .debug_ranges  0x00000000       0x18 Src/BMS.o
  .debug_macro   0x00000000      0x2d2 Src/BMS.o
  .debug_macro   0x00000000      0xa54 Src/BMS.o
  .debug_macro   0x00000000       0x18 Src/BMS.o
@@ -3476,12 +3479,13 @@ Discarded input sections
  .debug_macro   0x00000000       0xa0 Src/BMS.o
  .debug_macro   0x00000000       0x10 Src/BMS.o
  .debug_macro   0x00000000       0x64 Src/BMS.o
- .debug_line    0x00000000      0x839 Src/BMS.o
- .debug_str     0x00000000    0x76a36 Src/BMS.o
+ .debug_line    0x00000000      0x8a6 Src/BMS.o
+ .debug_str     0x00000000    0x76aaf Src/BMS.o
  .comment       0x00000000       0x80 Src/BMS.o
- .debug_frame   0x00000000       0x30 Src/BMS.o
+ .debug_frame   0x00000000       0x4c Src/BMS.o
  .ARM.attributes
                 0x00000000       0x33 Src/BMS.o
+ COMMON         0x00000000        0x5 Src/BMS.o
  .group         0x00000000        0xc Src/CAN.o
  .group         0x00000000        0xc Src/CAN.o
  .group         0x00000000        0xc Src/CAN.o
