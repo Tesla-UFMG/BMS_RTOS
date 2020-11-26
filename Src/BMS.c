@@ -1,18 +1,183 @@
 #include "BMS.h"
 
+#define BMS_CONVERT_CELL 	1
+#define BMS_CONVERT_GPIO	2
+#define BMS_CONVERT_STAT	4
+#define BMS_CONVERT_CONFIG	8
+
 uint16_t flag = 0;
 static int8_t UV_retries, OV_retries, OT_retries;
 uint8_t NextError[5];
+int16_t THERMISTOR_ZEROS[N_OF_PACKS][5];
 
 /*******************************************************
-  Function void BMS_init(BMS_struct*)
+Function void BMS_convert(uint8_t, BMS_struct*)
+
+V1.0:
+The function converts the required option that may be the
+cells' voltage value, the thermistors' temperature value
+or the BMS status value.
+
+Version 1.0 - Initial release 26/11/2020 by Tesla UFMG
+*******************************************************/
+void BMS_convert(uint8_t BMS_CONVERT, BMS_struct* BMS)
+{
+	/*Convert the cells' voltage value*/
+	if(BMS_CONVERT&BMS_CONVERT_CELL)
+	{
+		BMS->config->command->NAME = LTC_COMMAND_ADCV;
+		BMS->config->command->BROADCAST = TRUE;
+		LTC_send_command(BMS->config);
+
+		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
+		{
+			LTC_read(LTC_READ_CELL, BMS->config, BMS->sensor[i]);
+
+			if(BMS->sensor[i]->V_MIN < BMS->v_min)
+				BMS->v_min = BMS->sensor[i]->V_MIN;
+			if(BMS->sensor[i]->V_MAX > BMS->v_max)
+				BMS->v_max = BMS->sensor[i]->V_MAX;
+
+			BMS->v_TS += BMS->sensor[i]->SOC;
+
+			for(uint8_t j = 0; j < 4; j++)
+			{
+				if(BMS->sensor[i]->GxV[j] > BMS->t_max)
+					BMS->t_max = BMS->sensor[i]->GxV[j];
+			}
+		}
+	}
+
+	/*Convert the thermistors' temperature value*/
+	if(BMS_CONVERT&BMS_CONVERT_GPIO)
+	{
+		BMS->config->command->NAME = LTC_COMMAND_ADAX;
+		BMS->config->command->BROADCAST = TRUE;
+		LTC_send_command(BMS->config);
+
+		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
+		{
+			LTC_read(LTC_READ_GPIO, BMS->config, BMS->sensor[i]);
+
+			for(uint8_t j = 0; j < 4; j++)
+			{
+				if(BMS->sensor[i]->GxV[j] > BMS->t_max)
+					BMS->t_max = BMS->sensor[i]->GxV[j];
+			}
+		}
+	}
+
+	/*Convert the BMS status value*/
+	if(BMS_CONVERT&BMS_CONVERT_STAT)
+	{
+		BMS->config->command->NAME = LTC_COMMAND_ADSTAT;
+		BMS->config->command->BROADCAST = TRUE;
+		LTC_send_command(BMS->config);
+
+		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
+		{
+			LTC_read(LTC_READ_STATUS, BMS->config, BMS->sensor[i]);
+
+			BMS->v_TS += BMS->sensor[i]->SOC;
+		}
+
+		BMS->v_TS /= N_OF_PACKS/2; //?????
+	}
+}
+
+/*******************************************************
+Function void BMS_monitoring(BMS_struct*)
+
+V1.0:
+The function monitors the main aspects of the BMS, such as
+the maximum and minimum voltages, the BMS charge percent and
+the need of balancing the cells.
+
+Version 1.0 - Initial release 26/11/2020 by Tesla UFMG
+*******************************************************/
+void BMS_monitoring(BMS_struct* BMS)
+{
+	BMS->v_min = 50000;
+	BMS->v_max = 0;
+	BMS->v_TS = 0;
+	BMS->t_max = 0;
+	BMS->charge_percentage = 0;
+
+	BMS_convert(BMS_CONVERT_CELL|BMS_CONVERT_GPIO|BMS_CONVERT_STAT, BMS);
+
+	for(uint8_t i = 0; i < N_OF_PACKS; i++)
+	{
+		if(BMS->mode & BMS_BALANCING)
+			LTC_set_balance_flag(BMS->config, BMS->sensor[i]);
+		else
+			LTC_reset_balance_flag(BMS->config, BMS->sensor[i]);
+
+		LTC_balance(BMS->config, BMS->sensor[i]);
+		BMS->charge_percentage += BMS->sensor[i]->TOTAL_CHARGE;
+	}
+
+	BMS->charge_percentage /= N_OF_PACKS;
+
+	if(BMS->charge < BMS->charge_min)
+		BMS->charge_min = BMS->charge;
+	if(BMS->charge > BMS->charge_max)
+		BMS->charge_max = BMS->charge;
+
+	EE_WriteVariable(0x0, (uint16_t) (BMS->charge >> 16));
+	EE_WriteVariable(0x1, (uint16_t) BMS->charge);
+
+	EE_WriteVariable(0x2, (uint16_t) (BMS->charge_min >> 16));
+	EE_WriteVariable(0x3, (uint16_t) BMS->charge_min);
+
+	EE_WriteVariable(0x4, (uint16_t) (BMS->charge_max >> 16));
+	EE_WriteVariable(0x5, (uint16_t) BMS->charge_max);
+}
+
+/*******************************************************
+Function void BMS_set_thermistor_zeros(BMS_struct*)
+
+V1.0:
+The function calculates the thermistors' zeros for more
+accurate readings.
+
+Version 1.0 - Initial release 26/11/2020 by Tesla UFMG
+*******************************************************/
+void BMS_set_thermistor_zeros(BMS_struct* BMS)
+{
+	uint32_t mean = 0;
+
+	for(int i = 0; i < N_OF_PACKS; i++)
+	{
+		for(int j = 0; j < 5; ++j)
+			THERMISTOR_ZEROS[i][j] = 0;
+	}
+
+	BMS_convert(BMS_CONVERT_GPIO, BMS);
+
+	for(int i = 0; i < N_OF_PACKS; i++)
+	{
+		for(int j = 0; j < 5; ++j)
+			mean += BMS->sensor[i]->GxV[j];		//OBSERVAÇÃO 2!!!! QUANTOS TERMISTORES POR SLAVE?
+	}
+
+	mean = (uint32_t)((float)mean/(N_OF_PACKS*5));
+
+	for(int i = 0; i < N_OF_PACKS; i++)
+	{
+		for(int j = 0; j < 5; ++j)
+			THERMISTOR_ZEROS[i][j] = mean - BMS->sensor[i]->GxV[j];
+	}
+}
+
+/*******************************************************
+Function void BMS_init(BMS_struct*)
 
 V1.0:
 The function is responsible for initializing the Battery
 Management System (BMS). It sets up all the configuration
 needed for the BMS boot.
 
-  Version 1.0 - Initial release 24/11/2020 by Tesla UFMG
+Version 1.0 - Initial release 24/11/2020 by Tesla UFMG
 *******************************************************/
 void BMS_init(BMS_struct* BMS)
 {
@@ -41,19 +206,19 @@ void BMS_init(BMS_struct* BMS)
 
 	uint16_t aux;
 	EE_ReadVariable(0x0, &aux);
-	BMS->charge = ((uint32_t)aux) << 16; 	//load upper bytes
+	BMS->charge = ((uint32_t)aux) << 16; 		//Load upper bytes
 	EE_ReadVariable(0x1, &aux);
-	BMS->charge += aux;		//load lower bytes
+	BMS->charge += aux;							//Load lower bytes
 
 	EE_ReadVariable(0x2, &aux);
-	BMS->charge_min = ((uint32_t)aux) << 16; 	//load upper bytes
+	BMS->charge_min = ((uint32_t)aux) << 16; 	//Load upper bytes
 	EE_ReadVariable(0x3, &aux);
-	BMS->charge_min += aux;		//load lower bytes
+	BMS->charge_min += aux;						//Load lower bytes
 
 	EE_ReadVariable(0x4, &aux);
-	BMS->charge_max = ((uint32_t)aux) << 16; 	//load upper bytes
+	BMS->charge_max = ((uint32_t)aux) << 16; 	//Load upper bytes
 	EE_ReadVariable(0x5, &aux);
-	BMS->charge_max += aux;		//load lower bytes
+	BMS->charge_max += aux;						//Load lower bytes
 
 	LTC_init(BMS->config); //OBSERVAÇÃO 1
 
@@ -63,14 +228,14 @@ void BMS_init(BMS_struct* BMS)
 }
 
 /*******************************************************
- Function void BMS_error(BMS_struct*)
+Function void BMS_error(BMS_struct*)
 
 V1.0:
 The function tests a series of conditions and sets the right
 error flag depending on what may happen through the BMS opera-
 tion.
 
- Version 1.0 - Initial release 25/11/2020 by Tesla UFMG
+Version 1.0 - Initial release 25/11/2020 by Tesla UFMG
 *******************************************************/
 void BMS_error(BMS_struct* BMS)
 {

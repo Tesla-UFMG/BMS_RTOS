@@ -45,10 +45,11 @@ typedef struct BMS_struct
 
 }BMS_struct;
 
-void BMS_init(BMS_struct* BMS);
-void BMS_error(BMS_struct* BMS);
-void BMS_can(BMS_struct* BMS);
-void BMS_SoC(BMS_struct* BMS);
-void BMS_monitoring(BMS_struct* BMS);
+void BMS_convert(uint8_t, BMS_struct*);
+void BMS_init(BMS_struct*);
+void BMS_error(BMS_struct*);
+void BMS_can(BMS_struct*);
+void BMS_SoC(BMS_struct*);
+void BMS_monitoring(BMS_struct*);
 
 #endif

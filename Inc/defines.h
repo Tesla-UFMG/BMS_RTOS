@@ -25,6 +25,16 @@
 #define BALANCE_TIME				120
 #define BALANCE_V_ERROR				5
 
+//BMS operation modes
+#define OPP_DEFAULT 	0
+#define OPP_CHARGING 	1
+#define OPP_BALANCING 	2
+#define OPP_TESTING 	3
+
+#define BMS_MONITORING 	0
+#define BMS_CHARGING 	0b01
+#define BMS_BALANCING 	0b10
+
 //Error defines:
 #define ERR_NO_ERROR 			0b000000000
 #define ERR_OVER_VOLTAGE		0b000000001

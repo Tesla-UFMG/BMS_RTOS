@@ -50,6 +50,7 @@ typedef struct LTC_sensor
 	uint16_t V_MIN;			//Minimum measured voltage
 	uint16_t T_MAX;			//Maximum measured temperature
 	uint16_t V_DELTA;		//Difference between maximum and minimum measured voltages
+	uint16_t TOTAL_CHARGE;	//Stack total charge
 
 
 	//Cell voltage register group A to D (Tables 37, 38, 39 and 40)
@@ -114,15 +115,15 @@ typedef enum
 }LTC_MD;
 
 void LTC_init_pecTable();
-uint16_t LTC_pec(uint16_t* data, uint8_t len);
-uint16_t LTC_make_command(LTC_command* command);
-void LTC_CS(uint8_t level);
-uint16_t LTC_spi(uint16_t Tx_data);
-void LTC_transmit_receive (uint16_t command, uint16_t* tx_data, uint16_t* rx_data);
-void LTC_send_command(LTC_config* config, ...);
-void LTC_init(LTC_config* config);
-static void LTC_temperature_convert(LTC_sensor* sensor);
-void LTC_wait(LTC_config* config, LTC_sensor* sensor);
-void LTC_read(uint8_t LTC_READ, LTC_config* config, LTC_sensor* sensor);
+uint16_t LTC_pec(uint16_t*, uint8_t);
+uint16_t LTC_make_command(LTC_command*);
+void LTC_CS(uint8_t);
+uint16_t LTC_spi(uint16_t);
+void LTC_transmit_receive (uint16_t, uint16_t*, uint16_t*);
+void LTC_send_command(LTC_config*, ...);
+void LTC_init(LTC_config*);
+static void LTC_temperature_convert(LTC_sensor*);
+void LTC_wait(LTC_config*, LTC_sensor*);
+void LTC_read(uint8_t, LTC_config*, LTC_sensor*);
 
 #endif
