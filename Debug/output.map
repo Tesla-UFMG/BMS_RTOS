@@ -24,6 +24,8 @@ c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.20
                               Src/BMS.o (__aeabi_fadd)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_muldivsf3.o)
                               Src/BMS.o (__aeabi_fdiv)
+c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixsfsi.o)
+                              Src/BMS.o (__aeabi_f2iz)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixunssfsi.o)
                               Src/BMS.o (__aeabi_f2uiz)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-calloc.o)
@@ -3423,12 +3425,15 @@ Discarded input sections
                 0x00000000       0xdc Src/BMS.o
  .text.BMS_error
                 0x00000000      0x1a0 Src/BMS.o
- .debug_info    0x00000000     0x199b Src/BMS.o
- .debug_abbrev  0x00000000      0x323 Src/BMS.o
- .debug_loc     0x00000000      0x304 Src/BMS.o
+ .text.can_buf  0x00000000       0x22 Src/BMS.o
+ .text.BMS_can  0x00000000      0x198 Src/BMS.o
+ .rodata        0x00000000       0x50 Src/BMS.o
+ .debug_info    0x00000000     0x1bab Src/BMS.o
+ .debug_abbrev  0x00000000      0x3c6 Src/BMS.o
+ .debug_loc     0x00000000      0x3fb Src/BMS.o
  .debug_aranges
-                0x00000000       0x40 Src/BMS.o
- .debug_ranges  0x00000000       0xd8 Src/BMS.o
+                0x00000000       0x50 Src/BMS.o
+ .debug_ranges  0x00000000      0x100 Src/BMS.o
  .debug_macro   0x00000000      0x2ea Src/BMS.o
  .debug_macro   0x00000000      0xa54 Src/BMS.o
  .debug_macro   0x00000000       0x18 Src/BMS.o
@@ -3450,7 +3455,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 Src/BMS.o
  .debug_macro   0x00000000       0x29 Src/BMS.o
  .debug_macro   0x00000000       0x58 Src/BMS.o
- .debug_macro   0x00000000      0x1f6 Src/BMS.o
+ .debug_macro   0x00000000      0x22c Src/BMS.o
  .debug_macro   0x00000000      0x233 Src/BMS.o
  .debug_macro   0x00000000       0x2e Src/BMS.o
  .debug_macro   0x00000000       0x22 Src/BMS.o
@@ -3488,10 +3493,10 @@ Discarded input sections
  .debug_macro   0x00000000       0xa0 Src/BMS.o
  .debug_macro   0x00000000       0x10 Src/BMS.o
  .debug_macro   0x00000000       0x64 Src/BMS.o
- .debug_line    0x00000000      0x9e1 Src/BMS.o
- .debug_str     0x00000000    0x76c69 Src/BMS.o
+ .debug_line    0x00000000      0xa9e Src/BMS.o
+ .debug_str     0x00000000    0x76d51 Src/BMS.o
  .comment       0x00000000       0x80 Src/BMS.o
- .debug_frame   0x00000000       0xa4 Src/BMS.o
+ .debug_frame   0x00000000       0xe4 Src/BMS.o
  .ARM.attributes
                 0x00000000       0x33 Src/BMS.o
  COMMON         0x00000000       0x44 Src/BMS.o
@@ -3553,7 +3558,7 @@ Discarded input sections
  .text.CAN_Transmit
                 0x00000000       0x58 Src/CAN.o
  .debug_macro   0x00000000      0xa54 Src/CAN.o
- .debug_macro   0x00000000      0x1f6 Src/CAN.o
+ .debug_macro   0x00000000      0x22c Src/CAN.o
  .debug_macro   0x00000000      0x233 Src/CAN.o
  .debug_macro   0x00000000       0x2e Src/CAN.o
  .debug_macro   0x00000000       0x22 Src/CAN.o
@@ -3665,7 +3670,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x1e9 Src/LTC6804.o
  .debug_macro   0x00000000      0xa54 Src/LTC6804.o
  .debug_macro   0x00000000       0x58 Src/LTC6804.o
- .debug_macro   0x00000000      0x1f6 Src/LTC6804.o
+ .debug_macro   0x00000000      0x22c Src/LTC6804.o
  .debug_macro   0x00000000      0x233 Src/LTC6804.o
  .debug_macro   0x00000000       0x2e Src/LTC6804.o
  .debug_macro   0x00000000       0x22 Src/LTC6804.o
@@ -3706,7 +3711,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x83 Src/LTC6804.o
  .debug_macro   0x00000000       0xa0 Src/LTC6804.o
  .debug_line    0x00000000      0x97f Src/LTC6804.o
- .debug_str     0x00000000    0x73bd6 Src/LTC6804.o
+ .debug_str     0x00000000    0x73c6a Src/LTC6804.o
  .comment       0x00000000       0x80 Src/LTC6804.o
  .debug_frame   0x00000000      0x160 Src/LTC6804.o
  .ARM.attributes
@@ -4668,6 +4673,12 @@ Discarded input sections
  .debug_frame   0x00000000       0x38 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_muldivsf3.o)
  .ARM.attributes
                 0x00000000       0x1d c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_muldivsf3.o)
+ .text          0x00000000       0x4c c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixsfsi.o)
+ .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixsfsi.o)
+ .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixsfsi.o)
+ .debug_frame   0x00000000       0x24 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixsfsi.o)
+ .ARM.attributes
+                0x00000000       0x1d c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixsfsi.o)
  .text          0x00000000       0x40 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixunssfsi.o)
  .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixunssfsi.o)
  .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m\libgcc.a(_arm_fixunssfsi.o)
@@ -5957,7 +5968,7 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
  .debug_line    0x00012475      0x766 Src/system_stm32f1xx.o
  .debug_line    0x00012bdb       0x7d startup/startup_stm32f103xb.o
 
-.debug_str      0x00000000    0x8453b
+.debug_str      0x00000000    0x845cf
  .debug_str     0x00000000    0x72d48 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
                               0x730a9 (size before relaxing)
  .debug_str     0x00072d48      0x68c Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
@@ -5998,19 +6009,19 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
                                0x8016 (size before relaxing)
  .debug_str     0x00082d67      0x23a Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
                                0xa77d (size before relaxing)
- .debug_str     0x00082fa1      0x8f2 Src/CAN.o
-                              0x73b96 (size before relaxing)
- .debug_str     0x00083893      0xa8c Src/main.o
+ .debug_str     0x00082fa1      0x986 Src/CAN.o
+                              0x73c2a (size before relaxing)
+ .debug_str     0x00083927      0xa8c Src/main.o
                               0x77d78 (size before relaxing)
- .debug_str     0x0008431f       0x1b Src/stm32f1xx_hal_msp.o
+ .debug_str     0x000843b3       0x1b Src/stm32f1xx_hal_msp.o
                               0x72e21 (size before relaxing)
- .debug_str     0x0008433a       0x50 Src/stm32f1xx_hal_timebase_tim.o
+ .debug_str     0x000843ce       0x50 Src/stm32f1xx_hal_timebase_tim.o
                               0x731ac (size before relaxing)
- .debug_str     0x0008438a      0x119 Src/stm32f1xx_it.o
+ .debug_str     0x0008441e      0x119 Src/stm32f1xx_it.o
                               0x739dc (size before relaxing)
- .debug_str     0x000844a3       0x69 Src/system_stm32f1xx.o
+ .debug_str     0x00084537       0x69 Src/system_stm32f1xx.o
                               0x72a4e (size before relaxing)
- .debug_str     0x0008450c       0x2f startup/startup_stm32f103xb.o
+ .debug_str     0x000845a0       0x2f startup/startup_stm32f103xb.o
                                  0x91 (size before relaxing)
 
 .comment        0x00000000       0x7f

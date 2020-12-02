@@ -13,10 +13,10 @@
 #define N_OF_SLAVES					9
 #define N_OF_CELLS					13
 #define N_OF_THERMISTORS			4
-#define MAX_CELL_V_DISCHARGE		36000//36500
+#define MAX_CELL_V_DISCHARGE		36000	//36500
 #define MAX_CELL_V_CHARGE			36000
 #define MAX_CELL_V_STORE			33000/
-#define MIN_CELL_V					26000//27500
+#define MIN_CELL_V					26000	//27500
 #define MIN_CELL_V_BALLANCE 		23000
 #define FUSE_LIMIT					1
 #define V_ERROR_COM					65528
@@ -34,6 +34,18 @@
 #define BMS_MONITORING 	0
 #define BMS_CHARGING 	0b01
 #define BMS_BALANCING 	0b10
+
+//BMS communication modes
+#define COMM_TC_ONLY 	0
+#define COMM_UART_DEBUG	1
+#define COMM_FULL		2
+
+#define UART_RATE			500 	//ms
+#define CAN_RATE			3000 	//ms
+#define CAN_TEMPERATURE_ID  3
+#define CAN_ERROR_FLAG_ID  	4
+#define CAN_CURRENT_ID		6
+#define CAN_GENERAL_ID		7
 
 //Error defines:
 #define ERR_NO_ERROR 			0b000000000
