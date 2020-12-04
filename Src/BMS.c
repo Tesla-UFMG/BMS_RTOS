@@ -6,9 +6,9 @@
 #define BMS_CONVERT_CONFIG	8
 
 uint16_t flag = 0;
-static int8_t UV_retries, OV_retries, OT_retries;
 uint8_t NextError[5];
 int16_t THERMISTOR_ZEROS[N_OF_PACKS][5];
+static int8_t UV_retries, OV_retries, OT_retries;
 
 static const uint16_t CAN_ID_TABLE[8][5] = {
 
@@ -407,7 +407,7 @@ and minimum voltages through CAN communication.
 
 Version 1.0 - Initial release 02/12/2020 by Tesla UFMG
 *******************************************************/
-void BMS_can(BMS_struct *BMS)
+void BMS_can(BMS_struct* BMS)
 {
 	uint8_t can_buffer[8];
 
@@ -468,4 +468,84 @@ void BMS_can(BMS_struct *BMS)
 	can_buf(can_buffer, BMS->v_min, BMS->v_max, 0, 0);
 
 	CAN_Transmit(can_buffer, 53);
+}
+
+/*******************************************************
+Function void BMS_initial_SOC(LTC_sensor)
+
+V1.0:
+The function reads all cells' voltage and takes the least
+charged cell as the Open Circuit Voltage (OCV). Depending
+on the value taken as the OCV, the SoC will be determined
+by a linear equation.
+
+Version 1.0 - Initial release 04/12/2020 by Tesla UFMG
+*******************************************************/
+void BMS_initial_SOC(BMS_struct* BMS)
+{
+	for(uint8_t i = 0; i < N_OF_PACKS; i++)
+		LTC_read(LTC_READ_CELL, BMS->config, BMS->sensor[i]);
+
+	if(BMS->v_min < 33680 && BMS->v_min >= 33400)						//98,00% -- 96,00%
+		BMS->charge_percentage = 71.43*(BMS->v_min/10000) - 142.57;
+	else if(BMS->v_min < 33400 && BMS->v_min >= 33310)					//96,61% -- 76,16%
+		BMS->charge_percentage = 2297.96*(BMS->v_min/10000) - 7578.34;
+	else if(BMS->v_min < 33310 && BMS->v_min >= 32990)					//75,50% -- 68,61%
+		BMS->charge_percentage = 216.09*(BMS->v_min/10000) - 644.27;
+	else if(BMS->v_min < 32990 && BMS->v_min >= 32880)					//71,30% -- 40,39%
+		BMS->charge_percentage = 2835.23*(BMS->v_min/10000) - 9281.84;
+	else if(BMS->v_min < 32880 && BMS->v_min >= 31980)					//38,38% -- 10,01%
+		BMS->charge_percentage = 315.54*(BMS->v_min/10000) - 999.08;
+	else if(BMS->v_min < 31980 && BMS->v_min >= 31290)					//9,53% -- 5,86%
+		BMS->charge_percentage = 53.23*(BMS->v_min/10000) - 160.69;
+	else
+		BMS->charge_percentage = 0;
+
+	if(BMS->charge_percentage > 100)
+		BMS->charge_percentage = 100;
+	if(BMS->charge_percentage < 0)
+		BMS->charge_percentage = 0;
+}
+
+/*******************************************************
+Function void BMS_charging(BMS_struct)
+
+V1.0:
+The function updates the battery's charge percent with the
+current integration function, determining the battery's SoC
+along with the BMS_Initial_SOC function.
+
+Version 1.0 - Initial release 04/12/2020 by Tesla UFMG
+*******************************************************/
+void BMS_charging(BMS_struct* BMS)
+{
+	BMS->charge = BMS->charge + DHAB_currentIntegration();
+	BMS->charge_variation_percentage = (BMS->charge/BMS->charge_max)*100;
+	BMS->charge_percentage = BMS->charge_percentage + BMS->charge_variation_percentage;
+	BMS->discharge_percentage = 100 - BMS->charge_percentage;
+
+	if(BMS->error == ERR_OVER_VOLTAGE)
+		BMS->charge_max = BMS->charge;
+}
+
+/*******************************************************
+Function void BMS_discharging(BMS_struct)
+
+V1.0:
+The function updates the battery's discharge percent with
+the current integration function. Finally, it calculates
+the battery's charge percent with the relation
+charge = 100 - discharge
+
+Version 1.0 - Initial release 04/12/2020 by Tesla UFMG
+*******************************************************/
+void BMS_discharging(BMS_struct* BMS)
+{
+	BMS->charge = BMS->charge + DHAB_currentIntegrarion();
+	BMS->discharge_variation_percentage = (BMS->charge/BMS->charge_max)*100;
+	BMS->discharge_percentage = BMS->discharge_percentage + BMS->discharge_variation_percentage;
+	BMS->charge_percentage = 100 - BMS->discharge_percentage;
+
+	if(BMS->error == ERR_UNDER_VOLTAGE)
+		BMS->charge_min = BMS->charge;
 }
