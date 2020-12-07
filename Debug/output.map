@@ -34,6 +34,8 @@ c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.20
                               Src/BMS.o (__aeabi_f2uiz)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-calloc.o)
                               Src/BMS.o (calloc)
+c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-clock.o)
+                              Src/DHAB_s125.o (clock)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-errno.o)
                               Src/syscalls.o (__errno)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-exit.o)
@@ -54,6 +56,8 @@ c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.20
                               c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-nano-mallocr.o) (_sbrk_r)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strlen.o)
                               Middlewares/Third_Party/FreeRTOS/Source/tasks.o (strlen)
+c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
+                              c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-clock.o) (_times_r)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-mlock.o)
                               c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-nano-mallocr.o) (__malloc_lock)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-reent.o)
@@ -3465,7 +3469,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 Src/BMS.o
  .debug_macro   0x00000000       0x29 Src/BMS.o
  .debug_macro   0x00000000       0x58 Src/BMS.o
- .debug_macro   0x00000000      0x22c Src/BMS.o
+ .debug_macro   0x00000000      0x232 Src/BMS.o
  .debug_macro   0x00000000      0x233 Src/BMS.o
  .debug_macro   0x00000000       0x2e Src/BMS.o
  .debug_macro   0x00000000       0x22 Src/BMS.o
@@ -3504,7 +3508,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 Src/BMS.o
  .debug_macro   0x00000000       0x64 Src/BMS.o
  .debug_line    0x00000000      0xb0d Src/BMS.o
- .debug_str     0x00000000    0x76da7 Src/BMS.o
+ .debug_str     0x00000000    0x76db3 Src/BMS.o
  .comment       0x00000000       0x80 Src/BMS.o
  .debug_frame   0x00000000      0x138 Src/BMS.o
  .ARM.attributes
@@ -3568,7 +3572,7 @@ Discarded input sections
  .text.CAN_Transmit
                 0x00000000       0x58 Src/CAN.o
  .debug_macro   0x00000000      0xa54 Src/CAN.o
- .debug_macro   0x00000000      0x22c Src/CAN.o
+ .debug_macro   0x00000000      0x232 Src/CAN.o
  .debug_macro   0x00000000      0x233 Src/CAN.o
  .debug_macro   0x00000000       0x2e Src/CAN.o
  .debug_macro   0x00000000       0x22 Src/CAN.o
@@ -3607,6 +3611,152 @@ Discarded input sections
  .debug_macro   0x00000000      0x88b Src/CAN.o
  .debug_macro   0x00000000      0x26b Src/CAN.o
  .debug_macro   0x00000000       0x83 Src/CAN.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .group         0x00000000        0xc Src/DHAB_s125.o
+ .text          0x00000000        0x0 Src/DHAB_s125.o
+ .data          0x00000000        0x0 Src/DHAB_s125.o
+ .bss           0x00000000        0x0 Src/DHAB_s125.o
+ .text.DHAB_currentIntegration
+                0x00000000       0x68 Src/DHAB_s125.o
+ .debug_info    0x00000000      0xa9c Src/DHAB_s125.o
+ .debug_abbrev  0x00000000      0x221 Src/DHAB_s125.o
+ .debug_loc     0x00000000       0xe3 Src/DHAB_s125.o
+ .debug_aranges
+                0x00000000       0x20 Src/DHAB_s125.o
+ .debug_ranges  0x00000000       0x40 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x329 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0xa54 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x233 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x2e Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x22 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x22 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x8e Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x51 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0xef Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x6a Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x1df Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x1c Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x22 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0xc3 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0xd23 Src/DHAB_s125.o
+ .debug_macro   0x00000000     0xe09e Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x43 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x174 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x5a Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x5be Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x289 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x1cb Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x114 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x1b2 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x27 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x136 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x1bc Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x34 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x3c Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x42b Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x57 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x46a Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x1b5 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x88 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x241 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x141 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x217 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x88b Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x26b Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x83 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x5e Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x18 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x35 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x34 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x32a Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x58 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x1f Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x43 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x20 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x18e Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x10 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x35 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x10 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x10 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x10 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x1c Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x52 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x40 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x10 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x40 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0xd7 Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x1c Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x3d Src/DHAB_s125.o
+ .debug_macro   0x00000000       0x35 Src/DHAB_s125.o
+ .debug_macro   0x00000000      0x232 Src/DHAB_s125.o
+ .debug_line    0x00000000      0x886 Src/DHAB_s125.o
+ .debug_str     0x00000000    0x769eb Src/DHAB_s125.o
+ .comment       0x00000000       0x80 Src/DHAB_s125.o
+ .debug_frame   0x00000000       0x34 Src/DHAB_s125.o
+ .ARM.attributes
+                0x00000000       0x33 Src/DHAB_s125.o
  .group         0x00000000        0xc Src/LTC6804.o
  .group         0x00000000        0xc Src/LTC6804.o
  .group         0x00000000        0xc Src/LTC6804.o
@@ -3680,7 +3830,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x1e9 Src/LTC6804.o
  .debug_macro   0x00000000      0xa54 Src/LTC6804.o
  .debug_macro   0x00000000       0x58 Src/LTC6804.o
- .debug_macro   0x00000000      0x22c Src/LTC6804.o
+ .debug_macro   0x00000000      0x232 Src/LTC6804.o
  .debug_macro   0x00000000      0x233 Src/LTC6804.o
  .debug_macro   0x00000000       0x2e Src/LTC6804.o
  .debug_macro   0x00000000       0x22 Src/LTC6804.o
@@ -3721,7 +3871,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x83 Src/LTC6804.o
  .debug_macro   0x00000000       0xa0 Src/LTC6804.o
  .debug_line    0x00000000      0x97f Src/LTC6804.o
- .debug_str     0x00000000    0x73c6a Src/LTC6804.o
+ .debug_str     0x00000000    0x73c76 Src/LTC6804.o
  .comment       0x00000000       0x80 Src/LTC6804.o
  .debug_frame   0x00000000      0x160 Src/LTC6804.o
  .ARM.attributes
@@ -4714,6 +4864,13 @@ Discarded input sections
  .debug_frame   0x00000000       0x20 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-calloc.o)
  .ARM.attributes
                 0x00000000       0x2d c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-calloc.o)
+ .text          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-clock.o)
+ .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-clock.o)
+ .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-clock.o)
+ .text.clock    0x00000000       0x28 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-clock.o)
+ .debug_frame   0x00000000       0x28 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-clock.o)
+ .ARM.attributes
+                0x00000000       0x2d c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-clock.o)
  .text          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-errno.o)
  .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-errno.o)
  .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-errno.o)
@@ -4780,6 +4937,14 @@ Discarded input sections
  .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strlen.o)
  .ARM.attributes
                 0x00000000       0x17 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strlen.o)
+ .text          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
+ .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
+ .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
+ .text._times_r
+                0x00000000        0x6 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
+ .debug_frame   0x00000000       0x20 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
+ .ARM.attributes
+                0x00000000       0x2d c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
  .text          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-mlock.o)
  .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-mlock.o)
  .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-mlock.o)
@@ -4860,6 +5025,7 @@ LOAD Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3/port.o
 LOAD Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
 LOAD Src/BMS.o
 LOAD Src/CAN.o
+LOAD Src/DHAB_s125.o
 LOAD Src/LTC6804.o
 LOAD Src/eeprom.o
 LOAD Src/flash.o
@@ -5990,7 +6156,7 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
  .debug_line    0x00012475      0x766 Src/system_stm32f1xx.o
  .debug_line    0x00012bdb       0x7d startup/startup_stm32f103xb.o
 
-.debug_str      0x00000000    0x845cf
+.debug_str      0x00000000    0x845db
  .debug_str     0x00000000    0x72d48 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
                               0x730a9 (size before relaxing)
  .debug_str     0x00072d48      0x68c Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
@@ -6031,19 +6197,19 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
                                0x8016 (size before relaxing)
  .debug_str     0x00082d67      0x23a Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
                                0xa77d (size before relaxing)
- .debug_str     0x00082fa1      0x986 Src/CAN.o
-                              0x73c2a (size before relaxing)
- .debug_str     0x00083927      0xa8c Src/main.o
+ .debug_str     0x00082fa1      0x992 Src/CAN.o
+                              0x73c36 (size before relaxing)
+ .debug_str     0x00083933      0xa8c Src/main.o
                               0x77d78 (size before relaxing)
- .debug_str     0x000843b3       0x1b Src/stm32f1xx_hal_msp.o
+ .debug_str     0x000843bf       0x1b Src/stm32f1xx_hal_msp.o
                               0x72e21 (size before relaxing)
- .debug_str     0x000843ce       0x50 Src/stm32f1xx_hal_timebase_tim.o
+ .debug_str     0x000843da       0x50 Src/stm32f1xx_hal_timebase_tim.o
                               0x731ac (size before relaxing)
- .debug_str     0x0008441e      0x119 Src/stm32f1xx_it.o
+ .debug_str     0x0008442a      0x119 Src/stm32f1xx_it.o
                               0x739dc (size before relaxing)
- .debug_str     0x00084537       0x69 Src/system_stm32f1xx.o
+ .debug_str     0x00084543       0x69 Src/system_stm32f1xx.o
                               0x72a4e (size before relaxing)
- .debug_str     0x000845a0       0x2f startup/startup_stm32f103xb.o
+ .debug_str     0x000845ac       0x2f startup/startup_stm32f103xb.o
                                  0x91 (size before relaxing)
 
 .comment        0x00000000       0x7f

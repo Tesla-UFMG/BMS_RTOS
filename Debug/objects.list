@@ -28,6 +28,7 @@
 "Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o"
 "Src/BMS.o"
 "Src/CAN.o"
+"Src/DHAB_s125.o"
 "Src/LTC6804.o"
 "Src/eeprom.o"
 "Src/flash.o"

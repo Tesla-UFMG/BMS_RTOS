@@ -6,6 +6,7 @@
 C_SRCS += \
 ../Src/BMS.c \
 ../Src/CAN.c \
+../Src/DHAB_s125.c \
 ../Src/LTC6804.c \
 ../Src/eeprom.c \
 ../Src/flash.c \
@@ -20,6 +21,7 @@ C_SRCS += \
 OBJS += \
 ./Src/BMS.o \
 ./Src/CAN.o \
+./Src/DHAB_s125.o \
 ./Src/LTC6804.o \
 ./Src/eeprom.o \
 ./Src/flash.o \
@@ -34,6 +36,7 @@ OBJS += \
 C_DEPS += \
 ./Src/BMS.d \
 ./Src/CAN.d \
+./Src/DHAB_s125.d \
 ./Src/LTC6804.d \
 ./Src/eeprom.d \
 ./Src/flash.d \
