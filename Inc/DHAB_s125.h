@@ -15,6 +15,7 @@ typedef struct DHAB_sensor
 
 }DHAB_sensor;
 
+float DHAB_filter(float, float);
 void DHAB_read(DHAB_sensor*);
 void DHAB_convert();
 double DHAB_currentIntegration(DHAB_sensor*);

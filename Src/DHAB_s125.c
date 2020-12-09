@@ -2,12 +2,18 @@
 
 int initialReadings = 0;
 
+float DHAB_filter(float old, float new)
+{
+	return(FILTER_GAIN*old + new)/(FILTER_GAIN + 1);
+}
+
 void DHAB_read(DHAB_sensor* sensor)
 {
 	if(initialReadings < 5)
 	{
 		for(uint8_t i = 0; i < N_OF_DHAB; i++)
 		{
+
 			sensor[i].currentZero += ((float)ADC_BUF[i] * sensor[i].currentGain);	//ADC_BUF??? COMO LER VALOR ADC
 			initialReadings++;
 
@@ -16,6 +22,14 @@ void DHAB_read(DHAB_sensor* sensor)
 				for(uint8_t j = 0; j < N_OF_DHAB; j++)
 					sensor[j].currentZero = sensor[j].currentZero/5;
 			}
+		}
+	}
+	else
+	{
+		for(uint8_t i = 0; i < N_OF_DHAB; i++)
+		{
+			sensor[i].currentADC = DHAB_filter((float)sensor[i].currentADC, (float)ADC_BUF[i]);
+			sensor[i].current = DHAB_filter(sensor[i].current, ((float)ADC_BUF[i] * sensor[i].currentGain) - sensor[i].currentZero);
 		}
 	}
 }
