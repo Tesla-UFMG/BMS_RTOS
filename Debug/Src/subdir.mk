@@ -12,6 +12,7 @@ C_SRCS += \
 ../Src/flash.c \
 ../Src/freertos.c \
 ../Src/main.c \
+../Src/spi.c \
 ../Src/stm32f1xx_hal_msp.c \
 ../Src/stm32f1xx_hal_timebase_tim.c \
 ../Src/stm32f1xx_it.c \
@@ -27,6 +28,7 @@ OBJS += \
 ./Src/flash.o \
 ./Src/freertos.o \
 ./Src/main.o \
+./Src/spi.o \
 ./Src/stm32f1xx_hal_msp.o \
 ./Src/stm32f1xx_hal_timebase_tim.o \
 ./Src/stm32f1xx_it.o \
@@ -42,6 +44,7 @@ C_DEPS += \
 ./Src/flash.d \
 ./Src/freertos.d \
 ./Src/main.d \
+./Src/spi.d \
 ./Src/stm32f1xx_hal_msp.d \
 ./Src/stm32f1xx_hal_timebase_tim.d \
 ./Src/stm32f1xx_it.d \

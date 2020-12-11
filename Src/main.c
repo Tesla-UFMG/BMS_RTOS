@@ -55,6 +55,11 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart3_rx;
 
+static const float CURRENT_GAIN[4] = {1.22, 1.51, 1.22, 1.22};
+
+BMS_struct* BMS;
+int32_t ADC_BUF[5];
+
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
@@ -71,7 +76,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
-static void MX_CAN_Init(void);
+void MX_CAN_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
@@ -85,6 +90,42 @@ void StartDefaultTask(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+int initialReadings = 0;
+float CURRENT_ZERO[N_OF_DHAB];
+
+float filter(float old, float new)
+{
+	return (FILTER_GAIN*old + new)/(FILTER_GAIN + 1);
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+	if(initialReadings < 5)
+	{
+		for(uint8_t i = 0; i < N_OF_DHAB; i++)
+		{
+			CURRENT_ZERO[i] += ((float)ADC_BUF[i] * (float)CURRENT_GAIN[i]);
+			initialReadings++;
+
+			if(initialReadings == 5)
+			{
+				for(uint8_t j = 0; j < N_OF_DHAB; j++)
+					CURRENT_ZERO[j] = CURRENT_ZERO[j]/5;
+			}
+		}
+	}
+	else
+	{
+		for(uint8_t i = 0; i < N_OF_DHAB; i++)
+		{
+			BMS->c_adc[i] = filter((float)BMS->c_adc[i], (float)ADC_BUF[i]);
+			BMS->current[i] = filter(BMS->current[i], ((float)ADC_BUF[i] * CURRENT_GAIN[i]) - CURRENT_ZERO[i]);			//BMS->current[i] = filter(BMS->current[i], (ADC_BUF[i]));
+		}
+	}
+
+	BMS->v_GLV = filter(BMS->v_GLV , ((float)(ADC_BUF[4] + 400) * 4.5));
+}
 
 /* USER CODE END 0 */
 
@@ -293,7 +334,7 @@ static void MX_ADC1_Init(void)
   * @param None
   * @retval None
   */
-static void MX_CAN_Init(void)
+void MX_CAN_Init(void)
 {
 
   /* USER CODE BEGIN CAN_Init 0 */

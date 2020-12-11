@@ -28,6 +28,14 @@ Src/stm32f1xx_it.o: ../Src/stm32f1xx_it.c \
  C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
+ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/BMS.h \
+ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/LTC6804.h \
+ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/defines.h \
+ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/DHAB_s125.h \
+ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/dwt_stm32_delay.h \
+ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/CAN.h \
+ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/eeprom.h \
+ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/flash.h \
  C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/stm32f1xx_it.h
 
 C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/main.h:
@@ -87,5 +95,21 @@ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BM
 C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 
 C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h:
+
+C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/BMS.h:
+
+C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/LTC6804.h:
+
+C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/defines.h:
+
+C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/DHAB_s125.h:
+
+C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/dwt_stm32_delay.h:
+
+C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/CAN.h:
+
+C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/eeprom.h:
+
+C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/flash.h:
 
 C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/stm32f1xx_it.h:

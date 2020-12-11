@@ -2,7 +2,7 @@
 
 int initialReadings = 0;
 
-float DHAB_filter(float old, float new)
+/*float DHAB_filter(float old, float new)
 {
 	return(FILTER_GAIN*old + new)/(FILTER_GAIN + 1);
 }
@@ -32,7 +32,7 @@ void DHAB_read(DHAB_sensor* sensor)
 			sensor[i].current = DHAB_filter(sensor[i].current, ((float)ADC_BUF[i] * sensor[i].currentGain) - sensor[i].currentZero);
 		}
 	}
-}
+}*/
 
 /*******************************************************
 Function double DHAB_currentIntegration()

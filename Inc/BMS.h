@@ -3,6 +3,7 @@
 
 #include "stdlib.h"
 #include "LTC6804.h"
+#include "DHAB_s125.h"
 #include "CAN.h"
 #include "eeprom.h"
 
@@ -18,7 +19,7 @@ typedef struct BMS_struct
 
 	LTC_sensor *sensor[N_OF_SLAVES];		//Number of LTC6804 used
 	LTC_config *config;						//LTC6804's configuration
-	//DHAB_sensor *dhabSensor[N_OF_DHAB];	//Number of DHAB current sensor used
+	DHAB_sensor *dhabSensor[N_OF_DHAB];		//Number of DHAB current sensor used
 
 	uint16_t v_GLV;							//GLV voltage
 	uint16_t v_TS;							//TS voltage
@@ -28,8 +29,8 @@ typedef struct BMS_struct
 	uint16_t t_max;							//Highest temperature in the bank
 
 	//Current settings
-	float current[4];						//Current real value
-	float c_adc[4];							//Current ADC value
+	float current[N_OF_DHAB];						//Current real value
+	float c_adc[N_OF_DHAB];							//Current ADC value
 
 	//Charge settings
 	int32_t charge;							//BMS charge
