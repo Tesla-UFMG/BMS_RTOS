@@ -1,7 +1,5 @@
 #include "DHAB_s125.h"
 
-int initialReadings = 0;
-
 /*float DHAB_filter(float old, float new)
 {
 	return(FILTER_GAIN*old + new)/(FILTER_GAIN + 1);
@@ -55,11 +53,8 @@ double DHAB_currentIntegration(DHAB_sensor* sensor)
 		runningTime = clock() - runningTime;
 		double timeSpent = (double)runningTime/CLOCKS_PER_SEC;
 
-		for(uint8_t i = 0; i < N_OF_DHAB; i++)
-		{
-			sensor[i].coulombCounting= sensor[i].current*timeSpent;
-			totalCoulombCounting = totalCoulombCounting + sensor[i].coulombCounting;
-		}
+		sensor->coulombCounting= sensor->current*timeSpent;
+		totalCoulombCounting = totalCoulombCounting + sensor->coulombCounting;
 	}
 
 	return totalCoulombCounting;

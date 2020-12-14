@@ -5,7 +5,7 @@
  *      Author: User
  */
 
-#include "eeprom.h"
+#include <EEPROM.h>
 
 extern uint16_t VirtAddVarTab[NumbOfVar];
 uint16_t DataVar = 0;

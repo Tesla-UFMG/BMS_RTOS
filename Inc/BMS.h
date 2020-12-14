@@ -5,7 +5,7 @@
 #include "LTC6804.h"
 #include "DHAB_s125.h"
 #include "CAN.h"
-#include "eeprom.h"
+#include "EEPROM.h"
 
 typedef struct BMS_struct
 {
@@ -29,8 +29,8 @@ typedef struct BMS_struct
 	uint16_t t_max;							//Highest temperature in the bank
 
 	//Current settings
-	float current[N_OF_DHAB];						//Current real value
-	float c_adc[N_OF_DHAB];							//Current ADC value
+	//float current[N_OF_DHAB];				//Current real value
+	//float c_adc[N_OF_DHAB];					//Current ADC value
 
 	//Charge settings
 	int32_t charge;							//BMS charge

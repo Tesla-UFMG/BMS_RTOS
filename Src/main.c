@@ -119,8 +119,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 	{
 		for(uint8_t i = 0; i < N_OF_DHAB; i++)
 		{
-			BMS->c_adc[i] = filter((float)BMS->c_adc[i], (float)ADC_BUF[i]);
-			BMS->current[i] = filter(BMS->current[i], ((float)ADC_BUF[i] * CURRENT_GAIN[i]) - CURRENT_ZERO[i]);			//BMS->current[i] = filter(BMS->current[i], (ADC_BUF[i]));
+			BMS->dhabSensor[i]->currentADC = filter((float)BMS->dhabSensor[i]->currentADC, (float)ADC_BUF[i]);
+			BMS->dhabSensor[i]->current = filter(BMS->dhabSensor[i]->current, ((float)ADC_BUF[i] * CURRENT_GAIN[i]) - CURRENT_ZERO[i]);			//BMS->current[i] = filter(BMS->current[i], (ADC_BUF[i]));
 		}
 	}
 
@@ -334,37 +334,37 @@ static void MX_ADC1_Init(void)
   * @param None
   * @retval None
   */
-void MX_CAN_Init(void)
-{
-
-  /* USER CODE BEGIN CAN_Init 0 */
-
-  /* USER CODE END CAN_Init 0 */
-
-  /* USER CODE BEGIN CAN_Init 1 */
-
-  /* USER CODE END CAN_Init 1 */
-  hcan.Instance = CAN1;
-  hcan.Init.Prescaler = 9;
-  hcan.Init.Mode = CAN_MODE_NORMAL;
-  hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan.Init.TimeSeg1 = CAN_BS1_6TQ;
-  hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
-  hcan.Init.TimeTriggeredMode = DISABLE;
-  hcan.Init.AutoBusOff = ENABLE;
-  hcan.Init.AutoWakeUp = DISABLE;
-  hcan.Init.AutoRetransmission = DISABLE;
-  hcan.Init.ReceiveFifoLocked = DISABLE;
-  hcan.Init.TransmitFifoPriority = DISABLE;
-  if (HAL_CAN_Init(&hcan) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN CAN_Init 2 */
-
-  /* USER CODE END CAN_Init 2 */
-
-}
+//void MX_CAN_Init(void)
+//{
+//
+//  /* USER CODE BEGIN CAN_Init 0 */
+//
+//  /* USER CODE END CAN_Init 0 */
+//
+//  /* USER CODE BEGIN CAN_Init 1 */
+//
+//  /* USER CODE END CAN_Init 1 */
+//  hcan.Instance = CAN1;
+//  hcan.Init.Prescaler = 9;
+//  hcan.Init.Mode = CAN_MODE_NORMAL;
+//  hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
+//  hcan.Init.TimeSeg1 = CAN_BS1_6TQ;
+//  hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
+//  hcan.Init.TimeTriggeredMode = DISABLE;
+//  hcan.Init.AutoBusOff = ENABLE;
+//  hcan.Init.AutoWakeUp = DISABLE;
+//  hcan.Init.AutoRetransmission = DISABLE;
+//  hcan.Init.ReceiveFifoLocked = DISABLE;
+//  hcan.Init.TransmitFifoPriority = DISABLE;
+//  if (HAL_CAN_Init(&hcan) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+//  /* USER CODE BEGIN CAN_Init 2 */
+//
+//  /* USER CODE END CAN_Init 2 */
+//
+//}
 
 /**
   * @brief SPI1 Initialization Function

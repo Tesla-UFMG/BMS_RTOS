@@ -247,6 +247,9 @@ void BMS_init(BMS_struct* BMS)
 		LTC_init(BMS->config); //OBSERVAÇÃO 1
 	}
 
+	for(int i = 0; i < N_OF_DHAB; i++)
+		BMS->dhabSensor[i] = (DHAB_sensor*) calloc(1, sizeof(DHAB_sensor));
+
 	/*Set initial BMS configuration*/
 	BMS->error = ERR_NO_ERROR;
 	BMS->v_min = 50000;
@@ -439,14 +442,14 @@ void BMS_can(BMS_struct* BMS)
 		CAN_Transmit(can_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
 	}
 
-	can_buffer[0] = ((int16_t)BMS->current[0]);
-	can_buffer[1] = ((int16_t)BMS->current[0]) >> 8;
-	can_buffer[2] = ((int16_t)BMS->current[1]);
-	can_buffer[3] = ((int16_t)BMS->current[1]) >> 8;
-	can_buffer[4] = ((int16_t)BMS->current[2]);
-	can_buffer[5] = ((int16_t)BMS->current[2]) >> 8;
-	can_buffer[6] = ((int16_t)BMS->current[3]);
-	can_buffer[7] = ((int16_t)BMS->current[3]) >> 8;
+	can_buffer[0] = ((int16_t)BMS->dhabSensor[0]->current);
+	can_buffer[1] = ((int16_t)BMS->dhabSensor[0]->current) >> 8;
+	can_buffer[2] = ((int16_t)BMS->dhabSensor[1]->current);
+	can_buffer[3] = ((int16_t)BMS->dhabSensor[1]->current) >> 8;
+	can_buffer[4] = ((int16_t)BMS->dhabSensor[2]->current);
+	can_buffer[5] = ((int16_t)BMS->dhabSensor[2]->current) >> 8;
+	can_buffer[6] = ((int16_t)BMS->dhabSensor[3]->current);
+	can_buffer[7] = ((int16_t)BMS->dhabSensor[3]->current) >> 8;
 
 	CAN_Transmit(can_buffer, 50);
 
@@ -519,7 +522,9 @@ Version 1.0 - Initial release 04/12/2020 by Tesla UFMG
 *******************************************************/
 void BMS_charging(BMS_struct* BMS)
 {
-	BMS->charge = BMS->charge + DHAB_currentIntegration();
+	for(int i = 0; i < N_OF_DHAB; i++)
+		BMS->charge = BMS->charge + DHAB_currentIntegration(BMS->dhabSensor[i]);
+
 	BMS->charge_variation_percentage = (BMS->charge/BMS->charge_max)*100;
 	BMS->charge_percentage = BMS->charge_percentage + BMS->charge_variation_percentage;
 	BMS->discharge_percentage = 100 - BMS->charge_percentage;
@@ -541,7 +546,9 @@ Version 1.0 - Initial release 04/12/2020 by Tesla UFMG
 *******************************************************/
 void BMS_discharging(BMS_struct* BMS)
 {
-	BMS->charge = BMS->charge + DHAB_currentIntegrarion();
+	for(int i = 0; i < N_OF_DHAB; i++)
+		BMS->charge = BMS->charge + DHAB_currentIntegration(BMS->dhabSensor[i]);
+
 	BMS->discharge_variation_percentage = (BMS->charge/BMS->charge_max)*100;
 	BMS->discharge_percentage = BMS->discharge_percentage + BMS->discharge_variation_percentage;
 	BMS->charge_percentage = 100 - BMS->discharge_percentage;

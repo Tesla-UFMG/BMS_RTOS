@@ -38,9 +38,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "spi.h"
-
-#include "gpio.h"
+#include <SPI.h>
 
 /* USER CODE BEGIN 0 */
 

@@ -43,7 +43,7 @@ Src/freertos.o: ../Src/freertos.c \
  C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/DHAB_s125.h \
  C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/dwt_stm32_delay.h \
  C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/CAN.h \
- C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/eeprom.h \
+ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/EEPROM.h \
  C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/flash.h
 
 C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
@@ -134,6 +134,6 @@ C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BM
 
 C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/CAN.h:
 
-C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/eeprom.h:
+C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/EEPROM.h:
 
 C:/Users/rbgue/OneDrive\ -\ ufmg.br/UFMG/Tesla/Baterias\ e\ Segurança/Códigos/BMS\ RTOS/BMS_RTOS/Inc/flash.h:
