@@ -2,8 +2,10 @@
 #define LTC_2_H
 
 #include "stdarg.h"
+#include "math.h"
 #include "defines.h"
 #include "stm32f1xx_hal.h"
+#include "dwt_stm32_delay.h"
 
 typedef struct LTC_command
 {
@@ -34,7 +36,6 @@ typedef struct LTC_config
 	uint8_t ADCOPT:1;		//ADC mode option
 	uint16_t VUV:12;		//Undervoltage comparison voltage
 	uint16_t VOV:12;		//Overvoltage comparison voltage
-	uint16_t DCC:12;		//Discharge cell x (DCC[x])
 	uint8_t DCTO:4;			//Discharge time out value
 	uint8_t ADC_READY;		//ADC is ready or not
 
@@ -51,6 +52,7 @@ typedef struct LTC_sensor
 	uint16_t T_MAX;			//Maximum measured temperature
 	uint16_t V_DELTA;		//Difference between maximum and minimum measured voltages
 	uint16_t TOTAL_CHARGE;	//Stack total charge
+	uint16_t DCC;			//Discharge cell x (DCC[x])
 
 
 	//Cell voltage register group A to D (Tables 37, 38, 39 and 40)

@@ -210,7 +210,7 @@ void LTC_send_command(LTC_config* config, ...)
 
 		sensor = va_arg(list, LTC_sensor*);
 		config->command->NAME  |= ((sensor->ADDR & (0x1111 * ~config->command->BROADCAST)) | ~config->command->BROADCAST << 4) << 11;
-		tx_data[2] |= ((config->DCC & 0xff) << 8) | ((config->DCC & 0xf00) >> 8);
+		tx_data[2] |= ((sensor->DCC & 0xff) << 8) | ((sensor->DCC & 0xf00) >> 8);
 		va_end(list);
 	}
 
@@ -331,7 +331,6 @@ void LTC_init(LTC_config* config)
 	config->ADCOPT = 0;
 	config->VUV = 0;
 	config->VOV = 0;
-	config->DCC = 0;
 	config->DCTO = 0;
 
 	config->command->MD = MD_FILTERED;
@@ -416,7 +415,7 @@ void LTC_read(uint8_t LTC_READ, LTC_config* config, LTC_sensor* sensor)
 		sensor->V_MIN = 36000;
 		sensor->V_MAX = 28000;
 
-		for(uint8_t i = 0; i < N_OF_CELLS; i++)
+		for(uint8_t i = 0; i < N_OF_CELLS - 1; i++)
 		{
 			if(sensor->CxV[i] < sensor->V_MIN)
 				sensor->V_MIN = sensor->CxV[i];
@@ -456,4 +455,59 @@ void LTC_read(uint8_t LTC_READ, LTC_config* config, LTC_sensor* sensor)
 		config->command->NAME = LTC_COMMAND_RDCFG;
 		LTC_send_command(config, sensor);
 	}
+}
+
+/*******************************************************
+Function void LTC_set_balance_flag(LTC_config*, LTC_sensor*)
+
+V1.0:
+The function sets the balance flag if the analyzed cell's voltage
+is at a level which it should be balanced.
+
+Version 1.0 - Initial release 15/12/2020 by Tesla UFMG
+*******************************************************/
+void LTC_set_balance_flag(LTC_config *config, LTC_sensor *sensor)
+{
+	sensor->DCC = 0;
+
+	if(sensor->V_DELTA > 10)
+		for (uint8_t i = 0; i < N_OF_CELLS - 1; ++i)
+		{
+			if((sensor->CxV[i] - sensor->V_MIN) > sensor->V_DELTA * 0.4)
+				sensor->DCC |= 1 << i;
+		}
+}
+
+/*******************************************************
+Function void LTC_reset_balance_flag(LTC_config*, LTC_sensor*)
+
+V1.0:
+The function resets the balance flag set in the LTC_set_balance_flag
+function.
+
+Version 1.0 - Initial release 15/12/2020 by Tesla UFMG
+*******************************************************/
+void LTC_reset_balance_flag(LTC_config *config, LTC_sensor *sensor)
+{
+	sensor->DCC = 0;
+
+	config->command->BROADCAST = FALSE;
+	config->command->NAME = LTC_COMMAND_WRCFG;
+	LTC_send_command(config, sensor);
+}
+
+/*******************************************************
+Function void LTC_balance(LTC_config*, LTC_sensor*)
+
+V1.0:
+The function is an auxiliary function for setting up
+the cells' balance.
+
+Version 1.0 - Initial release 15/12/2020 by Tesla UFMG
+*******************************************************/
+void LTC_balance(LTC_config *config, LTC_sensor *sensor)
+{
+	config->command->BROADCAST = FALSE;
+	config->command->NAME = LTC_COMMAND_WRCFG;
+	LTC_send_command(config, sensor);
 }

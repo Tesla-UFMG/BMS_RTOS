@@ -54,12 +54,16 @@ c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.20
                               c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-calloc.o) (_calloc_r)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-nano-mallocr.o)
                               c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-nano-callocr.o) (_malloc_r)
+c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-qsort.o)
+                              Src/nextion_functions.o (qsort)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-sbrkr.o)
                               c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-nano-mallocr.o) (_sbrk_r)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-sprintf.o)
                               Src/USART.o (sprintf)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strlen.o)
                               Middlewares/Third_Party/FreeRTOS/Source/tasks.o (strlen)
+c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strncpy.o)
+                              Src/nextion.o (strncpy)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
                               c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-clock.o) (_times_r)
 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-vsprintf.o)
@@ -95,6 +99,7 @@ NextError           0x5               Src/BMS.o
 huart3              0x40              Src/USART.o
 CURRENT_ZERO        0xc               Src/main.o
 vetTx               0x8               Src/CAN.o
+actual_page         0x1               Src/nextion_functions.o
 hcan                0x30              Src/CAN.o
 uwTick              0x4               Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
 xQueueRegistry      0x40              Middlewares/Third_Party/FreeRTOS/Source/queue.o
@@ -3551,6 +3556,7 @@ Discarded input sections
  .group         0x00000000        0xc Src/BMS.o
  .group         0x00000000        0xc Src/BMS.o
  .group         0x00000000        0xc Src/BMS.o
+ .group         0x00000000        0xc Src/BMS.o
  .text          0x00000000        0x0 Src/BMS.o
  .data          0x00000000        0x0 Src/BMS.o
  .bss           0x00000000        0x5 Src/BMS.o
@@ -3573,13 +3579,13 @@ Discarded input sections
  .text.BMS_discharging
                 0x00000000       0x70 Src/BMS.o
  .rodata        0x00000000       0x50 Src/BMS.o
- .debug_info    0x00000000     0x1d2a Src/BMS.o
- .debug_abbrev  0x00000000      0x3ba Src/BMS.o
+ .debug_info    0x00000000     0x1d5e Src/BMS.o
+ .debug_abbrev  0x00000000      0x3d6 Src/BMS.o
  .debug_loc     0x00000000      0x4bd Src/BMS.o
  .debug_aranges
                 0x00000000       0x68 Src/BMS.o
  .debug_ranges  0x00000000      0x118 Src/BMS.o
- .debug_macro   0x00000000      0x3ad Src/BMS.o
+ .debug_macro   0x00000000      0x3c0 Src/BMS.o
  .debug_macro   0x00000000      0xa54 Src/BMS.o
  .debug_macro   0x00000000       0x18 Src/BMS.o
  .debug_macro   0x00000000       0x22 Src/BMS.o
@@ -3600,6 +3606,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 Src/BMS.o
  .debug_macro   0x00000000       0x29 Src/BMS.o
  .debug_macro   0x00000000       0x58 Src/BMS.o
+ .debug_macro   0x00000000      0x1e1 Src/BMS.o
  .debug_macro   0x00000000      0x238 Src/BMS.o
  .debug_macro   0x00000000      0x233 Src/BMS.o
  .debug_macro   0x00000000       0x2e Src/BMS.o
@@ -3652,8 +3659,8 @@ Discarded input sections
  .debug_macro   0x00000000       0x35 Src/BMS.o
  .debug_macro   0x00000000       0x10 Src/BMS.o
  .debug_macro   0x00000000       0x64 Src/BMS.o
- .debug_line    0x00000000      0xc04 Src/BMS.o
- .debug_str     0x00000000    0x77ab3 Src/BMS.o
+ .debug_line    0x00000000      0xc0e Src/BMS.o
+ .debug_str     0x00000000    0x78375 Src/BMS.o
  .comment       0x00000000       0x80 Src/BMS.o
  .debug_frame   0x00000000      0x140 Src/BMS.o
  .ARM.attributes
@@ -4344,55 +4351,83 @@ Discarded input sections
  .group         0x00000000        0xc Src/LTC6804.o
  .group         0x00000000        0xc Src/LTC6804.o
  .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
+ .group         0x00000000        0xc Src/LTC6804.o
  .text          0x00000000        0x0 Src/LTC6804.o
  .data          0x00000000        0x0 Src/LTC6804.o
  .bss           0x00000000        0x0 Src/LTC6804.o
  .text.LTC_temperature_convert
-                0x00000000       0xc4 Src/LTC6804.o
+                0x00000000       0xcc Src/LTC6804.o
  .text.LTC_init_pecTable
                 0x00000000       0x40 Src/LTC6804.o
  .text.LTC_pec  0x00000000       0x30 Src/LTC6804.o
  .text.LTC_make_command
                 0x00000000       0xa0 Src/LTC6804.o
- .text.LTC_CS   0x00000000       0x18 Src/LTC6804.o
+ .text.LTC_CS   0x00000000       0x3c Src/LTC6804.o
  .text.LTC_spi  0x00000000       0x34 Src/LTC6804.o
  .text.LTC_transmit_receive
                 0x00000000       0xc0 Src/LTC6804.o
  .text.LTC_send_command
                 0x00000000      0x274 Src/LTC6804.o
  .text.LTC_init
-                0x00000000       0x50 Src/LTC6804.o
+                0x00000000       0x48 Src/LTC6804.o
  .text.LTC_wait
                 0x00000000       0x24 Src/LTC6804.o
  .text.LTC_read
                 0x00000000      0x110 Src/LTC6804.o
- .debug_info    0x00000000     0x1089 Src/LTC6804.o
- .debug_abbrev  0x00000000      0x35c Src/LTC6804.o
- .debug_loc     0x00000000      0x4c3 Src/LTC6804.o
- .debug_aranges
+ .text.LTC_set_balance_flag
                 0x00000000       0x70 Src/LTC6804.o
- .debug_ranges  0x00000000      0x108 Src/LTC6804.o
- .debug_macro   0x00000000      0x1e9 Src/LTC6804.o
+ .text.LTC_reset_balance_flag
+                0x00000000       0x16 Src/LTC6804.o
+ .text.LTC_balance
+                0x00000000       0x14 Src/LTC6804.o
+ .debug_info    0x00000000     0x1b37 Src/LTC6804.o
+ .debug_abbrev  0x00000000      0x452 Src/LTC6804.o
+ .debug_loc     0x00000000      0x5c5 Src/LTC6804.o
+ .debug_aranges
+                0x00000000       0x88 Src/LTC6804.o
+ .debug_ranges  0x00000000      0x120 Src/LTC6804.o
+ .debug_macro   0x00000000      0x28b Src/LTC6804.o
  .debug_macro   0x00000000      0xa54 Src/LTC6804.o
  .debug_macro   0x00000000       0x58 Src/LTC6804.o
+ .debug_macro   0x00000000       0x22 Src/LTC6804.o
+ .debug_macro   0x00000000       0x58 Src/LTC6804.o
+ .debug_macro   0x00000000       0x18 Src/LTC6804.o
+ .debug_macro   0x00000000       0x94 Src/LTC6804.o
+ .debug_macro   0x00000000       0x35 Src/LTC6804.o
+ .debug_macro   0x00000000       0x34 Src/LTC6804.o
+ .debug_macro   0x00000000      0x174 Src/LTC6804.o
+ .debug_macro   0x00000000       0x57 Src/LTC6804.o
+ .debug_macro   0x00000000       0x58 Src/LTC6804.o
+ .debug_macro   0x00000000       0x1f Src/LTC6804.o
+ .debug_macro   0x00000000       0x43 Src/LTC6804.o
+ .debug_macro   0x00000000       0x20 Src/LTC6804.o
+ .debug_macro   0x00000000      0x18e Src/LTC6804.o
+ .debug_macro   0x00000000      0x330 Src/LTC6804.o
+ .debug_macro   0x00000000      0x1e1 Src/LTC6804.o
  .debug_macro   0x00000000      0x238 Src/LTC6804.o
  .debug_macro   0x00000000      0x233 Src/LTC6804.o
  .debug_macro   0x00000000       0x2e Src/LTC6804.o
  .debug_macro   0x00000000       0x22 Src/LTC6804.o
- .debug_macro   0x00000000       0x22 Src/LTC6804.o
- .debug_macro   0x00000000       0x8e Src/LTC6804.o
- .debug_macro   0x00000000       0x51 Src/LTC6804.o
  .debug_macro   0x00000000       0xef Src/LTC6804.o
  .debug_macro   0x00000000       0x6a Src/LTC6804.o
  .debug_macro   0x00000000      0x1df Src/LTC6804.o
  .debug_macro   0x00000000       0x1c Src/LTC6804.o
  .debug_macro   0x00000000       0x22 Src/LTC6804.o
- .debug_macro   0x00000000       0xc3 Src/LTC6804.o
+ .debug_macro   0x00000000       0xbd Src/LTC6804.o
  .debug_macro   0x00000000      0xd23 Src/LTC6804.o
  .debug_macro   0x00000000     0xe09e Src/LTC6804.o
  .debug_macro   0x00000000       0x43 Src/LTC6804.o
- .debug_macro   0x00000000      0x174 Src/LTC6804.o
- .debug_macro   0x00000000       0x5a Src/LTC6804.o
+ .debug_macro   0x00000000       0x54 Src/LTC6804.o
  .debug_macro   0x00000000      0x5be Src/LTC6804.o
  .debug_macro   0x00000000      0x289 Src/LTC6804.o
  .debug_macro   0x00000000      0x1cb Src/LTC6804.o
@@ -4415,13 +4450,14 @@ Discarded input sections
  .debug_macro   0x00000000      0x26b Src/LTC6804.o
  .debug_macro   0x00000000       0x83 Src/LTC6804.o
  .debug_macro   0x00000000       0xa0 Src/LTC6804.o
- .debug_line    0x00000000      0x97f Src/LTC6804.o
- .debug_str     0x00000000    0x73c86 Src/LTC6804.o
+ .debug_line    0x00000000      0xa5c Src/LTC6804.o
+ .debug_str     0x00000000    0x77191 Src/LTC6804.o
  .comment       0x00000000       0x80 Src/LTC6804.o
- .debug_frame   0x00000000      0x160 Src/LTC6804.o
+ .debug_frame   0x00000000      0x1b4 Src/LTC6804.o
  .ARM.attributes
                 0x00000000       0x33 Src/LTC6804.o
  COMMON         0x00000000      0x200 Src/LTC6804.o
+ .group         0x00000000        0xc Src/SPI.o
  .group         0x00000000        0xc Src/SPI.o
  .group         0x00000000        0xc Src/SPI.o
  .group         0x00000000        0xc Src/SPI.o
@@ -4557,6 +4593,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 Src/SPI.o
  .debug_macro   0x00000000       0x29 Src/SPI.o
  .debug_macro   0x00000000       0x58 Src/SPI.o
+ .debug_macro   0x00000000      0x1e1 Src/SPI.o
  .debug_macro   0x00000000      0x238 Src/SPI.o
  .debug_macro   0x00000000       0xa0 Src/SPI.o
  .debug_macro   0x00000000       0x16 Src/SPI.o
@@ -4948,14 +4985,15 @@ Discarded input sections
  .group         0x00000000        0xc Src/freertos.o
  .group         0x00000000        0xc Src/freertos.o
  .group         0x00000000        0xc Src/freertos.o
+ .group         0x00000000        0xc Src/freertos.o
  .text          0x00000000        0x0 Src/freertos.o
  .data          0x00000000        0x0 Src/freertos.o
  .bss           0x00000000        0x0 Src/freertos.o
- .debug_info    0x00000000      0xee4 Src/freertos.o
- .debug_abbrev  0x00000000      0x1cb Src/freertos.o
+ .debug_info    0x00000000      0xf1b Src/freertos.o
+ .debug_abbrev  0x00000000      0x1e7 Src/freertos.o
  .debug_aranges
                 0x00000000       0x18 Src/freertos.o
- .debug_macro   0x00000000      0x412 Src/freertos.o
+ .debug_macro   0x00000000      0x425 Src/freertos.o
  .debug_macro   0x00000000      0xa54 Src/freertos.o
  .debug_macro   0x00000000      0x174 Src/freertos.o
  .debug_macro   0x00000000       0x22 Src/freertos.o
@@ -5018,6 +5056,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 Src/freertos.o
  .debug_macro   0x00000000       0x29 Src/freertos.o
  .debug_macro   0x00000000       0x58 Src/freertos.o
+ .debug_macro   0x00000000      0x1e1 Src/freertos.o
  .debug_macro   0x00000000      0x238 Src/freertos.o
  .debug_macro   0x00000000       0xa0 Src/freertos.o
  .debug_macro   0x00000000       0x16 Src/freertos.o
@@ -5036,11 +5075,12 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 Src/freertos.o
  .debug_macro   0x00000000       0x64 Src/freertos.o
  .debug_macro   0x00000000       0xfa Src/freertos.o
- .debug_line    0x00000000      0xa7b Src/freertos.o
- .debug_str     0x00000000    0x7aeff Src/freertos.o
+ .debug_line    0x00000000      0xa85 Src/freertos.o
+ .debug_str     0x00000000    0x7b7c1 Src/freertos.o
  .comment       0x00000000       0x80 Src/freertos.o
  .ARM.attributes
                 0x00000000       0x33 Src/freertos.o
+ .group         0x00000000        0xc Src/main.o
  .group         0x00000000        0xc Src/main.o
  .group         0x00000000        0xc Src/main.o
  .group         0x00000000        0xc Src/main.o
@@ -5178,6 +5218,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 Src/main.o
  .debug_macro   0x00000000       0x29 Src/main.o
  .debug_macro   0x00000000       0x58 Src/main.o
+ .debug_macro   0x00000000      0x1e1 Src/main.o
  .debug_macro   0x00000000      0x238 Src/main.o
  .debug_macro   0x00000000       0xa0 Src/main.o
  .debug_macro   0x00000000       0x16 Src/main.o
@@ -5202,6 +5243,405 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 Src/main.o
  .debug_macro   0x00000000       0x1f Src/main.o
  .debug_macro   0x00000000      0x463 Src/main.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .group         0x00000000        0xc Src/nextion.o
+ .text          0x00000000        0x0 Src/nextion.o
+ .data          0x00000000        0x3 Src/nextion.o
+ .bss           0x00000000        0x0 Src/nextion.o
+ .text.sendCommand
+                0x00000000       0x40 Src/nextion.o
+ .text.recvRetCommandFinished
+                0x00000000       0x54 Src/nextion.o
+ .text.recvRetNumber
+                0x00000000       0x6c Src/nextion.o
+ .text.recvRetString
+                0x00000000       0x80 Src/nextion.o
+ .text.nexInit  0x00000000       0x38 Src/nextion.o
+ .text.NexPageShow
+                0x00000000       0x2c Src/nextion.o
+ .text.NexTextSetText
+                0x00000000       0x50 Src/nextion.o
+ .text.NexScrollingTextSetText
+                0x00000000       0x50 Src/nextion.o
+ .text.NexScrollingTextSetPic
+                0x00000000       0x30 Src/nextion.o
+ .text.NexPictureSetPic
+                0x00000000       0x30 Src/nextion.o
+ .text.NexTextGetText
+                0x00000000       0x34 Src/nextion.o
+ .text.NexNumberSetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexNumberGetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexXfloatSetCollor
+                0x00000000       0x30 Src/nextion.o
+ .text.NexXfloatSetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexWaveformAdd
+                0x00000000       0x38 Src/nextion.o
+ .text.NexButtonGetText
+                0x00000000       0x34 Src/nextion.o
+ .text.NexButtonSetText
+                0x00000000       0x58 Src/nextion.o
+ .text.NexCheckboxGetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexCheckboxSetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexDSButtonGetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexDSButtonSetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexDSButtonGetText
+                0x00000000       0x34 Src/nextion.o
+ .text.NexDSButtonSetText
+                0x00000000       0x58 Src/nextion.o
+ .text.NexGaugeGetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexGaugeSetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexProgressBarGetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexProgressBarSetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexRadioGetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexRadioSetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexVariableGetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexGetPage
+                0x00000000       0x28 Src/nextion.o
+ .text.NexGetOrder
+                0x00000000       0x28 Src/nextion.o
+ .text.NexVariableSetValue
+                0x00000000       0x30 Src/nextion.o
+ .text.NexVariableGetText
+                0x00000000       0x34 Src/nextion.o
+ .text.NexVariableSetText
+                0x00000000       0x58 Src/nextion.o
+ .rodata.str1.4
+                0x00000000      0x1ba Src/nextion.o
+ .debug_info    0x00000000     0x23c5 Src/nextion.o
+ .debug_abbrev  0x00000000      0x353 Src/nextion.o
+ .debug_loc     0x00000000      0xc70 Src/nextion.o
+ .debug_aranges
+                0x00000000      0x138 Src/nextion.o
+ .debug_ranges  0x00000000      0x128 Src/nextion.o
+ .debug_macro   0x00000000      0x3ad Src/nextion.o
+ .debug_macro   0x00000000      0xa54 Src/nextion.o
+ .debug_macro   0x00000000      0x233 Src/nextion.o
+ .debug_macro   0x00000000       0x2e Src/nextion.o
+ .debug_macro   0x00000000       0x22 Src/nextion.o
+ .debug_macro   0x00000000       0x22 Src/nextion.o
+ .debug_macro   0x00000000       0x8e Src/nextion.o
+ .debug_macro   0x00000000       0x51 Src/nextion.o
+ .debug_macro   0x00000000       0xef Src/nextion.o
+ .debug_macro   0x00000000       0x6a Src/nextion.o
+ .debug_macro   0x00000000      0x1df Src/nextion.o
+ .debug_macro   0x00000000       0x1c Src/nextion.o
+ .debug_macro   0x00000000       0x22 Src/nextion.o
+ .debug_macro   0x00000000       0xc3 Src/nextion.o
+ .debug_macro   0x00000000      0xd23 Src/nextion.o
+ .debug_macro   0x00000000     0xe09e Src/nextion.o
+ .debug_macro   0x00000000       0x43 Src/nextion.o
+ .debug_macro   0x00000000      0x174 Src/nextion.o
+ .debug_macro   0x00000000       0x5a Src/nextion.o
+ .debug_macro   0x00000000      0x5be Src/nextion.o
+ .debug_macro   0x00000000      0x289 Src/nextion.o
+ .debug_macro   0x00000000      0x1cb Src/nextion.o
+ .debug_macro   0x00000000      0x114 Src/nextion.o
+ .debug_macro   0x00000000      0x1b2 Src/nextion.o
+ .debug_macro   0x00000000       0x27 Src/nextion.o
+ .debug_macro   0x00000000      0x136 Src/nextion.o
+ .debug_macro   0x00000000      0x1bc Src/nextion.o
+ .debug_macro   0x00000000       0x34 Src/nextion.o
+ .debug_macro   0x00000000       0x3c Src/nextion.o
+ .debug_macro   0x00000000      0x42b Src/nextion.o
+ .debug_macro   0x00000000       0x57 Src/nextion.o
+ .debug_macro   0x00000000      0x46a Src/nextion.o
+ .debug_macro   0x00000000      0x1b5 Src/nextion.o
+ .debug_macro   0x00000000       0x88 Src/nextion.o
+ .debug_macro   0x00000000      0x241 Src/nextion.o
+ .debug_macro   0x00000000      0x141 Src/nextion.o
+ .debug_macro   0x00000000      0x217 Src/nextion.o
+ .debug_macro   0x00000000      0x88b Src/nextion.o
+ .debug_macro   0x00000000      0x26b Src/nextion.o
+ .debug_macro   0x00000000       0x83 Src/nextion.o
+ .debug_macro   0x00000000       0x5e Src/nextion.o
+ .debug_macro   0x00000000       0x18 Src/nextion.o
+ .debug_macro   0x00000000       0x35 Src/nextion.o
+ .debug_macro   0x00000000       0x34 Src/nextion.o
+ .debug_macro   0x00000000       0x58 Src/nextion.o
+ .debug_macro   0x00000000       0x1f Src/nextion.o
+ .debug_macro   0x00000000       0x43 Src/nextion.o
+ .debug_macro   0x00000000       0x20 Src/nextion.o
+ .debug_macro   0x00000000      0x18e Src/nextion.o
+ .debug_macro   0x00000000      0x32a Src/nextion.o
+ .debug_macro   0x00000000       0x10 Src/nextion.o
+ .debug_macro   0x00000000       0x35 Src/nextion.o
+ .debug_macro   0x00000000       0x1c Src/nextion.o
+ .debug_macro   0x00000000       0x10 Src/nextion.o
+ .debug_macro   0x00000000       0x10 Src/nextion.o
+ .debug_macro   0x00000000       0x1c Src/nextion.o
+ .debug_macro   0x00000000       0x52 Src/nextion.o
+ .debug_macro   0x00000000       0x40 Src/nextion.o
+ .debug_macro   0x00000000       0x10 Src/nextion.o
+ .debug_macro   0x00000000       0x40 Src/nextion.o
+ .debug_macro   0x00000000       0xd7 Src/nextion.o
+ .debug_macro   0x00000000       0x1c Src/nextion.o
+ .debug_macro   0x00000000       0x3d Src/nextion.o
+ .debug_macro   0x00000000       0x16 Src/nextion.o
+ .debug_macro   0x00000000      0x16f Src/nextion.o
+ .debug_line    0x00000000      0xc07 Src/nextion.o
+ .debug_str     0x00000000    0x7705c Src/nextion.o
+ .comment       0x00000000       0x80 Src/nextion.o
+ .debug_frame   0x00000000      0x454 Src/nextion.o
+ .ARM.attributes
+                0x00000000       0x33 Src/nextion.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .group         0x00000000        0xc Src/nextion_functions.o
+ .text          0x00000000        0x0 Src/nextion_functions.o
+ .data          0x00000000        0x0 Src/nextion_functions.o
+ .bss           0x00000000        0x1 Src/nextion_functions.o
+ .text.cmpfunc  0x00000000        0x8 Src/nextion_functions.o
+ .text.uart3MessageReceived
+                0x00000000      0x100 Src/nextion_functions.o
+ .text.nexLoop  0x00000000      0x460 Src/nextion_functions.o
+ .rodata.str1.4
+                0x00000000       0x58 Src/nextion_functions.o
+ .debug_info    0x00000000     0x1ec0 Src/nextion_functions.o
+ .debug_abbrev  0x00000000      0x34c Src/nextion_functions.o
+ .debug_loc     0x00000000      0x128 Src/nextion_functions.o
+ .debug_aranges
+                0x00000000       0x30 Src/nextion_functions.o
+ .debug_ranges  0x00000000       0x38 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x401 Src/nextion_functions.o
+ .debug_macro   0x00000000      0xa54 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x18 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x22 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x58 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x94 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x35 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x34 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x16 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x10e Src/nextion_functions.o
+ .debug_macro   0x00000000       0x8d Src/nextion_functions.o
+ .debug_macro   0x00000000       0x57 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x58 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x1f Src/nextion_functions.o
+ .debug_macro   0x00000000       0x43 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x20 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x18e Src/nextion_functions.o
+ .debug_macro   0x00000000      0x330 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x16 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x29 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x58 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x1e1 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x238 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x233 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x2e Src/nextion_functions.o
+ .debug_macro   0x00000000       0x22 Src/nextion_functions.o
+ .debug_macro   0x00000000       0xef Src/nextion_functions.o
+ .debug_macro   0x00000000       0x6a Src/nextion_functions.o
+ .debug_macro   0x00000000      0x1df Src/nextion_functions.o
+ .debug_macro   0x00000000       0x1c Src/nextion_functions.o
+ .debug_macro   0x00000000       0x22 Src/nextion_functions.o
+ .debug_macro   0x00000000       0xbd Src/nextion_functions.o
+ .debug_macro   0x00000000      0xd23 Src/nextion_functions.o
+ .debug_macro   0x00000000     0xe09e Src/nextion_functions.o
+ .debug_macro   0x00000000       0x43 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x54 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x5be Src/nextion_functions.o
+ .debug_macro   0x00000000      0x289 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x1cb Src/nextion_functions.o
+ .debug_macro   0x00000000      0x114 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x1b2 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x27 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x136 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x1bc Src/nextion_functions.o
+ .debug_macro   0x00000000       0x34 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x3c Src/nextion_functions.o
+ .debug_macro   0x00000000      0x42b Src/nextion_functions.o
+ .debug_macro   0x00000000       0x57 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x46a Src/nextion_functions.o
+ .debug_macro   0x00000000      0x1b5 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x88 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x241 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x141 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x217 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x88b Src/nextion_functions.o
+ .debug_macro   0x00000000      0x26b Src/nextion_functions.o
+ .debug_macro   0x00000000       0x83 Src/nextion_functions.o
+ .debug_macro   0x00000000       0xa0 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x16 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x35 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x10 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x10 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x10 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x1c Src/nextion_functions.o
+ .debug_macro   0x00000000       0x52 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x40 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x10 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x40 Src/nextion_functions.o
+ .debug_macro   0x00000000       0xd7 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x1c Src/nextion_functions.o
+ .debug_macro   0x00000000       0x3d Src/nextion_functions.o
+ .debug_macro   0x00000000       0x35 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x10 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x64 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x16 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x1c Src/nextion_functions.o
+ .debug_macro   0x00000000       0x10 Src/nextion_functions.o
+ .debug_macro   0x00000000       0x16 Src/nextion_functions.o
+ .debug_macro   0x00000000      0x16f Src/nextion_functions.o
+ .debug_macro   0x00000000       0x34 Src/nextion_functions.o
+ .debug_line    0x00000000      0xa29 Src/nextion_functions.o
+ .debug_str     0x00000000    0x78cac Src/nextion_functions.o
+ .comment       0x00000000       0x80 Src/nextion_functions.o
+ .debug_frame   0x00000000       0x64 Src/nextion_functions.o
+ .ARM.attributes
+                0x00000000       0x33 Src/nextion_functions.o
+ COMMON         0x00000000        0x1 Src/nextion_functions.o
+ .group         0x00000000        0xc Src/stm32f1xx_hal_msp.o
  .group         0x00000000        0xc Src/stm32f1xx_hal_msp.o
  .group         0x00000000        0xc Src/stm32f1xx_hal_msp.o
  .group         0x00000000        0xc Src/stm32f1xx_hal_msp.o
@@ -5331,6 +5771,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 Src/stm32f1xx_hal_msp.o
  .debug_macro   0x00000000       0x29 Src/stm32f1xx_hal_msp.o
  .debug_macro   0x00000000       0x58 Src/stm32f1xx_hal_msp.o
+ .debug_macro   0x00000000      0x1e1 Src/stm32f1xx_hal_msp.o
  .debug_macro   0x00000000      0x238 Src/stm32f1xx_hal_msp.o
  .debug_macro   0x00000000       0xa0 Src/stm32f1xx_hal_msp.o
  .debug_macro   0x00000000       0x16 Src/stm32f1xx_hal_msp.o
@@ -5506,6 +5947,7 @@ Discarded input sections
  .group         0x00000000        0xc Src/stm32f1xx_it.o
  .group         0x00000000        0xc Src/stm32f1xx_it.o
  .group         0x00000000        0xc Src/stm32f1xx_it.o
+ .group         0x00000000        0xc Src/stm32f1xx_it.o
  .text          0x00000000        0x0 Src/stm32f1xx_it.o
  .data          0x00000000        0x0 Src/stm32f1xx_it.o
  .bss           0x00000000        0x0 Src/stm32f1xx_it.o
@@ -5563,6 +6005,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x16 Src/stm32f1xx_it.o
  .debug_macro   0x00000000       0x29 Src/stm32f1xx_it.o
  .debug_macro   0x00000000       0x58 Src/stm32f1xx_it.o
+ .debug_macro   0x00000000      0x1e1 Src/stm32f1xx_it.o
  .debug_macro   0x00000000      0x238 Src/stm32f1xx_it.o
  .debug_macro   0x00000000       0xa0 Src/stm32f1xx_it.o
  .debug_macro   0x00000000       0x16 Src/stm32f1xx_it.o
@@ -6035,6 +6478,17 @@ Discarded input sections
  .debug_frame   0x00000000       0x2c c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-nano-mallocr.o)
  .ARM.attributes
                 0x00000000       0x2d c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-nano-mallocr.o)
+ .text          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-qsort.o)
+ .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-qsort.o)
+ .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-qsort.o)
+ .text.swapfunc
+                0x00000000       0x32 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-qsort.o)
+ .text.med3.isra.1
+                0x00000000       0x3e c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-qsort.o)
+ .text.qsort    0x00000000      0x24e c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-qsort.o)
+ .debug_frame   0x00000000       0x78 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-qsort.o)
+ .ARM.attributes
+                0x00000000       0x2d c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-qsort.o)
  .text          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-sbrkr.o)
  .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-sbrkr.o)
  .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-sbrkr.o)
@@ -6056,6 +6510,13 @@ Discarded input sections
  .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strlen.o)
  .ARM.attributes
                 0x00000000       0x17 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strlen.o)
+ .text          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strncpy.o)
+ .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strncpy.o)
+ .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strncpy.o)
+ .text.strncpy  0x00000000       0x2a c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strncpy.o)
+ .debug_frame   0x00000000       0x2c c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strncpy.o)
+ .ARM.attributes
+                0x00000000       0x2d c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-strncpy.o)
  .text          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
  .data          0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
  .bss           0x00000000        0x0 c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v7-m\libc_nano.a(lib_a-timesr.o)
@@ -6223,6 +6684,8 @@ LOAD Src/dwt_stm32_delay.o
 LOAD Src/flash.o
 LOAD Src/freertos.o
 LOAD Src/main.o
+LOAD Src/nextion.o
+LOAD Src/nextion_functions.o
 LOAD Src/stm32f1xx_hal_msp.o
 LOAD Src/stm32f1xx_hal_timebase_tim.o
 LOAD Src/stm32f1xx_it.o
@@ -7126,7 +7589,7 @@ LOAD c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17
                 0x0000077d       0x1d c:/ac6/systemworkbench/plugins/fr.ac6.mcu.externaltools.arm-none.win32_1.17.0.201812190825/tools/compiler/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v7-m/crtn.o
 OUTPUT(BMS_RTOS.elf elf32-littlearm)
 
-.debug_info     0x00000000    0x27436
+.debug_info     0x00000000    0x2750f
  .debug_info    0x00000000      0x7a9 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
  .debug_info    0x000007a9      0xe60 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
  .debug_info    0x00001609      0xb8a Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.o
@@ -7149,17 +7612,17 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
  .debug_info    0x0001b333      0xc71 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
  .debug_info    0x0001bfa4      0xc69 Src/ADC.o
  .debug_info    0x0001cc0d     0x1005 Src/CAN.o
- .debug_info    0x0001dc12     0x15fc Src/SPI.o
- .debug_info    0x0001f20e     0x10cc Src/USART.o
- .debug_info    0x000202da     0x2dad Src/main.o
- .debug_info    0x00023087     0x1050 Src/stm32f1xx_hal_msp.o
- .debug_info    0x000240d7      0x9ba Src/stm32f1xx_hal_timebase_tim.o
- .debug_info    0x00024a91     0x1981 Src/stm32f1xx_it.o
- .debug_info    0x00026412      0x436 Src/system_stm32f1xx.o
- .debug_info    0x00026848      0xbcc Src/tim.o
- .debug_info    0x00027414       0x22 startup/startup_stm32f103xb.o
+ .debug_info    0x0001dc12     0x1633 Src/SPI.o
+ .debug_info    0x0001f245     0x10cc Src/USART.o
+ .debug_info    0x00020311     0x2de1 Src/main.o
+ .debug_info    0x000230f2     0x1087 Src/stm32f1xx_hal_msp.o
+ .debug_info    0x00024179      0x9ba Src/stm32f1xx_hal_timebase_tim.o
+ .debug_info    0x00024b33     0x19b8 Src/stm32f1xx_it.o
+ .debug_info    0x000264eb      0x436 Src/system_stm32f1xx.o
+ .debug_info    0x00026921      0xbcc Src/tim.o
+ .debug_info    0x000274ed       0x22 startup/startup_stm32f103xb.o
 
-.debug_abbrev   0x00000000     0x4ac2
+.debug_abbrev   0x00000000     0x4b29
  .debug_abbrev  0x00000000      0x1fe Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
  .debug_abbrev  0x000001fe      0x1ee Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
  .debug_abbrev  0x000003ec      0x239 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.o
@@ -7182,15 +7645,15 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
  .debug_abbrev  0x00003009      0x318 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
  .debug_abbrev  0x00003321      0x1fb Src/ADC.o
  .debug_abbrev  0x0000351c      0x2d8 Src/CAN.o
- .debug_abbrev  0x000037f4      0x274 Src/SPI.o
- .debug_abbrev  0x00003a68      0x2ca Src/USART.o
- .debug_abbrev  0x00003d32      0x3d6 Src/main.o
- .debug_abbrev  0x00004108      0x219 Src/stm32f1xx_hal_msp.o
- .debug_abbrev  0x00004321      0x1f0 Src/stm32f1xx_hal_timebase_tim.o
- .debug_abbrev  0x00004511      0x27f Src/stm32f1xx_it.o
- .debug_abbrev  0x00004790      0x134 Src/system_stm32f1xx.o
- .debug_abbrev  0x000048c4      0x1ec Src/tim.o
- .debug_abbrev  0x00004ab0       0x12 startup/startup_stm32f103xb.o
+ .debug_abbrev  0x000037f4      0x290 Src/SPI.o
+ .debug_abbrev  0x00003a84      0x2ca Src/USART.o
+ .debug_abbrev  0x00003d4e      0x3e9 Src/main.o
+ .debug_abbrev  0x00004137      0x235 Src/stm32f1xx_hal_msp.o
+ .debug_abbrev  0x0000436c      0x1f0 Src/stm32f1xx_hal_timebase_tim.o
+ .debug_abbrev  0x0000455c      0x29b Src/stm32f1xx_it.o
+ .debug_abbrev  0x000047f7      0x134 Src/system_stm32f1xx.o
+ .debug_abbrev  0x0000492b      0x1ec Src/tim.o
+ .debug_abbrev  0x00004b17       0x12 startup/startup_stm32f103xb.o
 
 .debug_loc      0x00000000    0x13ae0
  .debug_loc     0x00000000      0x104 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
@@ -7319,7 +7782,7 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
  .debug_ranges  0x00001980       0x28 Src/tim.o
  .debug_ranges  0x000019a8       0x20 startup/startup_stm32f103xb.o
 
-.debug_macro    0x00000000    0x186f9
+.debug_macro    0x00000000    0x18745
  .debug_macro   0x00000000      0x1e6 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
  .debug_macro   0x000001e6      0xa54 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
  .debug_macro   0x00000c3a      0x233 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
@@ -7412,20 +7875,20 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
  .debug_macro   0x00016720      0x1d5 Src/ADC.o
  .debug_macro   0x000168f5      0x238 Src/ADC.o
  .debug_macro   0x00016b2d      0x1df Src/CAN.o
- .debug_macro   0x00016d0c      0x3b4 Src/SPI.o
- .debug_macro   0x000170c0       0xfa Src/SPI.o
- .debug_macro   0x000171ba      0x1ee Src/USART.o
- .debug_macro   0x000173a8      0x41d Src/main.o
- .debug_macro   0x000177c5       0x5b Src/main.o
- .debug_macro   0x00017820      0x148 Src/main.o
- .debug_macro   0x00017968       0xdd Src/main.o
- .debug_macro   0x00017a45      0x3aa Src/stm32f1xx_hal_msp.o
- .debug_macro   0x00017def      0x1c2 Src/stm32f1xx_hal_timebase_tim.o
- .debug_macro   0x00017fb1      0x3b4 Src/stm32f1xx_it.o
- .debug_macro   0x00018365      0x1c8 Src/system_stm32f1xx.o
- .debug_macro   0x0001852d      0x1cc Src/tim.o
+ .debug_macro   0x00016d0c      0x3c7 Src/SPI.o
+ .debug_macro   0x000170d3       0xfa Src/SPI.o
+ .debug_macro   0x000171cd      0x1ee Src/USART.o
+ .debug_macro   0x000173bb      0x430 Src/main.o
+ .debug_macro   0x000177eb       0x5b Src/main.o
+ .debug_macro   0x00017846      0x148 Src/main.o
+ .debug_macro   0x0001798e       0xdd Src/main.o
+ .debug_macro   0x00017a6b      0x3bd Src/stm32f1xx_hal_msp.o
+ .debug_macro   0x00017e28      0x1c2 Src/stm32f1xx_hal_timebase_tim.o
+ .debug_macro   0x00017fea      0x3c7 Src/stm32f1xx_it.o
+ .debug_macro   0x000183b1      0x1c8 Src/system_stm32f1xx.o
+ .debug_macro   0x00018579      0x1cc Src/tim.o
 
-.debug_line     0x00000000    0x15281
+.debug_line     0x00000000    0x152a9
  .debug_line    0x00000000      0x90d Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
  .debug_line    0x0000090d      0xc7c Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
  .debug_line    0x00001589      0xacc Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.o
@@ -7448,17 +7911,17 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
  .debug_line    0x0000f383      0x6b3 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.o
  .debug_line    0x0000fa36      0x79c Src/ADC.o
  .debug_line    0x000101d2      0x84c Src/CAN.o
- .debug_line    0x00010a1e      0x921 Src/SPI.o
- .debug_line    0x0001133f      0x875 Src/USART.o
- .debug_line    0x00011bb4      0xd05 Src/main.o
- .debug_line    0x000128b9      0x8e4 Src/stm32f1xx_hal_msp.o
- .debug_line    0x0001319d      0x761 Src/stm32f1xx_hal_timebase_tim.o
- .debug_line    0x000138fe      0xa05 Src/stm32f1xx_it.o
- .debug_line    0x00014303      0x766 Src/system_stm32f1xx.o
- .debug_line    0x00014a69      0x79b Src/tim.o
- .debug_line    0x00015204       0x7d startup/startup_stm32f103xb.o
+ .debug_line    0x00010a1e      0x92b Src/SPI.o
+ .debug_line    0x00011349      0x875 Src/USART.o
+ .debug_line    0x00011bbe      0xd0f Src/main.o
+ .debug_line    0x000128cd      0x8ee Src/stm32f1xx_hal_msp.o
+ .debug_line    0x000131bb      0x761 Src/stm32f1xx_hal_timebase_tim.o
+ .debug_line    0x0001391c      0xa0f Src/stm32f1xx_it.o
+ .debug_line    0x0001432b      0x766 Src/system_stm32f1xx.o
+ .debug_line    0x00014a91      0x79b Src/tim.o
+ .debug_line    0x0001522c       0x7d startup/startup_stm32f103xb.o
 
-.debug_str      0x00000000    0x85cd5
+.debug_str      0x00000000    0x8653c
  .debug_str     0x00000000    0x72d48 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
                               0x730a9 (size before relaxing)
  .debug_str     0x00072d48      0x68c Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.o
@@ -7503,23 +7966,23 @@ OUTPUT(BMS_RTOS.elf elf32-littlearm)
                               0x7392f (size before relaxing)
  .debug_str     0x00083800      0x172 Src/CAN.o
                               0x73c46 (size before relaxing)
- .debug_str     0x00083972     0x1439 Src/SPI.o
-                              0x77a8e (size before relaxing)
- .debug_str     0x00084dab      0x112 Src/USART.o
+ .debug_str     0x00083972     0x1ca0 Src/SPI.o
+                              0x78350 (size before relaxing)
+ .debug_str     0x00085612      0x112 Src/USART.o
                               0x73cd3 (size before relaxing)
- .debug_str     0x00084ebd      0xbd7 Src/main.o
-                              0x7c40f (size before relaxing)
- .debug_str     0x00085a94       0x1b Src/stm32f1xx_hal_msp.o
-                              0x77670 (size before relaxing)
- .debug_str     0x00085aaf       0x50 Src/stm32f1xx_hal_timebase_tim.o
+ .debug_str     0x00085724      0xbd7 Src/main.o
+                              0x7ccd1 (size before relaxing)
+ .debug_str     0x000862fb       0x1b Src/stm32f1xx_hal_msp.o
+                              0x77f32 (size before relaxing)
+ .debug_str     0x00086316       0x50 Src/stm32f1xx_hal_timebase_tim.o
                               0x731ac (size before relaxing)
- .debug_str     0x00085aff      0x119 Src/stm32f1xx_it.o
-                              0x77e2d (size before relaxing)
- .debug_str     0x00085c18       0x69 Src/system_stm32f1xx.o
+ .debug_str     0x00086366      0x119 Src/stm32f1xx_it.o
+                              0x786ef (size before relaxing)
+ .debug_str     0x0008647f       0x69 Src/system_stm32f1xx.o
                               0x72a4e (size before relaxing)
- .debug_str     0x00085c81       0x25 Src/tim.o
+ .debug_str     0x000864e8       0x25 Src/tim.o
                               0x731f1 (size before relaxing)
- .debug_str     0x00085ca6       0x2f startup/startup_stm32f103xb.o
+ .debug_str     0x0008650d       0x2f startup/startup_stm32f103xb.o
                                  0x91 (size before relaxing)
 
 .comment        0x00000000       0x7f

@@ -41,6 +41,8 @@
 "Src/flash.o"
 "Src/freertos.o"
 "Src/main.o"
+"Src/nextion.o"
+"Src/nextion_functions.o"
 "Src/stm32f1xx_hal_msp.o"
 "Src/stm32f1xx_hal_timebase_tim.o"
 "Src/stm32f1xx_it.o"
