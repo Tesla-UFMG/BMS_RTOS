@@ -14,12 +14,6 @@ C_DEPS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3/%.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3/%.c
-	@echo 'Building file: $<'
-	@echo 'Invoking: MCU GCC Compiler'
-	@echo $(PWD)
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mfloat-abi=soft -DUSE_HAL_DRIVER -DSTM32F103xB -I"C:/Users/rbgue/OneDrive - ufmg.br/UFMG/Tesla/Baterias e Segurança/Códigos/BMS RTOS/BMS_RTOS/Inc" -I"C:/Users/rbgue/OneDrive - ufmg.br/UFMG/Tesla/Baterias e Segurança/Códigos/BMS RTOS/BMS_RTOS/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy" -I"C:/Users/rbgue/OneDrive - ufmg.br/UFMG/Tesla/Baterias e Segurança/Códigos/BMS RTOS/BMS_RTOS/Drivers/STM32F1xx_HAL_Driver/Inc" -I"C:/Users/rbgue/OneDrive - ufmg.br/UFMG/Tesla/Baterias e Segurança/Códigos/BMS RTOS/BMS_RTOS/Middlewares/Third_Party/FreeRTOS/Source/include" -I"C:/Users/rbgue/OneDrive - ufmg.br/UFMG/Tesla/Baterias e Segurança/Códigos/BMS RTOS/BMS_RTOS/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2" -I"C:/Users/rbgue/OneDrive - ufmg.br/UFMG/Tesla/Baterias e Segurança/Códigos/BMS RTOS/BMS_RTOS/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3" -I"C:/Users/rbgue/OneDrive - ufmg.br/UFMG/Tesla/Baterias e Segurança/Códigos/BMS RTOS/BMS_RTOS/Drivers/CMSIS/Device/ST/STM32F1xx/Include" -I"C:/Users/rbgue/OneDrive - ufmg.br/UFMG/Tesla/Baterias e Segurança/Códigos/BMS RTOS/BMS_RTOS/Drivers/CMSIS/Include"  -Og -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
+Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3/port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3/port.c
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m3 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -Og -ffunction-sections -Wall -fstack-usage -MMD -MP -MF"Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3/port.d" -MT"$@" --specs=nano.specs -mfloat-abi=soft -mthumb -o "$@"
 
