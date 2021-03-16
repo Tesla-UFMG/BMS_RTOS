@@ -21,11 +21,11 @@ typedef struct LTC_command
 	uint16_t CHG;			//GPIO selection for ADC conversion
 	uint16_t CHST;			//Status group selection
 
-}LTC_command;
+}LTC_command_t;
 
 typedef struct LTC_config
 {
-	LTC_command *command;
+	LTC_command_t *command;
 
 	uint8_t ORDER:1;		//Set printing order (0 -> normal; 1 -> lowest to highest)
 
@@ -39,7 +39,7 @@ typedef struct LTC_config
 	uint8_t DCTO:4;			//Discharge time out value
 	uint8_t ADC_READY;		//ADC is ready or not
 
-}LTC_config;
+}LTC_config_t;
 
 typedef struct LTC_sensor
 {
@@ -68,7 +68,7 @@ typedef struct LTC_sensor
 	uint16_t VA;			//Analog power supply voltage
 	uint16_t VD;			//Digital power supply voltage
 
-}LTC_sensor;
+}LTC_sensor_t;
 
 //Command codes definitions (Table 34)
 #define LTC_COMMAND_WRCFG 	0b00000000001		//Write configuration register group
@@ -96,7 +96,7 @@ typedef struct LTC_sensor
 #define LTC_COMMAND_DIAGN 	0b11100010101		//Diagnose MUX and poll status			*NOT IMPLEMENTED
 #define LTC_COMMAND_WRCOMM 	0b11100100001		//Write COMM register group				*NOT IMPLEMENTED
 #define LTC_COMMAND_RDCOMM 	0b11100100010		//Read COMM register group				*NOT IMPLEMENTED
-#define LTC_COMMAND_STCOMM 	0b11100100011		//Start I²C/SPI communication			*NOT IMPLEMENTED
+#define LTC_COMMAND_STCOMM 	0b11100100011		//Start Iï¿½C/SPI communication			*NOT IMPLEMENTED
 
 typedef enum
 {
@@ -116,16 +116,16 @@ typedef enum
 
 }LTC_MD;
 
-void LTC_init_pecTable();
+void LTC_init_pec_table();
 uint16_t LTC_pec(uint16_t*, uint8_t);
-uint16_t LTC_make_command(LTC_command*);
+uint16_t LTC_make_command(LTC_command_t*);
 void LTC_CS(uint8_t);
-uint16_t LTC_spi(uint16_t);
+uint16_t LTC_SPI(uint16_t);
 void LTC_transmit_receive (uint16_t, uint16_t*, uint16_t*);
-void LTC_send_command(LTC_config*, ...);
-void LTC_init(LTC_config*);
-static void LTC_temperature_convert(LTC_sensor*);
-void LTC_wait(LTC_config*, LTC_sensor*);
-void LTC_read(uint8_t, LTC_config*, LTC_sensor*);
+void LTC_send_command(LTC_config_t*, ...);
+void LTC_init(LTC_config_t*);
+static void LTC_temperature_convert(LTC_sensor_t*);
+void LTC_wait(LTC_config_t*, LTC_sensor_t*);
+void LTC_read(uint8_t, LTC_config_t*, LTC_sensor_t*);
 
 #endif

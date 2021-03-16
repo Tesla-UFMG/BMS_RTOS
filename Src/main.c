@@ -53,12 +53,12 @@ TIM_HandleTypeDef htim4;
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
-DMA_HandleTypeDef hdma_usart3_rx;
+DMA_HandleTypeDef hdma_usart3_Rx;
 
 static const float CURRENT_GAIN[4] = {1.22, 1.51, 1.22, 1.22};
 
-BMS_struct* BMS;
-int32_t ADC_BUF[5];
+BMS_struct_t* BMS;
+int32_t ADC_buf[5];
 
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -91,8 +91,8 @@ void StartDefaultTask(void *argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-int initialReadings = 0;
-float CURRENT_ZERO[N_OF_DHAB];
+int initial_readings = 0;
+float current_zero[N_OF_DHAB];
 
 float filter(float old, float new)
 {
@@ -101,17 +101,17 @@ float filter(float old, float new)
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
-	if(initialReadings < 5)
+	if(initial_readings < 5)
 	{
 		for(uint8_t i = 0; i < N_OF_DHAB; i++)
 		{
-			CURRENT_ZERO[i] += ((float)ADC_BUF[i] * (float)CURRENT_GAIN[i]);
-			initialReadings++;
+			current_zero[i] += ((float)ADC_buf[i] * (float)CURRENT_GAIN[i]);
+			initial_readings++;
 
-			if(initialReadings == 5)
+			if(initial_readings == 5)
 			{
 				for(uint8_t j = 0; j < N_OF_DHAB; j++)
-					CURRENT_ZERO[j] = CURRENT_ZERO[j]/5;
+					current_zero[j] = current_zero[j]/5;
 			}
 		}
 	}
@@ -119,12 +119,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 	{
 		for(uint8_t i = 0; i < N_OF_DHAB; i++)
 		{
-			BMS->dhabSensor[i]->currentADC = filter((float)BMS->dhabSensor[i]->currentADC, (float)ADC_BUF[i]);
-			BMS->dhabSensor[i]->current = filter(BMS->dhabSensor[i]->current, ((float)ADC_BUF[i] * CURRENT_GAIN[i]) - CURRENT_ZERO[i]);			//BMS->current[i] = filter(BMS->current[i], (ADC_BUF[i]));
+			BMS->dhabSensor[i]->currentADC = filter((float)BMS->dhabSensor[i]->currentADC, (float)ADC_buf[i]);
+			BMS->dhabSensor[i]->current = filter(BMS->dhabSensor[i]->current, ((float)ADC_buf[i] * CURRENT_GAIN[i]) - current_zero[i]);			//BMS->current[i] = filter(BMS->current[i], (ADC_buf[i]));
 		}
 	}
 
-	BMS->v_GLV = filter(BMS->v_GLV , ((float)(ADC_BUF[4] + 400) * 4.5));
+	BMS->v_GLV = filter(BMS->v_GLV , ((float)(ADC_buf[4] + 400) * 4.5));
 }
 
 /* USER CODE END 0 */

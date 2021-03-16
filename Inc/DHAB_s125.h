@@ -13,11 +13,11 @@ typedef struct DHAB_sensor
 	double currentGain;
 	double coulombCounting;
 
-}DHAB_sensor;
+}DHAB_sensor_t;
 
 float DHAB_filter(float, float);
-void DHAB_read(DHAB_sensor*);
+void DHAB_read(DHAB_sensor_t*);
 void DHAB_convert();
-double DHAB_currentIntegration(DHAB_sensor*);
+double DHAB_current_integration(DHAB_sensor_t*);
 
 #endif

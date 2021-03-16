@@ -6,8 +6,8 @@
 #define BMS_CONVERT_CONFIG	8
 
 uint16_t flag = 0;
-uint8_t NextError[5];
-int16_t THERMISTOR_ZEROS[N_OF_PACKS][5];
+uint8_t next_error[5];
+int16_t thermistor_zeros[N_OF_PACKS][5];
 static int8_t UV_retries, OV_retries, OT_retries;
 
 static const uint16_t CAN_ID_TABLE[8][5] = {
@@ -60,7 +60,7 @@ static const uint16_t CAN_ID_TABLE[8][5] = {
 };
 
 /*******************************************************
-Function void BMS_convert(uint8_t, BMS_struct*)
+Function void BMS_convert(uint8_t, BMS_struct_t*)
 
 V1.0:
 The function converts the required option that may be the
@@ -69,7 +69,7 @@ or the BMS status value.
 
 Version 1.0 - Initial release 26/11/2020 by Tesla UFMG
 *******************************************************/
-void BMS_convert(uint8_t BMS_CONVERT, BMS_struct* BMS)
+void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 {
 	/*Convert the cells' voltage value*/
 	if(BMS_CONVERT&BMS_CONVERT_CELL)
@@ -135,7 +135,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct* BMS)
 }
 
 /*******************************************************
-Function void BMS_monitoring(BMS_struct*)
+Function void BMS_monitoring(BMS_struct_t*)
 
 V1.0:
 The function monitors the main aspects of the BMS, such as
@@ -144,7 +144,7 @@ the need of balancing the cells.
 
 Version 1.0 - Initial release 26/11/2020 by Tesla UFMG
 *******************************************************/
-void BMS_monitoring(BMS_struct* BMS)
+void BMS_monitoring(BMS_struct_t* BMS)
 {
 	BMS->v_min = 50000;
 	BMS->v_max = 0;
@@ -183,7 +183,7 @@ void BMS_monitoring(BMS_struct* BMS)
 }
 
 /*******************************************************
-Function void BMS_set_thermistor_zeros(BMS_struct*)
+Function void BMS_set_thermistor_zeros(BMS_struct_t*)
 
 V1.0:
 The function calculates the thermistors' zeros for more
@@ -191,14 +191,14 @@ accurate readings.
 
 Version 1.0 - Initial release 26/11/2020 by Tesla UFMG
 *******************************************************/
-void BMS_set_thermistor_zeros(BMS_struct* BMS)
+void BMS_set_thermistor_zeros(BMS_struct_t* BMS)
 {
 	uint32_t mean = 0;
 
 	for(int i = 0; i < N_OF_PACKS; i++)
 	{
 		for(int j = 0; j < 5; ++j)
-			THERMISTOR_ZEROS[i][j] = 0;
+			thermistor_zeros[i][j] = 0;
 	}
 
 	BMS_convert(BMS_CONVERT_GPIO, BMS);
@@ -206,7 +206,7 @@ void BMS_set_thermistor_zeros(BMS_struct* BMS)
 	for(int i = 0; i < N_OF_PACKS; i++)
 	{
 		for(int j = 0; j < 5; ++j)
-			mean += BMS->sensor[i]->GxV[j];		//OBSERVAÇÃO 2!!!! QUANTOS TERMISTORES POR SLAVE?
+			mean += BMS->sensor[i]->GxV[j];		//OBSERVAï¿½ï¿½O 2!!!! QUANTOS TERMISTORES POR SLAVE?
 	}
 
 	mean = (uint32_t)((float)mean/(N_OF_PACKS*5));
@@ -214,12 +214,12 @@ void BMS_set_thermistor_zeros(BMS_struct* BMS)
 	for(int i = 0; i < N_OF_PACKS; i++)
 	{
 		for(int j = 0; j < 5; ++j)
-			THERMISTOR_ZEROS[i][j] = mean - BMS->sensor[i]->GxV[j];
+			thermistor_zeros[i][j] = mean - BMS->sensor[i]->GxV[j];
 	}
 }
 
 /*******************************************************
-Function void BMS_init(BMS_struct*)
+Function void BMS_init(BMS_struct_t*)
 
 V1.0:
 The function is responsible for initializing the Battery
@@ -228,7 +228,7 @@ needed for the BMS boot.
 
 Version 1.0 - Initial release 24/11/2020 by Tesla UFMG
 *******************************************************/
-void BMS_init(BMS_struct* BMS)
+void BMS_init(BMS_struct_t* BMS)
 {
 	/*These three instructions set the initial configuration for the CAN communication and
 	  start the reception process and enable reception interrupt*/
@@ -237,18 +237,18 @@ void BMS_init(BMS_struct* BMS)
 	CAN_Receive_IT();
 
 	/*Memory allocation for the LTC config, command and sensor structs*/
-	BMS->config = (LTC_config*) calloc(1 ,sizeof(LTC_config));
-	BMS->config->command = (LTC_command*) calloc(1 ,sizeof(LTC_command));
+	BMS->config = (LTC_config_t*) calloc(1 ,sizeof(LTC_config_t));
+	BMS->config->command = (LTC_command_t*) calloc(1 ,sizeof(LTC_command_t));
 
 	for(int i = 0; i < N_OF_SLAVES; i++)
 	{
-		BMS->sensor[i] = (LTC_sensor*) calloc(1, sizeof(LTC_sensor));
+		BMS->sensor[i] = (LTC_sensor_t*) calloc(1, sizeof(LTC_sensor_t));
 		BMS->sensor[i]->ADDR = i;
-		LTC_init(BMS->config); //OBSERVAÇÃO 1
+		LTC_init(BMS->config); //OBSERVAï¿½ï¿½O 1
 	}
 
 	for(int i = 0; i < N_OF_DHAB; i++)
-		BMS->dhabSensor[i] = (DHAB_sensor*) calloc(1, sizeof(DHAB_sensor));
+		BMS->dhabSensor[i] = (DHAB_sensor_t*) calloc(1, sizeof(DHAB_sensor_t));
 
 	/*Set initial BMS configuration*/
 	BMS->error = ERR_NO_ERROR;
@@ -272,7 +272,7 @@ void BMS_init(BMS_struct* BMS)
 	EE_ReadVariable(0x5, &aux);
 	BMS->charge_max += aux;						//Load lower bytes
 
-	LTC_init(BMS->config); //OBSERVAÇÃO 1
+	LTC_init(BMS->config); //OBSERVAï¿½ï¿½O 1
 
 	/*Set initial SoC and the thermistors' zeros*/
 	BMS_initial_SOC(BMS);
@@ -280,7 +280,7 @@ void BMS_init(BMS_struct* BMS)
 }
 
 /*******************************************************
-Function void BMS_error(BMS_struct*)
+Function void BMS_error(BMS_struct_t*)
 
 V1.0:
 The function tests a series of conditions and sets the right
@@ -289,7 +289,7 @@ tion.
 
 Version 1.0 - Initial release 25/11/2020 by Tesla UFMG
 *******************************************************/
-void BMS_error(BMS_struct* BMS)
+void BMS_error(BMS_struct_t* BMS)
 {
 	/*Under voltage error*/
 	if(BMS->v_min <= 28000)
@@ -331,24 +331,24 @@ void BMS_error(BMS_struct* BMS)
 	/*Set true or false the under voltage error*/
 	if(UV_retries == 5)
 	{
-		NextError[0] = 1;
+		next_error[0] = 1;
 		BMS->error |= ERR_UNDER_VOLTAGE;
 	}
 	else if(UV_retries == 0)
 	{
-		NextError[0] = 0;
+		next_error[0] = 0;
 		BMS->error &= ~ERR_UNDER_VOLTAGE;
 	}
 
 	/*Set true or false the over voltage error*/
 	if(OV_retries == 5)
 	{
-		NextError[1] = 1;
+		next_error[1] = 1;
 		BMS->error |= ERR_OVER_VOLTAGE;
 	}
 	else if(OV_retries == 0)
 	{
-		NextError[1] = 0;
+		next_error[1] = 0;
 		BMS->error &= ~ERR_OVER_VOLTAGE;
 	}
 
@@ -356,12 +356,12 @@ void BMS_error(BMS_struct* BMS)
 	if(BMS->v_GLV < 13500)
 	{
 		BMS->error |= ERR_GLV_VOLTAGE;
-		NextError[4] = 1;
+		next_error[4] = 1;
 	}
 	else if(BMS->v_GLV < 13500)
 	{
 		BMS->error &= ~ERR_GLV_VOLTAGE;
-		NextError[4] = 0;
+		next_error[4] = 0;
 	}
 
 	/*In case of error, the error LED is lit and the AIR must be shut off*/
@@ -388,7 +388,7 @@ so the data can be sent through CAN communication.
 
 Version 1.0 - Initial release 02/12/2020 by Tesla UFMG
 *******************************************************/
-void can_buf(uint8_t buffer[8], uint16_t word1, uint16_t word2, uint16_t word3, uint16_t word4)
+void CAN_buf(uint8_t buffer[8], uint16_t word1, uint16_t word2, uint16_t word3, uint16_t word4)
 {
 	buffer[0] = word1;
 	buffer[1] = word1 >> 8;
@@ -401,7 +401,7 @@ void can_buf(uint8_t buffer[8], uint16_t word1, uint16_t word2, uint16_t word3, 
 }
 
 /*******************************************************
-Function void BMS_can(BMS_struct*)
+Function void BMS_can(BMS_struct_t*)
 
 V1.0:
 The function sends essential informations about the BMS such
@@ -410,71 +410,71 @@ and minimum voltages through CAN communication.
 
 Version 1.0 - Initial release 02/12/2020 by Tesla UFMG
 *******************************************************/
-void BMS_can(BMS_struct* BMS)
+void BMS_can(BMS_struct_t* BMS)
 {
-	uint8_t can_buffer[8];
+	uint8_t CAN_buffer[8];
 
 	for(uint8_t i = 0; i < N_OF_PACKS; i++)
 	{
 		for (uint8_t j = 0; j < 3; j++)
 		{
-			can_buffer[0] = BMS->sensor[i]->CxV[4 * j + 0];
-			can_buffer[1] = BMS->sensor[i]->CxV[4 * j + 0] >> 8;
-			can_buffer[2] = BMS->sensor[i]->CxV[4 * j + 1];
-			can_buffer[3] = BMS->sensor[i]->CxV[4 * j + 1] >> 8;
-			can_buffer[4] = BMS->sensor[i]->CxV[4 * j + 2];
-			can_buffer[5] = BMS->sensor[i]->CxV[4 * j + 2] >> 8;
-			can_buffer[6] = BMS->sensor[i]->CxV[4 * j + 3];
-			can_buffer[7] = BMS->sensor[i]->CxV[4 * j + 3] >> 8;
+			CAN_buffer[0] = BMS->sensor[i]->CxV[4 * j + 0];
+			CAN_buffer[1] = BMS->sensor[i]->CxV[4 * j + 0] >> 8;
+			CAN_buffer[2] = BMS->sensor[i]->CxV[4 * j + 1];
+			CAN_buffer[3] = BMS->sensor[i]->CxV[4 * j + 1] >> 8;
+			CAN_buffer[4] = BMS->sensor[i]->CxV[4 * j + 2];
+			CAN_buffer[5] = BMS->sensor[i]->CxV[4 * j + 2] >> 8;
+			CAN_buffer[6] = BMS->sensor[i]->CxV[4 * j + 3];
+			CAN_buffer[7] = BMS->sensor[i]->CxV[4 * j + 3] >> 8;
 
-			CAN_Transmit(can_buffer, CAN_ID_TABLE[i][j]);
+			CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][j]);
 		}
 
-		can_buffer[0] = BMS->sensor[i]->GxV[0];
-		can_buffer[1] = BMS->sensor[i]->GxV[0] >> 8;
-		can_buffer[2] = BMS->sensor[i]->GxV[1];
-		can_buffer[3] = BMS->sensor[i]->GxV[1] >> 8;
-		can_buffer[4] = BMS->sensor[i]->GxV[2];
-		can_buffer[5] = BMS->sensor[i]->GxV[2] >> 8;
-		can_buffer[6] = BMS->sensor[i]->GxV[3];
-		can_buffer[7] = BMS->sensor[i]->GxV[3] >> 8;
+		CAN_buffer[0] = BMS->sensor[i]->GxV[0];
+		CAN_buffer[1] = BMS->sensor[i]->GxV[0] >> 8;
+		CAN_buffer[2] = BMS->sensor[i]->GxV[1];
+		CAN_buffer[3] = BMS->sensor[i]->GxV[1] >> 8;
+		CAN_buffer[4] = BMS->sensor[i]->GxV[2];
+		CAN_buffer[5] = BMS->sensor[i]->GxV[2] >> 8;
+		CAN_buffer[6] = BMS->sensor[i]->GxV[3];
+		CAN_buffer[7] = BMS->sensor[i]->GxV[3] >> 8;
 
-		CAN_Transmit(can_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
+		CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
 	}
 
-	can_buffer[0] = ((int16_t)BMS->dhabSensor[0]->current);
-	can_buffer[1] = ((int16_t)BMS->dhabSensor[0]->current) >> 8;
-	can_buffer[2] = ((int16_t)BMS->dhabSensor[1]->current);
-	can_buffer[3] = ((int16_t)BMS->dhabSensor[1]->current) >> 8;
-	can_buffer[4] = ((int16_t)BMS->dhabSensor[2]->current);
-	can_buffer[5] = ((int16_t)BMS->dhabSensor[2]->current) >> 8;
-	can_buffer[6] = ((int16_t)BMS->dhabSensor[3]->current);
-	can_buffer[7] = ((int16_t)BMS->dhabSensor[3]->current) >> 8;
+	CAN_buffer[0] = ((int16_t)BMS->dhabSensor[0]->current);
+	CAN_buffer[1] = ((int16_t)BMS->dhabSensor[0]->current) >> 8;
+	CAN_buffer[2] = ((int16_t)BMS->dhabSensor[1]->current);
+	CAN_buffer[3] = ((int16_t)BMS->dhabSensor[1]->current) >> 8;
+	CAN_buffer[4] = ((int16_t)BMS->dhabSensor[2]->current);
+	CAN_buffer[5] = ((int16_t)BMS->dhabSensor[2]->current) >> 8;
+	CAN_buffer[6] = ((int16_t)BMS->dhabSensor[3]->current);
+	CAN_buffer[7] = ((int16_t)BMS->dhabSensor[3]->current) >> 8;
 
-	CAN_Transmit(can_buffer, 50);
+	CAN_Transmit(CAN_buffer, 50);
 
-	can_buf(can_buffer, BMS->v_GLV, (uint16_t)(BMS->charge_percentage/10), 0, BMS->AIR);
+	CAN_buf(CAN_buffer, BMS->v_GLV, (uint16_t)(BMS->charge_percentage/10), 0, BMS->AIR);
 
-	CAN_Transmit(can_buffer, 51);
+	CAN_Transmit(CAN_buffer, 51);
 
-	can_buffer[0] = 0;
-	can_buffer[1] = 0;
-	can_buffer[2] = BMS->v_TS;
-	can_buffer[3] = BMS->v_TS;
-	can_buffer[4] = 0;
-	can_buffer[5] = 0;
-	can_buffer[6] = BMS->t_max;
-	can_buffer[7] = BMS->t_max >> 8;
+	CAN_buffer[0] = 0;
+	CAN_buffer[1] = 0;
+	CAN_buffer[2] = BMS->v_TS;
+	CAN_buffer[3] = BMS->v_TS;
+	CAN_buffer[4] = 0;
+	CAN_buffer[5] = 0;
+	CAN_buffer[6] = BMS->t_max;
+	CAN_buffer[7] = BMS->t_max >> 8;
 
-	CAN_Transmit(can_buffer, 52);
+	CAN_Transmit(CAN_buffer, 52);
 
-	can_buf(can_buffer, BMS->v_min, BMS->v_max, 0, 0);
+	CAN_buf(CAN_buffer, BMS->v_min, BMS->v_max, 0, 0);
 
-	CAN_Transmit(can_buffer, 53);
+	CAN_Transmit(CAN_buffer, 53);
 }
 
 /*******************************************************
-Function void BMS_initial_SOC(LTC_sensor)
+Function void BMS_initial_SOC(LTC_sensor_t)
 
 V1.0:
 The function reads all cells' voltage and takes the least
@@ -484,7 +484,7 @@ by a linear equation.
 
 Version 1.0 - Initial release 04/12/2020 by Tesla UFMG
 *******************************************************/
-void BMS_initial_SOC(BMS_struct* BMS)
+void BMS_initial_SOC(BMS_struct_t* BMS)
 {
 	for(uint8_t i = 0; i < N_OF_PACKS; i++)
 		LTC_read(LTC_READ_CELL, BMS->config, BMS->sensor[i]);
@@ -511,7 +511,7 @@ void BMS_initial_SOC(BMS_struct* BMS)
 }
 
 /*******************************************************
-Function void BMS_charging(BMS_struct)
+Function void BMS_charging(BMS_struct_t)
 
 V1.0:
 The function updates the battery's charge percent with the
@@ -520,10 +520,10 @@ along with the BMS_Initial_SOC function.
 
 Version 1.0 - Initial release 04/12/2020 by Tesla UFMG
 *******************************************************/
-void BMS_charging(BMS_struct* BMS)
+void BMS_charging(BMS_struct_t* BMS)
 {
 	for(int i = 0; i < N_OF_DHAB; i++)
-		BMS->charge = BMS->charge + DHAB_currentIntegration(BMS->dhabSensor[i]);
+		BMS->charge = BMS->charge + DHAB_current_integration(BMS->dhabSensor[i]);
 
 	BMS->charge_variation_percentage = (BMS->charge/BMS->charge_max)*100;
 	BMS->charge_percentage = BMS->charge_percentage + BMS->charge_variation_percentage;
@@ -534,7 +534,7 @@ void BMS_charging(BMS_struct* BMS)
 }
 
 /*******************************************************
-Function void BMS_discharging(BMS_struct)
+Function void BMS_discharging(BMS_struct_t)
 
 V1.0:
 The function updates the battery's discharge percent with
@@ -544,10 +544,10 @@ charge = 100 - discharge
 
 Version 1.0 - Initial release 04/12/2020 by Tesla UFMG
 *******************************************************/
-void BMS_discharging(BMS_struct* BMS)
+void BMS_discharging(BMS_struct_t* BMS)
 {
 	for(int i = 0; i < N_OF_DHAB; i++)
-		BMS->charge = BMS->charge + DHAB_currentIntegration(BMS->dhabSensor[i]);
+		BMS->charge = BMS->charge + DHAB_current_integration(BMS->dhabSensor[i]);
 
 	BMS->discharge_variation_percentage = (BMS->charge/BMS->charge_max)*100;
 	BMS->discharge_percentage = BMS->discharge_percentage + BMS->discharge_variation_percentage;

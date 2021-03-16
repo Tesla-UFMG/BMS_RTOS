@@ -2,16 +2,16 @@
 
 #define BYTESWAP(word) ((word >> 8) + (word << 8))
 
-uint16_t pecTable[256];
-extern int16_t THERMISTOR_ZEROS[N_OF_PACKS][5];
+uint16_t pec_table[256];
+extern int16_t thermistor_zeros[N_OF_PACKS][5];
 extern SPI_HandleTypeDef hspi1;
 
 /*******************************************************
- Function void LTC_init_pecTable()
+ Function void LTC_init_pec_table()
 
 V1.0:
 The function will initialize a PEC15 table array called
-pecTable[], which will be used in all future PEC calcula-
+pec_table[], which will be used in all future PEC calcula-
 tions. This function should only be called once when the
 microcontroller starts. For more informations, read the
 "Improved PEC Calculation" section on page 63 of LTC6804's
@@ -19,7 +19,7 @@ datasheet.
 
  Version 1.0 - Initial release 21/10/2020 by Tesla UFMG
 *******************************************************/
-void LTC_init_pecTable()
+void LTC_init_pec_table()
 {
 	for(int i = 0; i < 256; i++)
 	{
@@ -34,7 +34,7 @@ void LTC_init_pecTable()
 			else
 				remainder = remainder << 1;
 		}
-		pecTable[i] = remainder&0xFFFF;
+		pec_table[i] = remainder&0xFFFF;
 	}
 }
 
@@ -59,14 +59,14 @@ uint16_t LTC_pec(uint16_t* data, uint8_t len)
 	{
 		//Calculate PEC table address
 		address = ((remainder >> 7) ^ data[i]) & 0xFF;
-		remainder = (remainder << 8) ^ pecTable[address];
+		remainder = (remainder << 8) ^ pec_table[address];
 	}
 	//The CRC15 has a 0 in the LSB so the final value must be multiplied by 2
 	return (remainder*2);
 }
 
 /*******************************************************
- Function uint16_t LTC_make_command(LTC_command*)
+ Function uint16_t LTC_make_command(LTC_command_t*)
 
 V1.0:
 The function is responsible for returning the bits of a
@@ -76,7 +76,7 @@ See Table 34 for clear understanding.
 
  Version 1.0 - Initial release 20/10/2020 by Tesla UFMG
 *******************************************************/
-uint16_t LTC_make_command(LTC_command* command)
+uint16_t LTC_make_command(LTC_command_t* command)
 {
 	switch(command->NAME)
 	{
@@ -136,7 +136,7 @@ cation with the LTC6804 IC.
 
  Version 1.0 - Initial release 21/10/2020 by Tesla UFMG
 *******************************************************/
-uint16_t LTC_spi(uint16_t Tx_data)
+uint16_t LTC_SPI(uint16_t Tx_data)
 {
 	uint16_t Rx_data = 0;
 	HAL_SPI_TransmitReceive(&hspi1, (uint8_t *)&Tx_data, (uint8_t *)&Rx_data, 1, 50);
@@ -153,42 +153,42 @@ routine, following the steps described in the LTC6804 datasheet.
 
  Version 1.0 - Initial release 20/10/2020 by Tesla UFMG
 *******************************************************/
-void LTC_transmit_receive (uint16_t command, uint16_t* tx_data, uint16_t* rx_data)
+void LTC_transmit_receive(uint16_t command, uint16_t* Tx_data, uint16_t* Rx_data)
 {
 	uint16_t pec = LTC_pec(&command, 1);
 	uint16_t buffer[4] = {command, pec, 0, 0}; 	//Tx buffer
 
 	//Wake-up routine
 	LTC_CS(0);
-	LTC_spi(0);
+	LTC_SPI(0);
 	LTC_CS(1);
 
 	//Send command routine
 	LTC_CS(0);
-	LTC_spi(buffer[0]);
-	LTC_spi(buffer[1]);
+	LTC_SPI(buffer[0]);
+	LTC_SPI(buffer[1]);
 
 	//Transmit/Receive data routine
 	for(uint8_t i = 0; i < 4; ++i)
-		buffer[i] = tx_data[i];
+		buffer[i] = Tx_data[i];
 
 	if((command & 0x07FF) == LTC_COMMAND_WRCFG)
 	{
-		pec = LTC_pec(tx_data, 3);
+		pec = LTC_pec(Tx_data, 3);
 		buffer[3] = pec;
 	}
 
 	if((buffer[0] & 0x07FF) < LTC_COMMAND_ADCV)
 	{
 		for (uint8_t i = 0; i < 4; ++i)
-			rx_data[i] = LTC_spi(buffer[i]);
+			Rx_data[i] = LTC_SPI(buffer[i]);
 	}
 
 	LTC_CS(1);
 }
 
 /*******************************************************
- Function void LTC_send_command(LTC_config*, ...)
+ Function void LTC_send_command(LTC_config_t*, ...)
 
 V1.0:
 The function sends the command made in the LTC_make_command
@@ -196,32 +196,32 @@ function and do the tasks accordingly to the command sent.
 
  Version 1.0 - Initial release 08/10/2020 by Tesla UFMG
 *******************************************************/
-void LTC_send_command(LTC_config* config, ...)
+void LTC_send_command(LTC_config_t* config, ...)
 {
-	LTC_sensor *sensor;
+	LTC_sensor_t *sensor;
 
-	uint16_t tx_data[3] = {0, 0, 0};
-	uint16_t rx_data[3] = {0, 0, 0};
+	uint16_t Tx_data[3] = {0, 0, 0};
+	uint16_t Rx_data[3] = {0, 0, 0};
 
 	if(!config->command->BROADCAST)
 	{
 		va_list list;
 		va_start(list, 1);
 
-		sensor = va_arg(list, LTC_sensor*);
+		sensor = va_arg(list, LTC_sensor_t*);
 		config->command->NAME  |= ((sensor->ADDR & (0x1111 * ~config->command->BROADCAST)) | ~config->command->BROADCAST << 4) << 11;
-		tx_data[2] |= ((sensor->DCC & 0xff) << 8) | ((sensor->DCC & 0xf00) >> 8);
+		Tx_data[2] |= ((sensor->DCC & 0xff) << 8) | ((sensor->DCC & 0xf00) >> 8);
 		va_end(list);
 	}
 
 	if((config->command->NAME & 0x07FF) == LTC_COMMAND_WRCFG)
 	{
-		tx_data[0] = (config->ADCOPT << 8) | (config->SWTRD << 9) | (config->REFON << 10) | (config->GPIO << 11) | (config->VUV);
-		tx_data[1] = (config->VUV >> 8) | (config->VOV << 4);
-		tx_data[2] |= ((config->DCTO & 0xf) << 4);
+		Tx_data[0] = (config->ADCOPT << 8) | (config->SWTRD << 9) | (config->REFON << 10) | (config->GPIO << 11) | (config->VUV);
+		Tx_data[1] = (config->VUV >> 8) | (config->VOV << 4);
+		Tx_data[2] |= ((config->DCTO & 0xf) << 4);
 	}
 
-	LTC_transmit_receive(LTC_make_command(config->command), tx_data, rx_data);
+	LTC_transmit_receive(LTC_make_command(config->command), Tx_data, Rx_data);
 
 	switch(config->command->NAME & 0x07FF)
 	{
@@ -229,52 +229,52 @@ void LTC_send_command(LTC_config* config, ...)
 		break;
 
 	case LTC_COMMAND_RDCVA:
-		sensor->CxV[0] = rx_data[0];
-		sensor->CxV[1] = rx_data[1];
-		sensor->CxV[2] = rx_data[2];
+		sensor->CxV[0] = Rx_data[0];
+		sensor->CxV[1] = Rx_data[1];
+		sensor->CxV[2] = Rx_data[2];
 		break;
 
 	case LTC_COMMAND_RDCVB:
-		sensor->CxV[3] = rx_data[0];
+		sensor->CxV[3] = Rx_data[0];
 		if(sensor->ADDR >= 6)
-			sensor->CxV[4] = rx_data[1];
+			sensor->CxV[4] = Rx_data[1];
 		//sensor->CxV[5] = rx_data[2];
 		break;
 
 	case LTC_COMMAND_RDCVC:
-		sensor->CxV[6] = rx_data[0];
-		sensor->CxV[7] = rx_data[1];
-		sensor->CxV[8] = rx_data[2];
+		sensor->CxV[6] = Rx_data[0];
+		sensor->CxV[7] = Rx_data[1];
+		sensor->CxV[8] = Rx_data[2];
 		break;
 
 	case LTC_COMMAND_RDCVD:
-		sensor->CxV[9]  = rx_data[0];
+		sensor->CxV[9]  = Rx_data[0];
 		if(sensor->ADDR >= 6)
-			sensor->CxV[10] = rx_data[1];
+			sensor->CxV[10] = Rx_data[1];
 		//sensor->CxV[11] = rx_data[2];
 		break;
 
 	case LTC_COMMAND_RDAUXA:
-		sensor->GxV[0] = rx_data[0];
-		sensor->GxV[1] = rx_data[1];
-		sensor->GxV[2] = rx_data[2];
+		sensor->GxV[0] = Rx_data[0];
+		sensor->GxV[1] = Rx_data[1];
+		sensor->GxV[2] = Rx_data[2];
 		break;
 
 	case LTC_COMMAND_RDAUXB:
-		sensor->GxV[3] = rx_data[0];
-		sensor->GxV[4] = rx_data[1];
-		sensor->REF =    rx_data[2];
+		sensor->GxV[3] = Rx_data[0];
+		sensor->GxV[4] = Rx_data[1];
+		sensor->REF =    Rx_data[2];
 		break;
 
 	case LTC_COMMAND_RDSTATA:
-		sensor->SOC =  rx_data[0] * 0.2;
-		sensor->ITMP = rx_data[1] * 7.5;
-		sensor->VA =   rx_data[2];
+		sensor->SOC =  Rx_data[0] * 0.2;
+		sensor->ITMP = Rx_data[1] * 7.5;
+		sensor->VA =   Rx_data[2];
 		break;
 
 	case LTC_COMMAND_RDSTATB:
-		sensor->VD = rx_data[0];
-		uint32_t flag = rx_data[1] | (uint32_t)rx_data[2] << 16;
+		sensor->VD = Rx_data[0];
+		uint32_t flag = Rx_data[1] | (uint32_t)Rx_data[2] << 16;
 		for (int j = 0; j < 12; j++)
 			sensor->V_ERROR[j] = (flag >> (j * 2)) & 0x3;
 		break;
@@ -291,7 +291,7 @@ void LTC_send_command(LTC_config* config, ...)
 		break;
 
 	case LTC_COMMAND_PLADC:
-		if(rx_data[0] == 0 || rx_data[1] == 0 || rx_data[2] == 0)
+		if(Rx_data[0] == 0 || Rx_data[1] == 0 || Rx_data[2] == 0)
 			config->ADC_READY = FALSE;
 		else
 			config->ADC_READY = TRUE;
@@ -315,7 +315,7 @@ void LTC_send_command(LTC_config* config, ...)
 }
 
 /*******************************************************
- Function void LTC_init(LTC_config*)
+ Function void LTC_init(LTC_config_t*)
 
 V1.0:
 The function initializes the LTC IC by assigning its initial
@@ -323,7 +323,7 @@ configuration.
 
  Version 1.0 - Initial release 02/10/2020 by Tesla UFMG
 *******************************************************/
-void LTC_init(LTC_config* config)
+void LTC_init(LTC_config_t* config)
 {
 	config->GPIO = 0x1F;
 	config->REFON = 0;
@@ -339,16 +339,16 @@ void LTC_init(LTC_config* config)
 }
 
 /*******************************************************
- Function void LTC_temperature_convert(LTC_sensor*)
+ Function void LTC_temperature_convert(LTC_sensor_t*)
 
 V1.0:
 The function converts the ADC value read by the LTC6804
-into a temperature value in °C. It follows the steps described
+into a temperature value in ï¿½C. It follows the steps described
 in the LTC6804 datasheet, page 27.
 
  Version 1.0 - Initial release 26/10/2020 by Tesla UFMG
 *******************************************************/
-static void LTC_temperature_convert(LTC_sensor* sensor)
+static void LTC_temperature_convert(LTC_sensor_t* sensor)
 {
 	float t0, B, r, r0;
 	t0 = 25 + 273;
@@ -359,12 +359,12 @@ static void LTC_temperature_convert(LTC_sensor* sensor)
 	{
 		r = (float)(sensor->GxV[i]*10000) / (float)(sensor->REF-sensor->GxV[i]);
 		sensor->GxV[i] = ((t0*B) / (t0*log(r/r0) + B) - 273)*10;
-		sensor->GxV[i] += THERMISTOR_ZEROS[sensor->ADDR][i];
+		sensor->GxV[i] += thermistor_zeros[sensor->ADDR][i];
 	}
 }
 
 /*******************************************************
- Function void LTC_wait(LTC_config*, LTC_sensor*)
+ Function void LTC_wait(LTC_config_t*, LTC_sensor_t*)
 
 V1.0:
 The function is used as an auxiliary function for confirming
@@ -372,7 +372,7 @@ whether the ADC is ready or not.
 
  Version 1.0 - Initial release 26/10/2020 by Tesla UFMG
 *******************************************************/
-void LTC_wait(LTC_config* config, LTC_sensor* sensor)
+void LTC_wait(LTC_config_t* config, LTC_sensor_t* sensor)
 {
 	do
 	{
@@ -384,7 +384,7 @@ void LTC_wait(LTC_config* config, LTC_sensor* sensor)
 }
 
 /*******************************************************
- Function void LTC_read(uint8_t, LTC_config*, LTC_sensor*)
+ Function void LTC_read(uint8_t, LTC_config_t*, LTC_sensor_t*)
 
 V1.0:
 The function reads the values stored in the LTC6804's registers.
@@ -395,7 +395,7 @@ difference between them.
 
  Version 1.0 - Initial release 26/10/2020 by Tesla UFMG
 *******************************************************/
-void LTC_read(uint8_t LTC_READ, LTC_config* config, LTC_sensor* sensor)
+void LTC_read(uint8_t LTC_READ, LTC_config_t* config, LTC_sensor_t* sensor)
 {
 	config->command->BROADCAST = FALSE;
 
@@ -458,7 +458,7 @@ void LTC_read(uint8_t LTC_READ, LTC_config* config, LTC_sensor* sensor)
 }
 
 /*******************************************************
-Function void LTC_set_balance_flag(LTC_config*, LTC_sensor*)
+Function void LTC_set_balance_flag(LTC_config_t*, LTC_sensor_t*)
 
 V1.0:
 The function sets the balance flag if the analyzed cell's voltage
@@ -466,7 +466,7 @@ is at a level which it should be balanced.
 
 Version 1.0 - Initial release 15/12/2020 by Tesla UFMG
 *******************************************************/
-void LTC_set_balance_flag(LTC_config *config, LTC_sensor *sensor)
+void LTC_set_balance_flag(LTC_config_t *config, LTC_sensor_t *sensor)
 {
 	sensor->DCC = 0;
 
@@ -479,7 +479,7 @@ void LTC_set_balance_flag(LTC_config *config, LTC_sensor *sensor)
 }
 
 /*******************************************************
-Function void LTC_reset_balance_flag(LTC_config*, LTC_sensor*)
+Function void LTC_reset_balance_flag(LTC_config_t*, LTC_sensor_t*)
 
 V1.0:
 The function resets the balance flag set in the LTC_set_balance_flag
@@ -487,7 +487,7 @@ function.
 
 Version 1.0 - Initial release 15/12/2020 by Tesla UFMG
 *******************************************************/
-void LTC_reset_balance_flag(LTC_config *config, LTC_sensor *sensor)
+void LTC_reset_balance_flag(LTC_config_t *config, LTC_sensor_t *sensor)
 {
 	sensor->DCC = 0;
 
@@ -497,7 +497,7 @@ void LTC_reset_balance_flag(LTC_config *config, LTC_sensor *sensor)
 }
 
 /*******************************************************
-Function void LTC_balance(LTC_config*, LTC_sensor*)
+Function void LTC_balance(LTC_config_t*, LTC_sensor_t*)
 
 V1.0:
 The function is an auxiliary function for setting up
@@ -505,7 +505,7 @@ the cells' balance.
 
 Version 1.0 - Initial release 15/12/2020 by Tesla UFMG
 *******************************************************/
-void LTC_balance(LTC_config *config, LTC_sensor *sensor)
+void LTC_balance(LTC_config_t *config, LTC_sensor_t *sensor)
 {
 	config->command->BROADCAST = FALSE;
 	config->command->NAME = LTC_COMMAND_WRCFG;

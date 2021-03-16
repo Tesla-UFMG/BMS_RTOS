@@ -18,7 +18,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "usart.h"
+#include "USART.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -209,7 +209,7 @@ void UART_print(char* format, ...){
 }
 
 
-void sendString(int id, ...) {
+void send_string(int id, ...) {
 	va_list args;
 	va_start(args, id);
 

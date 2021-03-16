@@ -23,8 +23,8 @@
 
 uint8_t actual_page;
 
-void uart3MessageReceived(BMS_struct*);
-uint8_t nexSetPageError(BMS_struct*);
-void nexLoop(BMS_struct*);
+void uart3_message_received(BMS_struct_t*);
+uint8_t nexSetPageError(BMS_struct_t*);
+void nex_loop(BMS_struct_t*);
 
 #endif /* NEXTION_FUNCTIONS_H_ */

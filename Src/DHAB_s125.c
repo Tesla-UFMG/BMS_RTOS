@@ -43,19 +43,19 @@ is done.
 
 Version 1.0 - Initial release 07/12/2020 by Tesla UFMG
 *******************************************************/
-double DHAB_currentIntegration(DHAB_sensor* sensor)
+double DHAB_current_integration(DHAB_sensor_t* sensor)
 {
-	double totalCoulombCounting = 0;
-	clock_t runningTime = clock();
+	double total_coulomb_counting = 0;
+	clock_t running_time = clock();
 
 	if(ADC_FLAG_EOC && ADC_FLAG_JEOC)
 	{
-		runningTime = clock() - runningTime;
-		double timeSpent = (double)runningTime/CLOCKS_PER_SEC;
+		running_time = clock() - running_time;
+		double timeSpent = (double)running_time/CLOCKS_PER_SEC;
 
 		sensor->coulombCounting= sensor->current*timeSpent;
-		totalCoulombCounting = totalCoulombCounting + sensor->coulombCounting;
+		total_coulomb_counting = total_coulomb_counting + sensor->coulombCounting;
 	}
 
-	return totalCoulombCounting;
+	return total_coulomb_counting;
 }

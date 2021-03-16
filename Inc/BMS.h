@@ -17,9 +17,9 @@ typedef struct BMS_struct
 	uint8_t operating_packs;				//
 	uint8_t status;							//BMS status
 
-	LTC_sensor *sensor[N_OF_SLAVES];		//Number of LTC6804 used
-	LTC_config *config;						//LTC6804's configuration
-	DHAB_sensor *dhabSensor[N_OF_DHAB];		//Number of DHAB current sensor used
+	LTC_sensor_t *sensor[N_OF_SLAVES];		//Number of LTC6804 used
+	LTC_config_t *config;						//LTC6804's configuration
+	DHAB_sensor_t *dhabSensor[N_OF_DHAB];		//Number of DHAB current sensor used
 
 	uint16_t v_GLV;							//GLV voltage
 	uint16_t v_TS;							//TS voltage
@@ -44,18 +44,18 @@ typedef struct BMS_struct
 	//AIR settings
 	uint8_t AIR;
 
-}BMS_struct;
+}BMS_struct_t;
 
-void BMS_convert(uint8_t, BMS_struct*);
-void BMS_monitoring(BMS_struct*);
-void BMS_set_thermistor_zeros(BMS_struct*);
-void BMS_init(BMS_struct*);
-void BMS_error(BMS_struct*);
-void can_buf(uint8_t*, uint16_t, uint16_t, uint16_t, uint16_t);
-void BMS_can(BMS_struct*);
-void BMS_SoC(BMS_struct*);
-void BMS_initial_SOC(BMS_struct*);
-void BMS_charging(BMS_struct*);
-void BMS_discharging(BMS_struct*);
+void BMS_convert(uint8_t, BMS_struct_t*);
+void BMS_monitoring(BMS_struct_t*);
+void BMS_set_thermistor_zeros(BMS_struct_t*);
+void BMS_init(BMS_struct_t*);
+void BMS_error(BMS_struct_t*);
+void CAN_buf(uint8_t*, uint16_t, uint16_t, uint16_t, uint16_t);
+void BMS_can(BMS_struct_t*);
+void BMS_SoC(BMS_struct_t*);
+void BMS_initial_SOC(BMS_struct_t*);
+void BMS_charging(BMS_struct_t*);
+void BMS_discharging(BMS_struct_t*);
 
 #endif

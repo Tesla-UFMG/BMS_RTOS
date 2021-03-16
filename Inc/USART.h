@@ -44,7 +44,7 @@ void MX_USART3_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
-void sendString(int id, ...);
+void send_string(int id, ...);
 void UART_print(char* format, ...);
 
 /* USER CODE END Prototypes */

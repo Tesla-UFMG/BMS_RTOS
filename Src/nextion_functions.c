@@ -2,10 +2,10 @@
 extern UART_HandleTypeDef huart3;
 
 extern uint8_t uart_user_message[256];	/* Buffer received for user access */
-extern uint8_t NextError[5];
+extern uint8_t next_error[5];
 uint8_t stat = 0;
 
-void uart3MessageReceived(BMS_struct *BMS)
+void uart3_message_received(BMS_struct_t *BMS)
 {
 	/* If the message is to change the nextion page */
 	if(uart_user_message[0] == 0x71 && uart_user_message[5] == 0xFF && uart_user_message[6] == 0xFF && uart_user_message[7] == 0xFF)
@@ -59,27 +59,27 @@ int cmpfunc (const void * a, const void * b) {
 	return ( *(uint16_t*)a - *(uint16_t*)b );
 }
 
-void nexLoop(BMS_struct *BMS){
+void nex_loop(BMS_struct_t *BMS){
 
 	HAL_UART_DMAPause(&huart3);
 
-	if(NextError[0] == 1){
+	if(next_error[0] == 1){
 		NexScrollingTextSetText(0, "Under Voltage");
 		NexScrollingTextSetPic(0, 11);
 	}
-	else if(NextError[1] == 1){
+	else if(next_error[1] == 1){
 		NexScrollingTextSetText(0, "Over Voltage");
 		NexScrollingTextSetPic(0, 11);
 	}
-	else if(NextError[2] == 1){
+	else if(next_error[2] == 1){
 		NexScrollingTextSetText(0, "Over Temperature");
 		NexScrollingTextSetPic(0, 11);
 	}
-	else if(NextError[3] == 1){
+	else if(next_error[3] == 1){
 		NexScrollingTextSetText(0, "Comm Error");
 		NexScrollingTextSetPic(0, 11);
 	}
-	else if(NextError[4] == 1){
+	else if(next_error[4] == 1){
 		NexScrollingTextSetText(0, "GLV Low Voltage");
 		NexScrollingTextSetPic(0, 11);
 	}

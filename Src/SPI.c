@@ -69,11 +69,11 @@ void MX_SPI1_Init(void)
 
 }
 
-void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
+void HAL_SPI_MspInit(SPI_HandleTypeDef* SPI_handle)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(spiHandle->Instance==SPI1)
+  if(SPI_handle->Instance==SPI1)
   {
   /* USER CODE BEGIN SPI1_MspInit 0 */
 
@@ -102,10 +102,10 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
   }
 }
 
-void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
+void HAL_SPI_MspDeInit(SPI_HandleTypeDef* SPI_handle)
 {
 
-  if(spiHandle->Instance==SPI1)
+  if(SPI_handle->Instance==SPI1)
   {
   /* USER CODE BEGIN SPI1_MspDeInit 0 */
 

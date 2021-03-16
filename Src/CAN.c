@@ -18,14 +18,14 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "can.h"
+#include "CAN.h"
 
 
 /* USER CODE BEGIN 0 */
 
-uint8_t* idRx;
-uint8_t* vetRx;
-uint8_t vetTx[__DLC__];
+uint8_t* id_Rx;
+uint8_t* vet_Rx;
+uint8_t vet_Tx[__DLC__];
 
 
 /* USER CODE END 0 */
