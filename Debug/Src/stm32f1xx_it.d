@@ -29,7 +29,7 @@ Src/stm32f1xx_it.o: ../Src/stm32f1xx_it.c ../Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h ../Inc/BMS.h \
  ../Inc/LTC6804.h ../Inc/defines.h ../Inc/dwt_stm32_delay.h \
  ../Inc/DHAB_s125.h ../Inc/CAN.h ../Inc/EEPROM.h ../Inc/flash.h \
- ../Inc/stm32f1xx_it.h
+ ../Inc/nextion.h ../Inc/DMA_USART.h ../Inc/stm32f1xx_it.h
 
 ../Inc/main.h:
 
@@ -104,5 +104,9 @@ Src/stm32f1xx_it.o: ../Src/stm32f1xx_it.c ../Inc/main.h \
 ../Inc/EEPROM.h:
 
 ../Inc/flash.h:
+
+../Inc/nextion.h:
+
+../Inc/DMA_USART.h:
 
 ../Inc/stm32f1xx_it.h:

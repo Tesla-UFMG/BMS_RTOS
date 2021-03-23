@@ -33,6 +33,9 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "BMS.h"
+#include "nextion.h"
+#include "DMA_USART.h"
+#include "EEPROM.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

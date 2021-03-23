@@ -56,6 +56,8 @@ UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart3_Rx;
 
 static const float CURRENT_GAIN[4] = {1.22, 1.51, 1.22, 1.22};
+//extern DMA_HandleTypeDef hdma_usart3_Rx;
+uint16_t virt_add_var_tab[NumbOfVar] = {0x5555, 0x6666, 0x7777};
 
 BMS_struct_t* BMS;
 int32_t ADC_buf[5];
@@ -166,7 +168,25 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_FLASH_Unlock();
+  EE_Init();
 
+  DWT_Delay_Init();
+
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t* )ADC_buf, 5);
+  USART_DMA_Init(&huart3, &hdma_usart3_Rx);
+
+  HAL_TIM_Base_Start_IT(&htim3);
+  HAL_TIM_Base_Start_IT(&htim4);
+
+  BMS = (BMS_struct_t*) calloc(1, sizeof(BMS_struct_t));
+  BMS_init(BMS);
+
+  DWT_Delay_us(50000);
+
+  HAL_GPIO_WritePin(CHARGE_ENABLE_GPIO_Port, CHARGE_ENABLE_Pin, 1);
+
+  NexPageShow(1);
   /* USER CODE END 2 */
 
   /* Init scheduler */
