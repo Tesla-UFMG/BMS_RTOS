@@ -1,10 +1,5 @@
 #include "BMS.h"
 
-#define BMS_CONVERT_CELL 	1
-#define BMS_CONVERT_GPIO	2
-#define BMS_CONVERT_STAT	4
-#define BMS_CONVERT_CONFIG	8
-
 uint16_t flag = 0;
 uint8_t next_error[5];
 int16_t thermistor_zeros[N_OF_PACKS][5];

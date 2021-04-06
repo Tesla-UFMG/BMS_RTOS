@@ -1,6 +1,12 @@
 #ifndef BMS_H
 #define BMS_H
 
+#define BMS_CONVERT_CELL 	1
+#define BMS_CONVERT_GPIO	2
+#define BMS_CONVERT_STAT	4
+#define BMS_CONVERT_CONFIG	8
+
+
 #include "stdlib.h"
 #include "LTC6804.h"
 #include "DHAB_s125.h"
