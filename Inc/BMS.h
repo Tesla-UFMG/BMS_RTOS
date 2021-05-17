@@ -24,8 +24,8 @@ typedef struct BMS_struct
 	uint8_t status;							//BMS status
 
 	LTC_sensor_t *sensor[N_OF_SLAVES];		//Number of LTC6804 used
-	LTC_config_t *config;						//LTC6804's configuration
-	DHAB_sensor_t *dhabSensor[N_OF_DHAB];		//Number of DHAB current sensor used
+	LTC_config_t *config;					//LTC6804's configuration
+	DHAB_sensor_t *dhabSensor[N_OF_DHAB];	//Number of DHAB current sensor used
 
 	uint16_t v_GLV;							//GLV voltage
 	uint16_t v_TS;							//TS voltage
@@ -36,7 +36,7 @@ typedef struct BMS_struct
 
 	//Current settings
 	//float current[N_OF_DHAB];				//Current real value
-	//float c_adc[N_OF_DHAB];					//Current ADC value
+	//float c_adc[N_OF_DHAB];				//Current ADC value
 
 	//Charge settings
 	int32_t charge;							//BMS charge

@@ -3,7 +3,12 @@
 uint16_t flag = 0;
 uint8_t next_error[5];
 int16_t thermistor_zeros[N_OF_PACKS][5];
+
 static int8_t UV_retries, OV_retries, OT_retries;
+
+extern CAN_HandleTypeDef hcan;
+extern CAN_TxHeaderTypeDef pHeader;
+extern uint32_t pTxMailbox;
 
 static const uint16_t CAN_ID_TABLE[8][5] = {
 
@@ -227,9 +232,8 @@ void BMS_init(BMS_struct_t* BMS)
 {
 	/*These three instructions set the initial configuration for the CAN communication and
 	  start the reception process and enable reception interrupt*/
-	CAN_Config_Filter();
-	CAN_Config_Frames();
-	CAN_Receive_IT();
+	//CAN_Config_Filter();
+	//CAN_Config_Frames();
 
 	/*Memory allocation for the LTC config, command and sensor structs*/
 	BMS->config = (LTC_config_t*) calloc(1 ,sizeof(LTC_config_t));
@@ -347,13 +351,13 @@ void BMS_error(BMS_struct_t* BMS)
 		BMS->error &= ~ERR_OVER_VOLTAGE;
 	}
 
-	/*Set true or false the over temperature error*/
+	/*Set true or false the GLV undervoltage error*/
 	if(BMS->v_GLV < 13500)
 	{
 		BMS->error |= ERR_GLV_VOLTAGE;
 		next_error[4] = 1;
 	}
-	else if(BMS->v_GLV < 13500)
+	else if(BMS->v_GLV > 13500)
 	{
 		BMS->error &= ~ERR_GLV_VOLTAGE;
 		next_error[4] = 0;
@@ -422,7 +426,8 @@ void BMS_can(BMS_struct_t* BMS)
 			CAN_buffer[6] = BMS->sensor[i]->CxV[4 * j + 3];
 			CAN_buffer[7] = BMS->sensor[i]->CxV[4 * j + 3] >> 8;
 
-			CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][j]);
+			//CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][j]);
+			HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, CAN_ID_TABLE[i][j]);
 		}
 
 		CAN_buffer[0] = BMS->sensor[i]->GxV[0];
@@ -434,7 +439,8 @@ void BMS_can(BMS_struct_t* BMS)
 		CAN_buffer[6] = BMS->sensor[i]->GxV[3];
 		CAN_buffer[7] = BMS->sensor[i]->GxV[3] >> 8;
 
-		CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
+		//CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
+		HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
 	}
 
 	CAN_buffer[0] = ((int16_t)BMS->dhabSensor[0]->current);
@@ -446,11 +452,11 @@ void BMS_can(BMS_struct_t* BMS)
 	CAN_buffer[6] = ((int16_t)BMS->dhabSensor[3]->current);
 	CAN_buffer[7] = ((int16_t)BMS->dhabSensor[3]->current) >> 8;
 
-	CAN_Transmit(CAN_buffer, 50);
+	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 50);
 
 	CAN_buf(CAN_buffer, BMS->v_GLV, (uint16_t)(BMS->charge_percentage/10), 0, BMS->AIR);
 
-	CAN_Transmit(CAN_buffer, 51);
+	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 51);
 
 	CAN_buffer[0] = 0;
 	CAN_buffer[1] = 0;
@@ -461,11 +467,11 @@ void BMS_can(BMS_struct_t* BMS)
 	CAN_buffer[6] = BMS->t_max;
 	CAN_buffer[7] = BMS->t_max >> 8;
 
-	CAN_Transmit(CAN_buffer, 52);
+	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 52);
 
 	CAN_buf(CAN_buffer, BMS->v_min, BMS->v_max, 0, 0);
 
-	CAN_Transmit(CAN_buffer, 53);
+	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 53);
 }
 
 /*******************************************************

@@ -45,6 +45,8 @@ ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
 CAN_HandleTypeDef hcan;
+CAN_TxHeaderTypeDef pHeader;
+uint32_t pTxMailbox;
 
 SPI_HandleTypeDef hspi1;
 
@@ -53,19 +55,26 @@ TIM_HandleTypeDef htim4;
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
-DMA_HandleTypeDef hdma_usart3_Rx;
+DMA_HandleTypeDef hdma_usart3_rx;
 
-static const float CURRENT_GAIN[4] = {1.22, 1.51, 1.22, 1.22};
-//extern DMA_HandleTypeDef hdma_usart3_Rx;
-uint16_t virt_add_var_tab[NumbOfVar] = {0x5555, 0x6666, 0x7777};
-
-BMS_struct_t* BMS;
-int32_t ADC_buf[5];
-
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
+/* Definitions for readCellsVolts */
+osThreadId_t readCellsVoltsHandle;
+const osThreadAttr_t readCellsVolts_attributes = {
+  .name = "readCellsVolts",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for readCellsTemp */
+osThreadId_t readCellsTempHandle;
+const osThreadAttr_t readCellsTemp_attributes = {
+  .name = "readCellsTemp",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for readCellsStatus */
+osThreadId_t readCellsStatusHandle;
+const osThreadAttr_t readCellsStatus_attributes = {
+  .name = "readCellsStatus",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
@@ -78,13 +87,15 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
-void MX_CAN_Init(void);
+static void MX_CAN_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
-void StartDefaultTask(void *argument);
+void read_cells_volts(void *argument);
+void read_cells_temp(void *argument);
+void read_cells_status(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -92,6 +103,13 @@ void StartDefaultTask(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+static const float CURRENT_GAIN[4] = {1.22, 1.51, 1.22, 1.22};
+//extern DMA_HandleTypeDef hdma_usart3_rx;
+uint16_t virt_add_var_tab[NumbOfVar] = {0x5555, 0x6666, 0x7777};
+
+BMS_struct_t* BMS;
+int32_t ADC_buf[5];
 
 int initial_readings = 0;
 float current_zero[N_OF_DHAB];
@@ -174,7 +192,12 @@ int main(void)
   DWT_Delay_Init();
 
   HAL_ADC_Start_DMA(&hadc1, (uint32_t* )ADC_buf, 5);
-  USART_DMA_Init(&huart3, &hdma_usart3_Rx);
+  USART_DMA_Init(&huart3, &hdma_usart3_rx);
+
+  CAN_Config_Filter();
+  CAN_Config_Frames();
+  HAL_CAN_Start(&hcan);
+  HAL_CAN_ActivateNotification(&hcan, CAN_IT_TX_MAILBOX_EMPTY);
 
   HAL_TIM_Base_Start_IT(&htim3);
   HAL_TIM_Base_Start_IT(&htim4);
@@ -209,12 +232,22 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* creation of readCellsVolts */
+  readCellsVoltsHandle = osThreadNew(read_cells_volts, NULL, &readCellsVolts_attributes);
+
+  /* creation of readCellsTemp */
+  readCellsTempHandle = osThreadNew(read_cells_temp, NULL, &readCellsTemp_attributes);
+
+  /* creation of readCellsStatus */
+  readCellsStatusHandle = osThreadNew(read_cells_status, NULL, &readCellsStatus_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
   osKernelStart();
@@ -348,43 +381,6 @@ static void MX_ADC1_Init(void)
   /* USER CODE END ADC1_Init 2 */
 
 }
-
-/**
-  * @brief CAN Initialization Function
-  * @param None
-  * @retval None
-  */
-//void MX_CAN_Init(void)
-//{
-//
-//  /* USER CODE BEGIN CAN_Init 0 */
-//
-//  /* USER CODE END CAN_Init 0 */
-//
-//  /* USER CODE BEGIN CAN_Init 1 */
-//
-//  /* USER CODE END CAN_Init 1 */
-//  hcan.Instance = CAN1;
-//  hcan.Init.Prescaler = 9;
-//  hcan.Init.Mode = CAN_MODE_NORMAL;
-//  hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
-//  hcan.Init.TimeSeg1 = CAN_BS1_6TQ;
-//  hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
-//  hcan.Init.TimeTriggeredMode = DISABLE;
-//  hcan.Init.AutoBusOff = ENABLE;
-//  hcan.Init.AutoWakeUp = DISABLE;
-//  hcan.Init.AutoRetransmission = DISABLE;
-//  hcan.Init.ReceiveFifoLocked = DISABLE;
-//  hcan.Init.TransmitFifoPriority = DISABLE;
-//  if (HAL_CAN_Init(&hcan) != HAL_OK)
-//  {
-//    Error_Handler();
-//  }
-//  /* USER CODE BEGIN CAN_Init 2 */
-//
-//  /* USER CODE END CAN_Init 2 */
-//
-//}
 
 /**
   * @brief SPI1 Initialization Function
@@ -591,10 +587,10 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Channel1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
   /* DMA1_Channel3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
 
 }
@@ -662,10 +658,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
@@ -674,25 +670,63 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_read_cells_volts */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the readCellsVolts thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+/* USER CODE END Header_read_cells_volts */
+void read_cells_volts(void *argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	BMS_convert(BMS_CONVERT_CELL, BMS);
+    osDelay(100);
   }
   /* USER CODE END 5 */
 }
 
+/* USER CODE BEGIN Header_read_cells_temp */
 /**
+  * @brief  Function implementing the readCellsTemp thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_read_cells_temp */
+void read_cells_temp(void *argument)
+{
+  /* USER CODE BEGIN read_cells_temp */
+  /* Infinite loop */
+  for(;;)
+  {
+	  BMS_convert(BMS_CONVERT_GPIO, BMS);
+	  osDelay(100);
+  }
+  /* USER CODE END read_cells_temp */
+}
+
+/* USER CODE BEGIN Header_read_cells_status */
+/**
+* @brief Function implementing the readCellsStatus thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_read_cells_status */
+void read_cells_status(void *argument)
+{
+  /* USER CODE BEGIN read_cells_status */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END read_cells_status */
+}
+
+ /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM1 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
