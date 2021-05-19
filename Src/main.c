@@ -46,7 +46,6 @@ DMA_HandleTypeDef hdma_adc1;
 
 CAN_HandleTypeDef hcan;
 CAN_TxHeaderTypeDef pHeader;
-uint32_t pTxMailbox;
 
 SPI_HandleTypeDef hspi1;
 
@@ -78,6 +77,41 @@ const osThreadAttr_t readCellsStatus_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
+/* Definitions for CANvoltage */
+osThreadId_t CANvoltageHandle;
+const osThreadAttr_t CANvoltage_attributes = {
+  .name = "CANvoltage",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for CANtemperature */
+osThreadId_t CANtemperatureHandle;
+const osThreadAttr_t CANtemperature_attributes = {
+  .name = "CANtemperature",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for CANcurrent */
+osThreadId_t CANcurrentHandle;
+const osThreadAttr_t CANcurrent_attributes = {
+  .name = "CANcurrent",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for CANglv */
+osThreadId_t CANglvHandle;
+const osThreadAttr_t CANglv_attributes = {
+  .name = "CANglv",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for CANinfo */
+osThreadId_t CANinfoHandle;
+const osThreadAttr_t CANinfo_attributes = {
+  .name = "CANinfo",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -96,6 +130,11 @@ static void MX_USART3_UART_Init(void);
 void read_cells_volts(void *argument);
 void read_cells_temp(void *argument);
 void read_cells_status(void *argument);
+void CAN_voltage(void *argument);
+void CAN_temperature(void *argument);
+void CAN_current(void *argument);
+void CAN_GLV(void *argument);
+void CAN_info(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -103,7 +142,6 @@ void read_cells_status(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
 static const float CURRENT_GAIN[4] = {1.22, 1.51, 1.22, 1.22};
 //extern DMA_HandleTypeDef hdma_usart3_rx;
 uint16_t virt_add_var_tab[NumbOfVar] = {0x5555, 0x6666, 0x7777};
@@ -240,6 +278,21 @@ int main(void)
 
   /* creation of readCellsStatus */
   readCellsStatusHandle = osThreadNew(read_cells_status, NULL, &readCellsStatus_attributes);
+
+  /* creation of CANvoltage */
+  CANvoltageHandle = osThreadNew(CAN_voltage, NULL, &CANvoltage_attributes);
+
+  /* creation of CANtemperature */
+  CANtemperatureHandle = osThreadNew(CAN_temperature, NULL, &CANtemperature_attributes);
+
+  /* creation of CANcurrent */
+  CANcurrentHandle = osThreadNew(CAN_current, NULL, &CANcurrent_attributes);
+
+  /* creation of CANglv */
+  CANglvHandle = osThreadNew(CAN_GLV, NULL, &CANglv_attributes);
+
+  /* creation of CANinfo */
+  CANinfoHandle = osThreadNew(CAN_info, NULL, &CANinfo_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -379,6 +432,43 @@ static void MX_ADC1_Init(void)
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief CAN Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CAN_Init(void)
+{
+
+  /* USER CODE BEGIN CAN_Init 0 */
+
+  /* USER CODE END CAN_Init 0 */
+
+  /* USER CODE BEGIN CAN_Init 1 */
+
+  /* USER CODE END CAN_Init 1 */
+  hcan.Instance = CAN1;
+  hcan.Init.Prescaler = 9;
+  hcan.Init.Mode = CAN_MODE_NORMAL;
+  hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
+  hcan.Init.TimeSeg1 = CAN_BS1_6TQ;
+  hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
+  hcan.Init.TimeTriggeredMode = DISABLE;
+  hcan.Init.AutoBusOff = ENABLE;
+  hcan.Init.AutoWakeUp = DISABLE;
+  hcan.Init.AutoRetransmission = DISABLE;
+  hcan.Init.ReceiveFifoLocked = DISABLE;
+  hcan.Init.TransmitFifoPriority = DISABLE;
+  if (HAL_CAN_Init(&hcan) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CAN_Init 2 */
+
+  /* USER CODE END CAN_Init 2 */
 
 }
 
@@ -724,6 +814,102 @@ void read_cells_status(void *argument)
     osDelay(1);
   }
   /* USER CODE END read_cells_status */
+}
+
+/* USER CODE BEGIN Header_CAN_voltage */
+/**
+* @brief Function implementing the CANvoltage thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_CAN_voltage */
+void CAN_voltage(void *argument)
+{
+  /* USER CODE BEGIN CAN_voltage */
+
+  /* Infinite loop */
+  for(;;)
+  {
+	  BMS_CAN_voltage(BMS);
+	  osDelay(100);
+  }
+  /* USER CODE END CAN_voltage */
+}
+
+/* USER CODE BEGIN Header_CAN_temperature */
+/**
+* @brief Function implementing the CANtemperature thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_CAN_temperature */
+void CAN_temperature(void *argument)
+{
+  /* USER CODE BEGIN CAN_temperature */
+  /* Infinite loop */
+  for(;;)
+  {
+	  BMS_CAN_temperature(BMS);
+	  osDelay(100);
+  }
+  /* USER CODE END CAN_temperature */
+}
+
+/* USER CODE BEGIN Header_CAN_current */
+/**
+* @brief Function implementing the CANcurrent thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_CAN_current */
+void CAN_current(void *argument)
+{
+  /* USER CODE BEGIN CAN_current */
+  /* Infinite loop */
+  for(;;)
+  {
+	  BMS_CAN_current(BMS);
+	  osDelay(100);
+  }
+  /* USER CODE END CAN_current */
+}
+
+/* USER CODE BEGIN Header_CAN_GLV */
+/**
+* @brief Function implementing the CANglv thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_CAN_GLV */
+void CAN_GLV(void *argument)
+{
+  /* USER CODE BEGIN CAN_GLV */
+  /* Infinite loop */
+  for(;;)
+  {
+	  BMS_CAN_GLV(BMS);
+	  osDelay(100);
+  }
+  /* USER CODE END CAN_GLV */
+}
+
+/* USER CODE BEGIN Header_CAN_info */
+/**
+* @brief Function implementing the CANinfo thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_CAN_info */
+void CAN_info(void *argument)
+{
+  /* USER CODE BEGIN CAN_info */
+  /* Infinite loop */
+  for(;;)
+  {
+	  BMS_CAN_info(BMS);
+	  osDelay(100);
+  }
+  /* USER CODE END CAN_info */
 }
 
  /**

@@ -8,9 +8,9 @@ static int8_t UV_retries, OV_retries, OT_retries;
 
 extern CAN_HandleTypeDef hcan;
 extern CAN_TxHeaderTypeDef pHeader;
-extern uint32_t pTxMailbox;
+extern void Error_Handler();
 
-static const uint16_t CAN_ID_TABLE[8][5] = {
+uint32_t CAN_ID_TABLE[8][5] = {
 
 		{
 				256,		//PACK 2 V_GROUP 0 		(cells 0, 1, 2, 3)
@@ -399,17 +399,7 @@ void CAN_buf(uint8_t buffer[8], uint16_t word1, uint16_t word2, uint16_t word3, 
 	buffer[7] = word4 >> 8;
 }
 
-/*******************************************************
-Function void BMS_can(BMS_struct_t*)
-
-V1.0:
-The function sends essential informations about the BMS such
-as the cells' voltages, temperature, charge percent, maximum
-and minimum voltages through CAN communication.
-
-Version 1.0 - Initial release 02/12/2020 by Tesla UFMG
-*******************************************************/
-void BMS_can(BMS_struct_t* BMS)
+void BMS_CAN_voltage(BMS_struct_t* BMS)
 {
 	uint8_t CAN_buffer[8];
 
@@ -426,10 +416,19 @@ void BMS_can(BMS_struct_t* BMS)
 			CAN_buffer[6] = BMS->sensor[i]->CxV[4 * j + 3];
 			CAN_buffer[7] = BMS->sensor[i]->CxV[4 * j + 3] >> 8;
 
-			//CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][j]);
-			HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, CAN_ID_TABLE[i][j]);
-		}
+			if(HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, (uint32_t*)CAN_ID_TABLE[i][j]) != HAL_OK)
+				Error_Handler();
 
+		}
+	}
+}
+
+void BMS_CAN_temperature(BMS_struct_t* BMS)
+{
+	uint8_t CAN_buffer[8];
+
+	for(uint8_t i = 0; i < N_OF_PACKS; i++)
+	{
 		CAN_buffer[0] = BMS->sensor[i]->GxV[0];
 		CAN_buffer[1] = BMS->sensor[i]->GxV[0] >> 8;
 		CAN_buffer[2] = BMS->sensor[i]->GxV[1];
@@ -439,9 +438,14 @@ void BMS_can(BMS_struct_t* BMS)
 		CAN_buffer[6] = BMS->sensor[i]->GxV[3];
 		CAN_buffer[7] = BMS->sensor[i]->GxV[3] >> 8;
 
-		//CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
-		HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
+		if(HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, (uint32_t*)CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]) != HAL_OK)
+			Error_Handler();
 	}
+}
+
+void BMS_CAN_current(BMS_struct_t* BMS)
+{
+	uint8_t CAN_buffer[8];
 
 	CAN_buffer[0] = ((int16_t)BMS->dhabSensor[0]->current);
 	CAN_buffer[1] = ((int16_t)BMS->dhabSensor[0]->current) >> 8;
@@ -452,11 +456,23 @@ void BMS_can(BMS_struct_t* BMS)
 	CAN_buffer[6] = ((int16_t)BMS->dhabSensor[3]->current);
 	CAN_buffer[7] = ((int16_t)BMS->dhabSensor[3]->current) >> 8;
 
-	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 50);
+	if(HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, (uint32_t*)50) != HAL_OK)
+		Error_Handler();
+}
+
+void BMS_CAN_GLV(BMS_struct_t* BMS)
+{
+	uint8_t CAN_buffer[8];
 
 	CAN_buf(CAN_buffer, BMS->v_GLV, (uint16_t)(BMS->charge_percentage/10), 0, BMS->AIR);
 
-	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 51);
+	if(HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, (uint32_t*)51) != HAL_OK)
+		Error_Handler();
+}
+
+void BMS_CAN_info(BMS_struct_t* BMS)
+{
+	uint8_t CAN_buffer[8];
 
 	CAN_buffer[0] = 0;
 	CAN_buffer[1] = 0;
@@ -467,12 +483,89 @@ void BMS_can(BMS_struct_t* BMS)
 	CAN_buffer[6] = BMS->t_max;
 	CAN_buffer[7] = BMS->t_max >> 8;
 
-	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 52);
+	if(HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, (uint32_t*)52) != HAL_OK)
+		Error_Handler();
 
 	CAN_buf(CAN_buffer, BMS->v_min, BMS->v_max, 0, 0);
 
-	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 53);
+	if(HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, (uint32_t*)53) != HAL_OK)
+		Error_Handler();
 }
+
+/*******************************************************
+Function void BMS_can(BMS_struct_t*)
+
+V1.0:
+The function sends essential informations about the BMS such
+as the cells' voltages, temperature, charge percent, maximum
+and minimum voltages through CAN communication.
+
+Version 1.0 - Initial release 02/12/2020 by Tesla UFMG
+*******************************************************/
+//void BMS_can(BMS_struct_t* BMS)
+//{
+//	uint8_t CAN_buffer[8];
+//
+//	for(uint8_t i = 0; i < N_OF_PACKS; i++)
+//	{
+//		for (uint8_t j = 0; j < 3; j++)
+//		{
+//			CAN_buffer[0] = BMS->sensor[i]->CxV[4 * j + 0];
+//			CAN_buffer[1] = BMS->sensor[i]->CxV[4 * j + 0] >> 8;
+//			CAN_buffer[2] = BMS->sensor[i]->CxV[4 * j + 1];
+//			CAN_buffer[3] = BMS->sensor[i]->CxV[4 * j + 1] >> 8;
+//			CAN_buffer[4] = BMS->sensor[i]->CxV[4 * j + 2];
+//			CAN_buffer[5] = BMS->sensor[i]->CxV[4 * j + 2] >> 8;
+//			CAN_buffer[6] = BMS->sensor[i]->CxV[4 * j + 3];
+//			CAN_buffer[7] = BMS->sensor[i]->CxV[4 * j + 3] >> 8;
+//
+//			//CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][j]);
+//			HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, CAN_ID_TABLE[i][j]);
+//		}
+//
+//		CAN_buffer[0] = BMS->sensor[i]->GxV[0];
+//		CAN_buffer[1] = BMS->sensor[i]->GxV[0] >> 8;
+//		CAN_buffer[2] = BMS->sensor[i]->GxV[1];
+//		CAN_buffer[3] = BMS->sensor[i]->GxV[1] >> 8;
+//		CAN_buffer[4] = BMS->sensor[i]->GxV[2];
+//		CAN_buffer[5] = BMS->sensor[i]->GxV[2] >> 8;
+//		CAN_buffer[6] = BMS->sensor[i]->GxV[3];
+//		CAN_buffer[7] = BMS->sensor[i]->GxV[3] >> 8;
+//
+//		//CAN_Transmit(CAN_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
+//		HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, CAN_ID_TABLE[i][CAN_TEMPERATURE_ID]);
+//	}
+//
+//	CAN_buffer[0] = ((int16_t)BMS->dhabSensor[0]->current);
+//	CAN_buffer[1] = ((int16_t)BMS->dhabSensor[0]->current) >> 8;
+//	CAN_buffer[2] = ((int16_t)BMS->dhabSensor[1]->current);
+//	CAN_buffer[3] = ((int16_t)BMS->dhabSensor[1]->current) >> 8;
+//	CAN_buffer[4] = ((int16_t)BMS->dhabSensor[2]->current);
+//	CAN_buffer[5] = ((int16_t)BMS->dhabSensor[2]->current) >> 8;
+//	CAN_buffer[6] = ((int16_t)BMS->dhabSensor[3]->current);
+//	CAN_buffer[7] = ((int16_t)BMS->dhabSensor[3]->current) >> 8;
+//
+//	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 50);
+//
+//	CAN_buf(CAN_buffer, BMS->v_GLV, (uint16_t)(BMS->charge_percentage/10), 0, BMS->AIR);
+//
+//	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 51);
+//
+//	CAN_buffer[0] = 0;
+//	CAN_buffer[1] = 0;
+//	CAN_buffer[2] = BMS->v_TS;
+//	CAN_buffer[3] = BMS->v_TS;
+//	CAN_buffer[4] = 0;
+//	CAN_buffer[5] = 0;
+//	CAN_buffer[6] = BMS->t_max;
+//	CAN_buffer[7] = BMS->t_max >> 8;
+//
+//	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 52);
+//
+//	CAN_buf(CAN_buffer, BMS->v_min, BMS->v_max, 0, 0);
+//
+//	HAL_CAN_AddTxMessage(&hcan, &pHeader, CAN_buffer, 53);
+//}
 
 /*******************************************************
 Function void BMS_initial_SOC(LTC_sensor_t)

@@ -217,8 +217,6 @@ typedef struct __CAN_HandleTypeDef
   __IO uint32_t               ErrorCode;                 /*!< CAN Error code.
                                                               This parameter can be a value of @ref CAN_Error_Code */
 
-  HAL_LockTypeDef             Lock;       				 /*!< CAN locking object             */
-
 #if USE_HAL_CAN_REGISTER_CALLBACKS == 1
   void (* TxMailbox0CompleteCallback)(struct __CAN_HandleTypeDef *hcan);/*!< CAN Tx Mailbox 0 complete callback    */
   void (* TxMailbox1CompleteCallback)(struct __CAN_HandleTypeDef *hcan);/*!< CAN Tx Mailbox 1 complete callback    */
