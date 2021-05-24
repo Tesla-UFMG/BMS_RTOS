@@ -127,5 +127,8 @@ void LTC_init(LTC_config_t*);
 static void LTC_temperature_convert(LTC_sensor_t*);
 void LTC_wait(LTC_config_t*, LTC_sensor_t*);
 void LTC_read(uint8_t, LTC_config_t*, LTC_sensor_t*);
+void LTC_set_balance_flag(LTC_config_t*, LTC_sensor_t*);
+void LTC_reset_balance_flag(LTC_config_t*, LTC_sensor_t*);
+void LTC_balance(LTC_config_t*, LTC_sensor_t*);
 
 #endif

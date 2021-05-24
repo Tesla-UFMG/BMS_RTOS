@@ -112,6 +112,27 @@ const osThreadAttr_t CANinfo_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
+/* Definitions for balanceCheck */
+osThreadId_t balanceCheckHandle;
+const osThreadAttr_t balanceCheck_attributes = {
+  .name = "balanceCheck",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for chargeUpdate */
+osThreadId_t chargeUpdateHandle;
+const osThreadAttr_t chargeUpdate_attributes = {
+  .name = "chargeUpdate",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for dataUpdate */
+osThreadId_t dataUpdateHandle;
+const osThreadAttr_t dataUpdate_attributes = {
+  .name = "dataUpdate",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -135,6 +156,9 @@ void CAN_temperature(void *argument);
 void CAN_current(void *argument);
 void CAN_GLV(void *argument);
 void CAN_info(void *argument);
+void balance_check(void *argument);
+void charge_update(void *argument);
+void data_update(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -293,6 +317,15 @@ int main(void)
 
   /* creation of CANinfo */
   CANinfoHandle = osThreadNew(CAN_info, NULL, &CANinfo_attributes);
+
+  /* creation of balanceCheck */
+  balanceCheckHandle = osThreadNew(balance_check, NULL, &balanceCheck_attributes);
+
+  /* creation of chargeUpdate */
+  chargeUpdateHandle = osThreadNew(charge_update, NULL, &chargeUpdate_attributes);
+
+  /* creation of dataUpdate */
+  dataUpdateHandle = osThreadNew(data_update, NULL, &dataUpdate_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -910,6 +943,89 @@ void CAN_info(void *argument)
 	  osDelay(100);
   }
   /* USER CODE END CAN_info */
+}
+
+/* USER CODE BEGIN Header_balance_check */
+/**
+* @brief Function implementing the balanceCheck thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_balance_check */
+void balance_check(void *argument)
+{
+  /* USER CODE BEGIN balance_check */
+  /* Infinite loop */
+  for(;;)
+  {
+	  for(uint8_t i = 0; i < N_OF_PACKS; i++)
+	  {
+		  if(BMS->mode & BMS_BALANCING)
+	  		LTC_set_balance_flag(BMS->config, BMS->sensor[i]);
+		  else
+	  		LTC_reset_balance_flag(BMS->config, BMS->sensor[i]);
+
+		  LTC_balance(BMS->config, BMS->sensor[i]);
+	  }
+
+	  osDelay(100);
+  }
+  /* USER CODE END balance_check */
+}
+
+/* USER CODE BEGIN Header_charge_update */
+/**
+* @brief Function implementing the chargeUpdate thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_charge_update */
+void charge_update(void *argument)
+{
+  /* USER CODE BEGIN charge_update */
+  /* Infinite loop */
+  for(;;)
+  {
+	  for(uint8_t i = 0; i < N_OF_PACKS; i++)
+		  BMS->charge_percentage += BMS->sensor[i]->TOTAL_CHARGE;
+
+	  BMS->charge_percentage /= N_OF_PACKS;
+
+	  if(BMS->charge < BMS->charge_min)
+	  	BMS->charge_min = BMS->charge;
+	  if(BMS->charge > BMS->charge_max)
+	  	BMS->charge_max = BMS->charge;
+
+	  EE_WriteVariable(0x0, (uint16_t) (BMS->charge >> 16));
+	  EE_WriteVariable(0x1, (uint16_t) BMS->charge);
+
+	  EE_WriteVariable(0x2, (uint16_t) (BMS->charge_min >> 16));
+	  EE_WriteVariable(0x3, (uint16_t) BMS->charge_min);
+
+	  EE_WriteVariable(0x4, (uint16_t) (BMS->charge_max >> 16));
+	  EE_WriteVariable(0x5, (uint16_t) BMS->charge_max);
+
+	  osDelay(100);
+  }
+  /* USER CODE END charge_update */
+}
+
+/* USER CODE BEGIN Header_data_update */
+/**
+* @brief Function implementing the dataUpdate thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_data_update */
+void data_update(void *argument)
+{
+  /* USER CODE BEGIN data_update */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END data_update */
 }
 
  /**
