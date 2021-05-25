@@ -45,7 +45,6 @@ ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
 CAN_HandleTypeDef hcan;
-CAN_TxHeaderTypeDef pHeader;
 
 SPI_HandleTypeDef hspi1;
 
@@ -133,6 +132,55 @@ const osThreadAttr_t dataUpdate_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
+/* Definitions for filterMaxVolts */
+osThreadId_t filterMaxVoltsHandle;
+const osThreadAttr_t filterMaxVolts_attributes = {
+  .name = "filterMaxVolts",
+  .priority = (osPriority_t) osPriorityBelowNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for filterMinVolts */
+osThreadId_t filterMinVoltsHandle;
+const osThreadAttr_t filterMinVolts_attributes = {
+  .name = "filterMinVolts",
+  .priority = (osPriority_t) osPriorityLow,
+  .stack_size = 128 * 4
+};
+/* Definitions for filterTemp */
+osThreadId_t filterTempHandle;
+const osThreadAttr_t filterTemp_attributes = {
+  .name = "filterTemp",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for errorOvervolt */
+osThreadId_t errorOvervoltHandle;
+const osThreadAttr_t errorOvervolt_attributes = {
+  .name = "errorOvervolt",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for errorUndervolt */
+osThreadId_t errorUndervoltHandle;
+const osThreadAttr_t errorUndervolt_attributes = {
+  .name = "errorUndervolt",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for errorOverTemp */
+osThreadId_t errorOverTempHandle;
+const osThreadAttr_t errorOverTemp_attributes = {
+  .name = "errorOverTemp",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for errorGlvVolt */
+osThreadId_t errorGlvVoltHandle;
+const osThreadAttr_t errorGlvVolt_attributes = {
+  .name = "errorGlvVolt",
+  .priority = (osPriority_t) osPriorityLow,
+  .stack_size = 128 * 4
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -159,6 +207,13 @@ void CAN_info(void *argument);
 void balance_check(void *argument);
 void charge_update(void *argument);
 void data_update(void *argument);
+void filter_max_voltages(void *argument);
+void filter_min_voltages(void *argument);
+void filter_temperature(void *argument);
+void error_overvoltage(void *argument);
+void error_undervoltage(void *argument);
+void error_over_temperature(void *argument);
+void error_GLV_voltage(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -326,6 +381,27 @@ int main(void)
 
   /* creation of dataUpdate */
   dataUpdateHandle = osThreadNew(data_update, NULL, &dataUpdate_attributes);
+
+  /* creation of filterMaxVolts */
+  filterMaxVoltsHandle = osThreadNew(filter_max_voltages, NULL, &filterMaxVolts_attributes);
+
+  /* creation of filterMinVolts */
+  filterMinVoltsHandle = osThreadNew(filter_min_voltages, NULL, &filterMinVolts_attributes);
+
+  /* creation of filterTemp */
+  filterTempHandle = osThreadNew(filter_temperature, NULL, &filterTemp_attributes);
+
+  /* creation of errorOvervolt */
+  errorOvervoltHandle = osThreadNew(error_overvoltage, NULL, &errorOvervolt_attributes);
+
+  /* creation of errorUndervolt */
+  errorUndervoltHandle = osThreadNew(error_undervoltage, NULL, &errorUndervolt_attributes);
+
+  /* creation of errorOverTemp */
+  errorOverTempHandle = osThreadNew(error_over_temperature, NULL, &errorOverTemp_attributes);
+
+  /* creation of errorGlvVolt */
+  errorGlvVoltHandle = osThreadNew(error_GLV_voltage, NULL, &errorGlvVolt_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1026,6 +1102,132 @@ void data_update(void *argument)
     osDelay(1);
   }
   /* USER CODE END data_update */
+}
+
+/* USER CODE BEGIN Header_filter_max_voltages */
+/**
+* @brief Function implementing the filterMaxVolts thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_filter_max_voltages */
+void filter_max_voltages(void *argument)
+{
+  /* USER CODE BEGIN filter_max_voltages */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END filter_max_voltages */
+}
+
+/* USER CODE BEGIN Header_filter_min_voltages */
+/**
+* @brief Function implementing the filterMinVolts thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_filter_min_voltages */
+void filter_min_voltages(void *argument)
+{
+  /* USER CODE BEGIN filter_min_voltages */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END filter_min_voltages */
+}
+
+/* USER CODE BEGIN Header_filter_temperature */
+/**
+* @brief Function implementing the filterTemp thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_filter_temperature */
+void filter_temperature(void *argument)
+{
+  /* USER CODE BEGIN filter_temperature */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END filter_temperature */
+}
+
+/* USER CODE BEGIN Header_error_overvoltage */
+/**
+* @brief Function implementing the errorOvervolt thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_overvoltage */
+void error_overvoltage(void *argument)
+{
+  /* USER CODE BEGIN error_overvoltage */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END error_overvoltage */
+}
+
+/* USER CODE BEGIN Header_error_undervoltage */
+/**
+* @brief Function implementing the errorUndervolt thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_undervoltage */
+void error_undervoltage(void *argument)
+{
+  /* USER CODE BEGIN error_undervoltage */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END error_undervoltage */
+}
+
+/* USER CODE BEGIN Header_error_over_temperature */
+/**
+* @brief Function implementing the errorOverTemp thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_over_temperature */
+void error_over_temperature(void *argument)
+{
+  /* USER CODE BEGIN error_over_temperature */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END error_over_temperature */
+}
+
+/* USER CODE BEGIN Header_error_GLV_voltage */
+/**
+* @brief Function implementing the errorGlvVolt thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_GLV_voltage */
+void error_GLV_voltage(void *argument)
+{
+  /* USER CODE BEGIN error_GLV_voltage */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END error_GLV_voltage */
 }
 
  /**
