@@ -89,7 +89,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 
 			BMS->v_TS += BMS->sensor[i]->SOC;
 
-			for(uint8_t j = 0; j < 4; j++)
+			for(uint8_t j = 0; j < 4; j++) //TODO 5 termistores por stack
 			{
 				if(BMS->sensor[i]->GxV[j] > BMS->t_max)
 					BMS->t_max = BMS->sensor[i]->GxV[j];

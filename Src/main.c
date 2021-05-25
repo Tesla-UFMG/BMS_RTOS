@@ -806,8 +806,10 @@ void read_cells_volts(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	BMS_convert(BMS_CONVERT_CELL, BMS);
-    osDelay(100);
+	  BMS->v_min = 50000;
+	  BMS->v_max = 0;
+	  BMS_convert(BMS_CONVERT_CELL, BMS);
+	  osDelay(100);
   }
   /* USER CODE END 5 */
 }
@@ -825,6 +827,7 @@ void read_cells_temp(void *argument)
   /* Infinite loop */
   for(;;)
   {
+	  BMS->t_max = 0;
 	  BMS_convert(BMS_CONVERT_GPIO, BMS);
 	  osDelay(100);
   }
@@ -844,7 +847,8 @@ void read_cells_status(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	  BMS_convert(BMS_CONVERT_STAT, BMS);
+	  osDelay(100);
   }
   /* USER CODE END read_cells_status */
 }
@@ -986,10 +990,10 @@ void charge_update(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  for(uint8_t i = 0; i < N_OF_PACKS; i++)
-		  BMS->charge_percentage += BMS->sensor[i]->TOTAL_CHARGE;
-
-	  BMS->charge_percentage /= N_OF_PACKS;
+	  if(BMS->mode & BMS_MONITORING)
+		  BMS_discharging(BMS);
+	  else if(BMS->mode & BMS_CHARGING)
+		  BMS_charging(BMS);
 
 	  if(BMS->charge < BMS->charge_min)
 	  	BMS->charge_min = BMS->charge;
