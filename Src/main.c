@@ -1171,7 +1171,18 @@ void error_overvoltage(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	if(BMS->v_max >= 36000)
+	{
+		next_error[1] = 1;
+		BMS->error |= ERR_OVER_VOLTAGE;
+	}
+	else
+	{
+		next_error[1] = 0;
+		BMS->error &= ~ERR_OVER_VOLTAGE;
+	}
+
+    osDelay(100);
   }
   /* USER CODE END error_overvoltage */
 }
