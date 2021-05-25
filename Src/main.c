@@ -1200,7 +1200,18 @@ void error_undervoltage(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	if(BMS->v_min <= 28000)
+	{
+		next_error[0] = 1;
+		BMS->error |= ERR_UNDER_VOLTAGE;
+	}
+	else
+	{
+		next_error[0] = 0;
+		BMS->error &= ~ERR_UNDER_VOLTAGE;
+	}
+
+    osDelay(100);
   }
   /* USER CODE END error_undervoltage */
 }
