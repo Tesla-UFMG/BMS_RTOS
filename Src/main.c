@@ -1229,7 +1229,18 @@ void error_over_temperature(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	/*if(BMS->t_max >= 500)
+	{
+	  		next_error[0] = 1;
+	  		BMS->error |= ERR_OVER_TEMPERATURE;
+	}
+	else
+	{
+	  		next_error[0] = 0;
+	  		BMS->error &= ~ERR_OVER_TEMPERATURE;
+	}*/
+
+    osDelay(100);
   }
   /* USER CODE END error_over_temperature */
 }
