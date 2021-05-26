@@ -1258,7 +1258,18 @@ void error_GLV_voltage(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	if(BMS->v_GLV <= 13500)
+	{
+		BMS->error |= ERR_GLV_VOLTAGE;
+		next_error[4] = 1;
+	}
+	else
+	{
+		BMS->error &= ~ERR_GLV_VOLTAGE;
+		next_error[4] = 0;
+	}
+
+    osDelay(100);
   }
   /* USER CODE END error_GLV_voltage */
 }
