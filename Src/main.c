@@ -181,6 +181,13 @@ const osThreadAttr_t errorGlvVolt_attributes = {
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
+/* Definitions for errorMonitoring */
+osThreadId_t errorMonitoringHandle;
+const osThreadAttr_t errorMonitoring_attributes = {
+  .name = "errorMonitoring",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -214,6 +221,7 @@ void error_overvoltage(void *argument);
 void error_undervoltage(void *argument);
 void error_over_temperature(void *argument);
 void error_GLV_voltage(void *argument);
+void error_monitoring(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -402,6 +410,9 @@ int main(void)
 
   /* creation of errorGlvVolt */
   errorGlvVoltHandle = osThreadNew(error_GLV_voltage, NULL, &errorGlvVolt_attributes);
+
+  /* creation of errorMonitoring */
+  errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &errorMonitoring_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1272,6 +1283,36 @@ void error_GLV_voltage(void *argument)
     osDelay(100);
   }
   /* USER CODE END error_GLV_voltage */
+}
+
+/* USER CODE BEGIN Header_error_monitoring */
+/**
+* @brief Function implementing the errorMonitoring thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_monitoring */
+void error_monitoring(void *argument)
+{
+  /* USER CODE BEGIN error_monitoring */
+  /* Infinite loop */
+  for(;;)
+  {
+	if(BMS->error != ERR_NO_ERROR)
+	{
+		HAL_GPIO_WritePin(AIR_ENABLE_GPIO_Port, AIR_ENABLE_Pin, RESET);
+		HAL_GPIO_WritePin(ERR_LED_GPIO_Port, ERR_LED_Pin, SET);
+	}
+	else
+	{
+		flag &= ERR_NO_ERROR;
+		HAL_GPIO_WritePin(AIR_ENABLE_GPIO_Port, AIR_ENABLE_Pin, SET);
+		HAL_GPIO_WritePin(ERR_LED_GPIO_Port, ERR_LED_Pin, RESET);
+	}
+
+    osDelay(100);
+  }
+  /* USER CODE END error_monitoring */
 }
 
  /**
