@@ -1184,12 +1184,10 @@ void error_overvoltage(void *argument)
   {
 	if(BMS->v_max >= 36000)
 	{
-		next_error[1] = 1;
 		BMS->error |= ERR_OVER_VOLTAGE;
 	}
 	else
 	{
-		next_error[1] = 0;
 		BMS->error &= ~ERR_OVER_VOLTAGE;
 	}
 
@@ -1213,12 +1211,10 @@ void error_undervoltage(void *argument)
   {
 	if(BMS->v_min <= 28000)
 	{
-		next_error[0] = 1;
 		BMS->error |= ERR_UNDER_VOLTAGE;
 	}
 	else
 	{
-		next_error[0] = 0;
 		BMS->error &= ~ERR_UNDER_VOLTAGE;
 	}
 
@@ -1240,16 +1236,14 @@ void error_over_temperature(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	/*if(BMS->t_max >= 500)
+	if(BMS->t_max >= 500)
 	{
-	  		next_error[0] = 1;
-	  		BMS->error |= ERR_OVER_TEMPERATURE;
+	  	BMS->error |= ERR_OVER_TEMPERATURE;
 	}
 	else
 	{
-	  		next_error[0] = 0;
-	  		BMS->error &= ~ERR_OVER_TEMPERATURE;
-	}*/
+	  	BMS->error &= ~ERR_OVER_TEMPERATURE;
+	}
 
     osDelay(100);
   }
@@ -1272,12 +1266,10 @@ void error_GLV_voltage(void *argument)
 	if(BMS->v_GLV <= 13500)
 	{
 		BMS->error |= ERR_GLV_VOLTAGE;
-		next_error[4] = 1;
 	}
 	else
 	{
 		BMS->error &= ~ERR_GLV_VOLTAGE;
-		next_error[4] = 0;
 	}
 
     osDelay(100);
@@ -1305,7 +1297,6 @@ void error_monitoring(void *argument)
 	}
 	else
 	{
-		flag &= ERR_NO_ERROR;
 		HAL_GPIO_WritePin(AIR_ENABLE_GPIO_Port, AIR_ENABLE_Pin, SET);
 		HAL_GPIO_WritePin(ERR_LED_GPIO_Port, ERR_LED_Pin, RESET);
 	}
