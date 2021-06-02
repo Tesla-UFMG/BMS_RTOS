@@ -1342,6 +1342,7 @@ void error_overvoltage(void *argument)
 	if(BMS->v_max >= 36000)
 	{
 		BMS->error |= ERR_OVER_VOLTAGE;
+		osMessagePut(q_reportErrorHandle, info, 0);
 	}
 	else
 	{
@@ -1369,6 +1370,7 @@ void error_undervoltage(void *argument)
 	if(BMS->v_min <= 28000)
 	{
 		BMS->error |= ERR_UNDER_VOLTAGE;
+		osMessagePut(q_reportErrorHandle, info, 0);
 	}
 	else
 	{
@@ -1396,6 +1398,7 @@ void error_over_temperature(void *argument)
 	if(BMS->t_max >= 500)
 	{
 	  	BMS->error |= ERR_OVER_TEMPERATURE;
+	  	osMessagePut(q_reportErrorHandle, info, 0);
 	}
 	else
 	{
@@ -1420,7 +1423,17 @@ void error_GLV_undervoltage(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	if(BMS->v_GLV < 13500)
+	{
+		BMS->error |= ERR_GLV_VOLTAGE;
+		osMessagePut(q_reportErrorHandle, info, 0);
+	}
+	else if(BMS->v_GLV > 13500)
+	{
+		BMS->error &= ~ERR_GLV_VOLTAGE;
+	}
+
+    osDelay(100);
   }
   /* USER CODE END error_GLV_undervoltage */
 }
