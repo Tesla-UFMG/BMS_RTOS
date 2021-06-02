@@ -78,23 +78,34 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
 
+		uint16_t max_voltage, min_voltage, max_tamperature;
+
+		max_voltage = RESET_V_MAX;
+		min_voltage = RESET_V_MIN;
+		max_tamperature = RESET_T_MAX;
+
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{
 			LTC_read(LTC_READ_CELL, BMS->config, BMS->sensor[i]);
 
-			if(BMS->sensor[i]->V_MIN < BMS->v_min)
-				BMS->v_min = BMS->sensor[i]->V_MIN;
-			if(BMS->sensor[i]->V_MAX > BMS->v_max)
-				BMS->v_max = BMS->sensor[i]->V_MAX;
+			if(BMS->sensor[i]->V_MAX > max_voltage)
+				max_voltage = BMS->sensor[i]->V_MAX;
+
+			if(BMS->sensor[i]->V_MIN < min_voltage)
+				min_voltage = BMS->sensor[i]->V_MIN;
 
 			BMS->v_TS += BMS->sensor[i]->SOC;
 
 			for(uint8_t j = 0; j < 4; j++)
 			{
-				if(BMS->sensor[i]->GxV[j] > BMS->t_max)
-					BMS->t_max = BMS->sensor[i]->GxV[j];
+				if(BMS->sensor[i]->GxV[j] > max_tamperature)
+					max_tamperature = BMS->sensor[i]->GxV[j];
 			}
 		}
+
+		osMessagePut(q_maxVoltagesHandle, max_voltage, 0);
+		osMessagePut(q_minVoltagesHandle, min_voltage, 0);
+		osMessagePut(q_maxTemperaturesHandle, max_tamperature, 0);
 	}
 
 	/*Convert the thermistors' temperature value*/

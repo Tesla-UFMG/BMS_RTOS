@@ -23,6 +23,9 @@
 #define V_ERROR_COM					65528
 #define MAX_TEMPERATURE				59000
 #define T_ERROR_COM					1
+#define RESET_V_MAX					0
+#define RESET_V_MIN					36000
+#define RESET_T_MAX					0
 #define BALANCE_TIME				120
 #define BALANCE_V_ERROR				5
 #define FILTER_GAIN					255
