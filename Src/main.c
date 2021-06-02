@@ -174,10 +174,10 @@ const osThreadAttr_t errorOverTemp_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for errorGlvVolt */
-osThreadId_t errorGlvVoltHandle;
-const osThreadAttr_t errorGlvVolt_attributes = {
-  .name = "errorGlvVolt",
+/* Definitions for errorGLV */
+osThreadId_t errorGLVHandle;
+const osThreadAttr_t errorGLV_attributes = {
+  .name = "errorGLV",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
@@ -188,7 +188,43 @@ const osThreadAttr_t errorMonitoring_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
+/* Definitions for q_maxVoltages */
+osMessageQueueId_t q_maxVoltagesHandle;
+const osMessageQueueAttr_t q_maxVoltages_attributes = {
+  .name = "q_maxVoltages"
+};
+/* Definitions for q_minVoltages */
+osMessageQueueId_t q_minVoltagesHandle;
+const osMessageQueueAttr_t q_minVoltages_attributes = {
+  .name = "q_minVoltages"
+};
+/* Definitions for q_maxTemperatures */
+osMessageQueueId_t q_maxTemperaturesHandle;
+const osMessageQueueAttr_t q_maxTemperatures_attributes = {
+  .name = "q_maxTemperatures"
+};
+/* Definitions for q_reportError */
+osMessageQueueId_t q_reportErrorHandle;
+const osMessageQueueAttr_t q_reportError_attributes = {
+  .name = "q_reportError"
+};
 /* USER CODE BEGIN PV */
+
+// Definitions for q_maxVoltages
+osMessageQDef(q_maxVoltages, 16, uint16_t);
+q_maxVoltagesHandle = osMessageCreate(osMessageQ(q_maxVoltages), NULL);
+
+// Definitions for q_minVoltages
+osMessageQDef(q_minVoltages, 16, uint16_t);
+q_minVoltagesHandle = osMessageCreate(osMessageQ(q_minVoltages), NULL);
+
+// Definitions for q_maxTemperatures
+osMessageQDef(q_maxTemperatures, 16, uint16_t);
+q_maxTemperaturesHandle = osMessageCreate(osMessageQ(q_maxTemperatures), NULL);
+
+// Definitions for q_reportError
+osMessageQDef(q_reportError, 16, uint16_t);
+q_reportErrorHandle = osMessageCreate(osMessageQ(q_reportError), NULL);
 
 /* USER CODE END PV */
 
@@ -220,7 +256,7 @@ void filter_temperature(void *argument);
 void error_overvoltage(void *argument);
 void error_undervoltage(void *argument);
 void error_over_temperature(void *argument);
-void error_GLV_voltage(void *argument);
+void error_GLV_undervoltage(void *argument);
 void error_monitoring(void *argument);
 
 /* USER CODE BEGIN PFP */
@@ -352,6 +388,19 @@ int main(void)
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* creation of q_maxVoltages */
+  q_maxVoltagesHandle = osMessageQueueNew (16, sizeof(uint16_t), &q_maxVoltages_attributes);
+
+  /* creation of q_minVoltages */
+  q_minVoltagesHandle = osMessageQueueNew (16, sizeof(uint16_t), &q_minVoltages_attributes);
+
+  /* creation of q_maxTemperatures */
+  q_maxTemperaturesHandle = osMessageQueueNew (16, sizeof(uint16_t), &q_maxTemperatures_attributes);
+
+  /* creation of q_reportError */
+  q_reportErrorHandle = osMessageQueueNew (16, sizeof(uint16_t), &q_reportError_attributes);
+
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
@@ -408,8 +457,8 @@ int main(void)
   /* creation of errorOverTemp */
   errorOverTempHandle = osThreadNew(error_over_temperature, NULL, &errorOverTemp_attributes);
 
-  /* creation of errorGlvVolt */
-  errorGlvVoltHandle = osThreadNew(error_GLV_voltage, NULL, &errorGlvVolt_attributes);
+  /* creation of errorGLV */
+  errorGLVHandle = osThreadNew(error_GLV_undervoltage, NULL, &errorGLV_attributes);
 
   /* creation of errorMonitoring */
   errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &errorMonitoring_attributes);
@@ -1250,31 +1299,22 @@ void error_over_temperature(void *argument)
   /* USER CODE END error_over_temperature */
 }
 
-/* USER CODE BEGIN Header_error_GLV_voltage */
+/* USER CODE BEGIN Header_error_GLV_undervoltage */
 /**
-* @brief Function implementing the errorGlvVolt thread.
+* @brief Function implementing the errorGLV thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_error_GLV_voltage */
-void error_GLV_voltage(void *argument)
+/* USER CODE END Header_error_GLV_undervoltage */
+void error_GLV_undervoltage(void *argument)
 {
-  /* USER CODE BEGIN error_GLV_voltage */
+  /* USER CODE BEGIN error_GLV_undervoltage */
   /* Infinite loop */
   for(;;)
   {
-	if(BMS->v_GLV <= 13500)
-	{
-		BMS->error |= ERR_GLV_VOLTAGE;
-	}
-	else
-	{
-		BMS->error &= ~ERR_GLV_VOLTAGE;
-	}
-
-    osDelay(100);
+    osDelay(1);
   }
-  /* USER CODE END error_GLV_voltage */
+  /* USER CODE END error_GLV_undervoltage */
 }
 
 /* USER CODE BEGIN Header_error_monitoring */
