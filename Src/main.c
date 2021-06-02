@@ -1174,10 +1174,46 @@ void data_update(void *argument)
 void filter_max_voltages(void *argument)
 {
   /* USER CODE BEGIN filter_max_voltages */
+  uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
+  uint8_t index = 0, count = 0;
+  osEvent event;
+
+  //start previous_voltage array and set sum initial value
+  while(count < N_AVERAGE)
+  {
+	  event = osMessageGet(q_maxVoltagesHandle, 0);
+	  if(event == osEventMessage)
+	  {
+		  input_voltage = event->value;
+		  sum += input_voltage;
+		  previous_voltages[count] = input_voltage;
+
+		  count++;
+	  }
+	  else
+		  osDelay(10);
+  }
+
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	event = osMessageGet(q_maxVoltagesHandle, 0);
+
+	if(event == osEventMessage)
+	{
+		input_voltage = event->value;
+
+		sum -= previous_voltages[index];
+		sum += input_voltage;
+		previous_voltages[index] = input_voltage;
+
+		if(++index == N_AVERAGE)
+			index = 0;
+
+		BMS->v_max = sum / N_AVERAGE;
+	}
+
+	osDelay(100);
   }
   /* USER CODE END filter_max_voltages */
 }
@@ -1192,10 +1228,46 @@ void filter_max_voltages(void *argument)
 void filter_min_voltages(void *argument)
 {
   /* USER CODE BEGIN filter_min_voltages */
+  uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
+  uint8_t index = 0, count = 0;
+  osEvent event;
+
+  //start previous_voltage array and set sum initial value
+  while(count < N_AVERAGE)
+  {
+	  event = osMessageGet(q_minVoltagesHandle, 0);
+	  if(event == osEventMessage)
+	  {
+		  input_voltage = event->value;
+		  sum += input_voltage;
+		  previous_voltages[count] = input_voltage;
+
+		  count++;
+	  }
+	  else
+		  osDelay(10);
+  }
+
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	event = osMessageGet(q_minVoltagesHandle, 0);
+
+	if(event == osEventMessage)
+	{
+		input_voltage = event->value;
+
+		sum -= previous_voltages[index];
+		sum += input_voltage;
+		previous_voltages[index] = input_voltage;
+
+		if(++index == N_AVERAGE)
+			index = 0;
+
+		BMS->v_min = sum / N_AVERAGE;
+	}
+
+    osDelay(100);
   }
   /* USER CODE END filter_min_voltages */
 }
@@ -1210,10 +1282,46 @@ void filter_min_voltages(void *argument)
 void filter_temperature(void *argument)
 {
   /* USER CODE BEGIN filter_temperature */
+  uint16_t sum = 0, input_temperature, previous_temperatures[N_AVERAGE];
+  uint8_t index = 0, count = 0;
+  osEvent event;
+
+  //start previous_voltage array and set sum initial value
+  while(count < N_AVERAGE)
+  {
+	  event = osMessageGet(q_maxTemperaturesHandle, 0);
+	  if(event == osEventMessage)
+	  {
+		  input_temperature = event->value;
+		  sum += input_temperature;
+		  previous_temperatures[count] = input_temperature;
+
+		  count++;
+	  }
+	  else
+		  osDelay(10);
+  }
+
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	event = osMessageGet(q_maxTemperaturesHandle, 0);
+
+	if(event == osEventMessage)
+	{
+		input_temperature = event->value;
+
+		sum -= previous_temperatures[index];
+		sum += input_temperature;
+		previous_temperatures[index] = input_temperature;
+
+		if(++index == N_AVERAGE)
+			index = 0;
+
+		BMS->t_max = sum / N_AVERAGE;
+	}
+
+	osDelay(100);
   }
   /* USER CODE END filter_temperature */
 }

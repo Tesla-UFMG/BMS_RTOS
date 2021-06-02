@@ -29,6 +29,7 @@
 #define BALANCE_TIME				120
 #define BALANCE_V_ERROR				5
 #define FILTER_GAIN					255
+#define N_AVERAGE					10
 
 //BMS operation modes
 #define OPP_DEFAULT 	0
