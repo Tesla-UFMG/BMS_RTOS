@@ -12,6 +12,7 @@
 #include "DHAB_s125.h"
 #include "CAN.h"
 #include "EEPROM.h"
+#include "cmsis_os.h"
 
 typedef struct BMS_struct
 {

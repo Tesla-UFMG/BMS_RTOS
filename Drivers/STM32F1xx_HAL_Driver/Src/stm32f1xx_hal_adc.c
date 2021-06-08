@@ -790,7 +790,7 @@ __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   UNUSED(hadc);
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspInit must be implemented in the user file.
-   */
+   */ 
 }
 
 /**
@@ -804,7 +804,7 @@ __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
   UNUSED(hadc);
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspDeInit must be implemented in the user file.
-   */
+   */ 
 }
 
 #if (USE_HAL_ADC_REGISTER_CALLBACKS == 1)
