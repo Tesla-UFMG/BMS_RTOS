@@ -17,11 +17,12 @@
 #define MAX_CELL_V_DISCHARGE		36000	//36500
 #define MAX_CELL_V_CHARGE			36000
 #define MAX_CELL_V_STORE			33000/
-#define MIN_CELL_V					26000	//27500
+#define MIN_CELL_V					28000	//27500
 #define MIN_CELL_V_BALLANCE 		23000
+#define MIN_GLV_V					13500
 #define FUSE_LIMIT					1
 #define V_ERROR_COM					65528
-#define MAX_TEMPERATURE				59000
+#define MAX_TEMPERATURE				500		//59000
 #define T_ERROR_COM					1
 #define RESET_V_MAX					0
 #define RESET_V_MIN					36000
