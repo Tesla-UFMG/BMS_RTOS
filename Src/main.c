@@ -45,7 +45,6 @@ ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
 CAN_HandleTypeDef hcan;
-CAN_TxHeaderTypeDef pHeader;
 
 SPI_HandleTypeDef hspi1;
 
@@ -136,7 +135,99 @@ osSemaphoreId_t ltcSemaphoreHandle;
 const osSemaphoreAttr_t ltcSemaphore_attributes = {
   .name = "ltcSemaphore"
 };
+/* Definitions for filterMaxVolts */
+osThreadId_t filterMaxVoltsHandle;
+const osThreadAttr_t filterMaxVolts_attributes = {
+  .name = "filterMaxVolts",
+  .priority = (osPriority_t) osPriorityBelowNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for filterMinVolts */
+osThreadId_t filterMinVoltsHandle;
+const osThreadAttr_t filterMinVolts_attributes = {
+  .name = "filterMinVolts",
+  .priority = (osPriority_t) osPriorityLow,
+  .stack_size = 128 * 4
+};
+/* Definitions for filterTemp */
+osThreadId_t filterTempHandle;
+const osThreadAttr_t filterTemp_attributes = {
+  .name = "filterTemp",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for errorOvervolt */
+osThreadId_t errorOvervoltHandle;
+const osThreadAttr_t errorOvervolt_attributes = {
+  .name = "errorOvervolt",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for errorUndervolt */
+osThreadId_t errorUndervoltHandle;
+const osThreadAttr_t errorUndervolt_attributes = {
+  .name = "errorUndervolt",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for errorOverTemp */
+osThreadId_t errorOverTempHandle;
+const osThreadAttr_t errorOverTemp_attributes = {
+  .name = "errorOverTemp",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for errorGLV */
+osThreadId_t errorGLVHandle;
+const osThreadAttr_t errorGLV_attributes = {
+  .name = "errorGLV",
+  .priority = (osPriority_t) osPriorityLow,
+  .stack_size = 128 * 4
+};
+/* Definitions for errorMonitoring */
+osThreadId_t errorMonitoringHandle;
+const osThreadAttr_t errorMonitoring_attributes = {
+  .name = "errorMonitoring",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+/* Definitions for q_maxVoltages */
+osMessageQueueId_t q_maxVoltagesHandle;
+const osMessageQueueAttr_t q_maxVoltages_attributes = {
+  .name = "q_maxVoltages"
+};
+/* Definitions for q_minVoltages */
+osMessageQueueId_t q_minVoltagesHandle;
+const osMessageQueueAttr_t q_minVoltages_attributes = {
+  .name = "q_minVoltages"
+};
+/* Definitions for q_maxTemperatures */
+osMessageQueueId_t q_maxTemperaturesHandle;
+const osMessageQueueAttr_t q_maxTemperatures_attributes = {
+  .name = "q_maxTemperatures"
+};
+/* Definitions for q_reportError */
+osMessageQueueId_t q_reportErrorHandle;
+const osMessageQueueAttr_t q_reportError_attributes = {
+  .name = "q_reportError"
+};
 /* USER CODE BEGIN PV */
+
+// Definitions for q_maxVoltages
+osMessageQDef(q_maxVoltages, 16, uint16_t);
+q_maxVoltagesHandle = osMessageCreate(osMessageQ(q_maxVoltages), NULL);
+
+// Definitions for q_minVoltages
+osMessageQDef(q_minVoltages, 16, uint16_t);
+q_minVoltagesHandle = osMessageCreate(osMessageQ(q_minVoltages), NULL);
+
+// Definitions for q_maxTemperatures
+osMessageQDef(q_maxTemperatures, 16, uint16_t);
+q_maxTemperaturesHandle = osMessageCreate(osMessageQ(q_maxTemperatures), NULL);
+
+// Definitions for q_reportError
+osMessageQDef(q_reportError, 16, uint16_t);
+q_reportErrorHandle = osMessageCreate(osMessageQ(q_reportError), NULL);
 
 /* USER CODE END PV */
 
@@ -161,6 +252,15 @@ void CAN_GLV(void *argument);
 void CAN_info(void *argument);
 void balance_check(void *argument);
 void charge_update(void *argument);
+void data_update(void *argument);
+void filter_max_voltages(void *argument);
+void filter_min_voltages(void *argument);
+void filter_temperature(void *argument);
+void error_overvoltage(void *argument);
+void error_undervoltage(void *argument);
+void error_over_temperature(void *argument);
+void error_GLV_undervoltage(void *argument);
+void error_monitoring(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -298,6 +398,19 @@ int main(void)
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* creation of q_maxVoltages */
+  q_maxVoltagesHandle = osMessageQueueNew (16, sizeof(uint16_t), &q_maxVoltages_attributes);
+
+  /* creation of q_minVoltages */
+  q_minVoltagesHandle = osMessageQueueNew (16, sizeof(uint16_t), &q_minVoltages_attributes);
+
+  /* creation of q_maxTemperatures */
+  q_maxTemperaturesHandle = osMessageQueueNew (16, sizeof(uint16_t), &q_maxTemperatures_attributes);
+
+  /* creation of q_reportError */
+  q_reportErrorHandle = osMessageQueueNew (16, sizeof(uint16_t), &q_reportError_attributes);
+
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
@@ -333,6 +446,33 @@ int main(void)
   /* creation of chargeUpdate */
   chargeUpdateHandle = osThreadNew(charge_update, NULL, &chargeUpdate_attributes);
 
+  /* creation of dataUpdate */
+  dataUpdateHandle = osThreadNew(data_update, NULL, &dataUpdate_attributes);
+
+  /* creation of filterMaxVolts */
+  filterMaxVoltsHandle = osThreadNew(filter_max_voltages, NULL, &filterMaxVolts_attributes);
+
+  /* creation of filterMinVolts */
+  filterMinVoltsHandle = osThreadNew(filter_min_voltages, NULL, &filterMinVolts_attributes);
+
+  /* creation of filterTemp */
+  filterTempHandle = osThreadNew(filter_temperature, NULL, &filterTemp_attributes);
+
+  /* creation of errorOvervolt */
+  errorOvervoltHandle = osThreadNew(error_overvoltage, NULL, &errorOvervolt_attributes);
+
+  /* creation of errorUndervolt */
+  errorUndervoltHandle = osThreadNew(error_undervoltage, NULL, &errorUndervolt_attributes);
+
+  /* creation of errorOverTemp */
+  errorOverTempHandle = osThreadNew(error_over_temperature, NULL, &errorOverTemp_attributes);
+
+  /* creation of errorGLV */
+  errorGLVHandle = osThreadNew(error_GLV_undervoltage, NULL, &errorGLV_attributes);
+
+  /* creation of errorMonitoring */
+  errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &errorMonitoring_attributes);
+  
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -1029,6 +1169,327 @@ void charge_update(void *argument)
 	  osDelay(100);
   }
   /* USER CODE END charge_update */
+}
+
+/* USER CODE BEGIN Header_data_update */
+/**
+* @brief Function implementing the dataUpdate thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_data_update */
+void data_update(void *argument)
+{
+  /* USER CODE BEGIN data_update */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END data_update */
+}
+
+/* USER CODE BEGIN Header_filter_max_voltages */
+/**
+* @brief Function implementing the filterMaxVolts thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_filter_max_voltages */
+void filter_max_voltages(void *argument)
+{
+  /* USER CODE BEGIN filter_max_voltages */
+  uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
+  uint8_t index = 0, count = 0;
+  osEvent event;
+
+  //start previous_voltage array and set sum initial value
+  while(count < N_AVERAGE)
+  {
+	  event = osMessageGet(q_maxVoltagesHandle, 0);
+	  if(event == osEventMessage)
+	  {
+		  input_voltage = event->value;
+		  sum += input_voltage;
+		  previous_voltages[count] = input_voltage;
+
+		  count++;
+	  }
+	  else
+		  osDelay(10);
+  }
+
+  /* Infinite loop */
+  for(;;)
+  {
+	event = osMessageGet(q_maxVoltagesHandle, 0);
+
+	if(event == osEventMessage)
+	{
+		input_voltage = event->value;
+
+		sum -= previous_voltages[index];
+		sum += input_voltage;
+		previous_voltages[index] = input_voltage;
+
+		if(++index == N_AVERAGE)
+			index = 0;
+
+		BMS->v_max = sum / N_AVERAGE;
+	}
+
+	osDelay(100);
+  }
+  /* USER CODE END filter_max_voltages */
+}
+
+/* USER CODE BEGIN Header_filter_min_voltages */
+/**
+* @brief Function implementing the filterMinVolts thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_filter_min_voltages */
+void filter_min_voltages(void *argument)
+{
+  /* USER CODE BEGIN filter_min_voltages */
+  uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
+  uint8_t index = 0, count = 0;
+  osEvent event;
+
+  //start previous_voltage array and set sum initial value
+  while(count < N_AVERAGE)
+  {
+	  event = osMessageGet(q_minVoltagesHandle, 0);
+	  if(event == osEventMessage)
+	  {
+		  input_voltage = event->value;
+		  sum += input_voltage;
+		  previous_voltages[count] = input_voltage;
+
+		  count++;
+	  }
+	  else
+		  osDelay(10);
+  }
+
+  /* Infinite loop */
+  for(;;)
+  {
+	event = osMessageGet(q_minVoltagesHandle, 0);
+
+	if(event == osEventMessage)
+	{
+		input_voltage = event->value;
+
+		sum -= previous_voltages[index];
+		sum += input_voltage;
+		previous_voltages[index] = input_voltage;
+
+		if(++index == N_AVERAGE)
+			index = 0;
+
+		BMS->v_min = sum / N_AVERAGE;
+	}
+
+    osDelay(100);
+  }
+  /* USER CODE END filter_min_voltages */
+}
+
+/* USER CODE BEGIN Header_filter_temperature */
+/**
+* @brief Function implementing the filterTemp thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_filter_temperature */
+void filter_temperature(void *argument)
+{
+  /* USER CODE BEGIN filter_temperature */
+  uint16_t sum = 0, input_temperature, previous_temperatures[N_AVERAGE];
+  uint8_t index = 0, count = 0;
+  osEvent event;
+
+  //start previous_voltage array and set sum initial value
+  while(count < N_AVERAGE)
+  {
+	  event = osMessageGet(q_maxTemperaturesHandle, 0);
+	  if(event == osEventMessage)
+	  {
+		  input_temperature = event->value;
+		  sum += input_temperature;
+		  previous_temperatures[count] = input_temperature;
+
+		  count++;
+	  }
+	  else
+		  osDelay(10);
+  }
+
+  /* Infinite loop */
+  for(;;)
+  {
+	event = osMessageGet(q_maxTemperaturesHandle, 0);
+
+	if(event == osEventMessage)
+	{
+		input_temperature = event->value;
+
+		sum -= previous_temperatures[index];
+		sum += input_temperature;
+		previous_temperatures[index] = input_temperature;
+
+		if(++index == N_AVERAGE)
+			index = 0;
+
+		BMS->t_max = sum / N_AVERAGE;
+	}
+
+	osDelay(100);
+  }
+  /* USER CODE END filter_temperature */
+}
+
+/* USER CODE BEGIN Header_error_overvoltage */
+/**
+* @brief Function implementing the errorOvervolt thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_overvoltage */
+void error_overvoltage(void *argument)
+{
+  /* USER CODE BEGIN error_overvoltage */
+  /* Infinite loop */
+  for(;;)
+  {
+	if(BMS->v_max >= MAX_CELL_V_DISCHARGE)
+	{
+		BMS->error |= ERR_OVER_VOLTAGE;
+		osMessagePut(q_reportErrorHandle, info, 0);
+	}
+	else
+	{
+		BMS->error &= ~ERR_OVER_VOLTAGE;
+	}
+
+    osDelay(100);
+  }
+  /* USER CODE END error_overvoltage */
+}
+
+/* USER CODE BEGIN Header_error_undervoltage */
+/**
+* @brief Function implementing the errorUndervolt thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_undervoltage */
+void error_undervoltage(void *argument)
+{
+  /* USER CODE BEGIN error_undervoltage */
+  /* Infinite loop */
+  for(;;)
+  {
+	if(BMS->v_min <= MIN_CELL_V)
+	{
+		BMS->error |= ERR_UNDER_VOLTAGE;
+		osMessagePut(q_reportErrorHandle, info, 0);
+	}
+	else
+	{
+		BMS->error &= ~ERR_UNDER_VOLTAGE;
+	}
+
+    osDelay(100);
+  }
+  /* USER CODE END error_undervoltage */
+}
+
+/* USER CODE BEGIN Header_error_over_temperature */
+/**
+* @brief Function implementing the errorOverTemp thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_over_temperature */
+void error_over_temperature(void *argument)
+{
+  /* USER CODE BEGIN error_over_temperature */
+  /* Infinite loop */
+  for(;;)
+  {
+	if(BMS->t_max >= MAX_TEMPERATURE)
+	{
+	  	BMS->error |= ERR_OVER_TEMPERATURE;
+	  	osMessagePut(q_reportErrorHandle, info, 0);
+	}
+	else
+	{
+	  	BMS->error &= ~ERR_OVER_TEMPERATURE;
+	}
+
+    osDelay(100);
+  }
+  /* USER CODE END error_over_temperature */
+}
+
+/* USER CODE BEGIN Header_error_GLV_undervoltage */
+/**
+* @brief Function implementing the errorGLV thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_GLV_undervoltage */
+void error_GLV_undervoltage(void *argument)
+{
+  /* USER CODE BEGIN error_GLV_undervoltage */
+  /* Infinite loop */
+  for(;;)
+  {
+	if(BMS->v_GLV < MIN_GLV_V)
+	{
+		BMS->error |= ERR_GLV_VOLTAGE;
+		osMessagePut(q_reportErrorHandle, info, 0);
+	}
+	else
+	{
+		BMS->error &= ~ERR_GLV_VOLTAGE;
+	}
+
+    osDelay(100);
+  }
+  /* USER CODE END error_GLV_undervoltage */
+}
+
+/* USER CODE BEGIN Header_error_monitoring */
+/**
+* @brief Function implementing the errorMonitoring thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_error_monitoring */
+void error_monitoring(void *argument)
+{
+  /* USER CODE BEGIN error_monitoring */
+  /* Infinite loop */
+  for(;;)
+  {
+	if(BMS->error != ERR_NO_ERROR)
+	{
+		HAL_GPIO_WritePin(AIR_ENABLE_GPIO_Port, AIR_ENABLE_Pin, RESET);
+		HAL_GPIO_WritePin(ERR_LED_GPIO_Port, ERR_LED_Pin, SET);
+	}
+	else
+	{
+		HAL_GPIO_WritePin(AIR_ENABLE_GPIO_Port, AIR_ENABLE_Pin, SET);
+		HAL_GPIO_WritePin(ERR_LED_GPIO_Port, ERR_LED_Pin, RESET);
+	}
+
+    osDelay(100);
+  }
+  /* USER CODE END error_monitoring */
 }
 
  /**

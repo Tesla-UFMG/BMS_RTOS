@@ -81,24 +81,35 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
 
+		uint16_t max_voltage, min_voltage, max_tamperature;
+
+		max_voltage = RESET_V_MAX;
+		min_voltage = RESET_V_MIN;
+		max_tamperature = RESET_T_MAX;
+
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{
 			LTC_read(LTC_READ_CELL, BMS->config, BMS->sensor[i]);
 			osSemaphoreRelease(ltcSemaphoreHandle);
 
-			if(BMS->sensor[i]->V_MIN < BMS->v_min)
-				BMS->v_min = BMS->sensor[i]->V_MIN;
-			if(BMS->sensor[i]->V_MAX > BMS->v_max)
-				BMS->v_max = BMS->sensor[i]->V_MAX;
+			if(BMS->sensor[i]->V_MAX > max_voltage)
+				max_voltage = BMS->sensor[i]->V_MAX;
+
+			if(BMS->sensor[i]->V_MIN < min_voltage)
+				min_voltage = BMS->sensor[i]->V_MIN;
 
 			BMS->v_TS += BMS->sensor[i]->SOC;
 
 			for(uint8_t j = 0; j < 4; j++) //TODO 5 termistores por stack
 			{
-				if(BMS->sensor[i]->GxV[j] > BMS->t_max)
-					BMS->t_max = BMS->sensor[i]->GxV[j];
+				if(BMS->sensor[i]->GxV[j] > max_tamperature)
+					max_tamperature = BMS->sensor[i]->GxV[j];
 			}
 		}
+
+		osMessagePut(q_maxVoltagesHandle, max_voltage, 0);
+		osMessagePut(q_minVoltagesHandle, min_voltage, 0);
+		osMessagePut(q_maxTemperaturesHandle, max_tamperature, 0);
 	}
 
 	/*Convert the thermistors' temperature value*/
@@ -154,10 +165,10 @@ Version 1.0 - Initial release 26/11/2020 by Tesla UFMG
 *******************************************************/
 void BMS_monitoring(BMS_struct_t* BMS)
 {
-	BMS->v_min = 50000;
-	BMS->v_max = 0;
+	BMS->v_max = RESET_V_MAX;
+	BMS->v_min = RESET_V_MIN;
+	BMS->t_max = RESET_T_MAX;
 	BMS->v_TS = 0;
-	BMS->t_max = 0;
 	BMS->charge_percentage = 0;
 
 	BMS_convert(BMS_CONVERT_CELL|BMS_CONVERT_GPIO|BMS_CONVERT_STAT, BMS);
@@ -205,7 +216,7 @@ void BMS_set_thermistor_zeros(BMS_struct_t* BMS)
 
 	for(int i = 0; i < N_OF_PACKS; i++)
 	{
-		for(int j = 0; j < 5; ++j)
+		for(int j = 0; j < N_OF_THERMISTORS; ++j)
 			thermistor_zeros[i][j] = 0;
 	}
 
@@ -213,7 +224,7 @@ void BMS_set_thermistor_zeros(BMS_struct_t* BMS)
 
 	for(int i = 0; i < N_OF_PACKS; i++)
 	{
-		for(int j = 0; j < 5; ++j)
+		for(int j = 0; j < N_OF_THERMISTORS; ++j)
 			mean += BMS->sensor[i]->GxV[j];		//OBSERVA��O 2!!!! QUANTOS TERMISTORES POR SLAVE?
 	}
 
@@ -221,7 +232,7 @@ void BMS_set_thermistor_zeros(BMS_struct_t* BMS)
 
 	for(int i = 0; i < N_OF_PACKS; i++)
 	{
-		for(int j = 0; j < 5; ++j)
+		for(int j = 0; j < N_OF_THERMISTORS; ++j)
 			thermistor_zeros[i][j] = mean - BMS->sensor[i]->GxV[j];
 	}
 }
@@ -259,9 +270,9 @@ void BMS_init(BMS_struct_t* BMS)
 
 	/*Set initial BMS configuration*/
 	BMS->error = ERR_NO_ERROR;
-	BMS->v_min = 50000;
-	BMS->v_max = 0;
-	BMS->mode = 0;
+	BMS->v_max = RESET_V_MAX;
+	BMS->v_min = RESET_V_MIN;
+	BMS->mode = BMS_MONITORING;
 
 	uint16_t aux;
 	EE_ReadVariable(0x0, &aux);
