@@ -28,6 +28,7 @@ uint8_t* vet_Rx;
 uint8_t vet_Tx[__DLC__];
 
 extern CAN_TxHeaderTypeDef pHeader;
+extern void Error_Handler();
 
 
 /* USER CODE END 0 */

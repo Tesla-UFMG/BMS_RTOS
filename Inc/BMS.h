@@ -12,6 +12,7 @@
 #include "DHAB_s125.h"
 #include "CAN.h"
 #include "EEPROM.h"
+#include "cmsis_os.h"
 
 typedef struct BMS_struct
 {
@@ -40,8 +41,8 @@ typedef struct BMS_struct
 
 	//Charge settings
 	int32_t charge;							//BMS charge
-	int32_t charge_max;						//
-	int32_t charge_min;						//
+	int32_t charge_max;						//BMS maximum charge ever reached
+	int32_t charge_min;						//BMS minimum charge ever reached
 	float charge_percentage;				//BMS charge percentage
 	float charge_variation_percentage;		//BMS Charge variation percentage
 	float discharge_percentage;				//BMS discharge percentage

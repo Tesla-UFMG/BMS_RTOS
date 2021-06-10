@@ -8,6 +8,8 @@ static int8_t UV_retries, OV_retries, OT_retries;
 
 extern CAN_HandleTypeDef hcan;
 extern CAN_TxHeaderTypeDef pHeader;
+extern osSemaphoreId_t ltcSemaphoreHandle;
+
 extern void Error_Handler();
 
 uint32_t CAN_ID_TABLE[8][5] = {
@@ -74,6 +76,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 	/*Convert the cells' voltage value*/
 	if(BMS_CONVERT&BMS_CONVERT_CELL)
 	{
+		osSemaphoreAcquire(ltcSemaphoreHandle, osWaitForever);
 		BMS->config->command->NAME = LTC_COMMAND_ADCV;
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
@@ -87,6 +90,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{
 			LTC_read(LTC_READ_CELL, BMS->config, BMS->sensor[i]);
+			osSemaphoreRelease(ltcSemaphoreHandle);
 
 			if(BMS->sensor[i]->V_MAX > max_voltage)
 				max_voltage = BMS->sensor[i]->V_MAX;
@@ -96,7 +100,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 
 			BMS->v_TS += BMS->sensor[i]->SOC;
 
-			for(uint8_t j = 0; j < 4; j++)
+			for(uint8_t j = 0; j < 4; j++) //TODO 5 termistores por stack
 			{
 				if(BMS->sensor[i]->GxV[j] > max_tamperature)
 					max_tamperature = BMS->sensor[i]->GxV[j];
@@ -111,6 +115,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 	/*Convert the thermistors' temperature value*/
 	if(BMS_CONVERT&BMS_CONVERT_GPIO)
 	{
+		osSemaphoreAcquire(ltcSemaphoreHandle, osWaitForever);
 		BMS->config->command->NAME = LTC_COMMAND_ADAX;
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
@@ -118,6 +123,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{
 			LTC_read(LTC_READ_GPIO, BMS->config, BMS->sensor[i]);
+			osSemaphoreRelease(ltcSemaphoreHandle);
 
 			for(uint8_t j = 0; j < 4; j++)
 			{
@@ -130,6 +136,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 	/*Convert the BMS status value*/
 	if(BMS_CONVERT&BMS_CONVERT_STAT)
 	{
+		osSemaphoreAcquire(ltcSemaphoreHandle, osWaitForever);
 		BMS->config->command->NAME = LTC_COMMAND_ADSTAT;
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
@@ -137,6 +144,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{
 			LTC_read(LTC_READ_STATUS, BMS->config, BMS->sensor[i]);
+			osSemaphoreRelease(ltcSemaphoreHandle);
 
 			BMS->v_TS += BMS->sensor[i]->SOC;
 		}

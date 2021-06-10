@@ -59,21 +59,21 @@ DMA_HandleTypeDef hdma_usart3_rx;
 osThreadId_t readCellsVoltsHandle;
 const osThreadAttr_t readCellsVolts_attributes = {
   .name = "readCellsVolts",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityHigh,
   .stack_size = 128 * 4
 };
 /* Definitions for readCellsTemp */
 osThreadId_t readCellsTempHandle;
 const osThreadAttr_t readCellsTemp_attributes = {
   .name = "readCellsTemp",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal,
   .stack_size = 128 * 4
 };
 /* Definitions for readCellsStatus */
 osThreadId_t readCellsStatusHandle;
 const osThreadAttr_t readCellsStatus_attributes = {
   .name = "readCellsStatus",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal1,
   .stack_size = 128 * 4
 };
 /* Definitions for CANvoltage */
@@ -115,22 +115,25 @@ const osThreadAttr_t CANinfo_attributes = {
 osThreadId_t balanceCheckHandle;
 const osThreadAttr_t balanceCheck_attributes = {
   .name = "balanceCheck",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityBelowNormal,
   .stack_size = 128 * 4
 };
 /* Definitions for chargeUpdate */
 osThreadId_t chargeUpdateHandle;
 const osThreadAttr_t chargeUpdate_attributes = {
   .name = "chargeUpdate",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal2,
   .stack_size = 128 * 4
 };
-/* Definitions for dataUpdate */
-osThreadId_t dataUpdateHandle;
-const osThreadAttr_t dataUpdate_attributes = {
-  .name = "dataUpdate",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
+/* Definitions for commSemaphore */
+osSemaphoreId_t commSemaphoreHandle;
+const osSemaphoreAttr_t commSemaphore_attributes = {
+  .name = "commSemaphore"
+};
+/* Definitions for ltcSemaphore */
+osSemaphoreId_t ltcSemaphoreHandle;
+const osSemaphoreAttr_t ltcSemaphore_attributes = {
+  .name = "ltcSemaphore"
 };
 /* Definitions for filterMaxVolts */
 osThreadId_t filterMaxVoltsHandle;
@@ -380,6 +383,13 @@ int main(void)
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
+  /* Create the semaphores(s) */
+  /* creation of commSemaphore */
+  commSemaphoreHandle = osSemaphoreNew(1, 1, &commSemaphore_attributes);
+
+  /* creation of ltcSemaphore */
+  ltcSemaphoreHandle = osSemaphoreNew(1, 1, &ltcSemaphore_attributes);
+
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
@@ -462,7 +472,7 @@ int main(void)
 
   /* creation of errorMonitoring */
   errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &errorMonitoring_attributes);
-
+  
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -942,8 +952,10 @@ void read_cells_volts(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	BMS_convert(BMS_CONVERT_CELL, BMS);
-    osDelay(100);
+	  BMS->v_min = 50000;
+	  BMS->v_max = 0;
+	  BMS_convert(BMS_CONVERT_CELL, BMS);
+	  osDelay(100);
   }
   /* USER CODE END 5 */
 }
@@ -961,6 +973,7 @@ void read_cells_temp(void *argument)
   /* Infinite loop */
   for(;;)
   {
+	  BMS->t_max = 0;
 	  BMS_convert(BMS_CONVERT_GPIO, BMS);
 	  osDelay(100);
   }
@@ -980,7 +993,9 @@ void read_cells_status(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	  BMS->v_TS = 0;
+	  BMS_convert(BMS_CONVERT_STAT, BMS);
+	  osDelay(100);
   }
   /* USER CODE END read_cells_status */
 }
@@ -999,7 +1014,9 @@ void CAN_voltage(void *argument)
   /* Infinite loop */
   for(;;)
   {
+	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
 	  BMS_CAN_voltage(BMS);
+	  osSemaphoreRelease(commSemaphoreHandle);
 	  osDelay(100);
   }
   /* USER CODE END CAN_voltage */
@@ -1018,7 +1035,9 @@ void CAN_temperature(void *argument)
   /* Infinite loop */
   for(;;)
   {
+	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
 	  BMS_CAN_temperature(BMS);
+	  osSemaphoreRelease(commSemaphoreHandle);
 	  osDelay(100);
   }
   /* USER CODE END CAN_temperature */
@@ -1037,7 +1056,9 @@ void CAN_current(void *argument)
   /* Infinite loop */
   for(;;)
   {
+	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
 	  BMS_CAN_current(BMS);
+	  osSemaphoreRelease(commSemaphoreHandle);
 	  osDelay(100);
   }
   /* USER CODE END CAN_current */
@@ -1056,7 +1077,9 @@ void CAN_GLV(void *argument)
   /* Infinite loop */
   for(;;)
   {
+	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
 	  BMS_CAN_GLV(BMS);
+	  osSemaphoreRelease(commSemaphoreHandle);
 	  osDelay(100);
   }
   /* USER CODE END CAN_GLV */
@@ -1075,7 +1098,9 @@ void CAN_info(void *argument)
   /* Infinite loop */
   for(;;)
   {
+	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
 	  BMS_CAN_info(BMS);
+	  osSemaphoreRelease(commSemaphoreHandle);
 	  osDelay(100);
   }
   /* USER CODE END CAN_info */
@@ -1122,10 +1147,10 @@ void charge_update(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  for(uint8_t i = 0; i < N_OF_PACKS; i++)
-		  BMS->charge_percentage += BMS->sensor[i]->TOTAL_CHARGE;
-
-	  BMS->charge_percentage /= N_OF_PACKS;
+	  if(BMS->mode & BMS_MONITORING)
+		  BMS_discharging(BMS);
+	  else if(BMS->mode & BMS_CHARGING)
+		  BMS_charging(BMS);
 
 	  if(BMS->charge < BMS->charge_min)
 	  	BMS->charge_min = BMS->charge;
