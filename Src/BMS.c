@@ -157,10 +157,10 @@ Version 1.0 - Initial release 26/11/2020 by Tesla UFMG
 *******************************************************/
 void BMS_monitoring(BMS_struct_t* BMS)
 {
-	BMS->v_min = 50000;
-	BMS->v_max = 0;
+	BMS->v_max = RESET_V_MAX;
+	BMS->v_min = RESET_V_MIN;
+	BMS->t_max = RESET_T_MAX;
 	BMS->v_TS = 0;
-	BMS->t_max = 0;
 	BMS->charge_percentage = 0;
 
 	BMS_convert(BMS_CONVERT_CELL|BMS_CONVERT_GPIO|BMS_CONVERT_STAT, BMS);
@@ -208,7 +208,7 @@ void BMS_set_thermistor_zeros(BMS_struct_t* BMS)
 
 	for(int i = 0; i < N_OF_PACKS; i++)
 	{
-		for(int j = 0; j < 5; ++j)
+		for(int j = 0; j < N_OF_THERMISTORS; ++j)
 			thermistor_zeros[i][j] = 0;
 	}
 
@@ -216,7 +216,7 @@ void BMS_set_thermistor_zeros(BMS_struct_t* BMS)
 
 	for(int i = 0; i < N_OF_PACKS; i++)
 	{
-		for(int j = 0; j < 5; ++j)
+		for(int j = 0; j < N_OF_THERMISTORS; ++j)
 			mean += BMS->sensor[i]->GxV[j];		//OBSERVA��O 2!!!! QUANTOS TERMISTORES POR SLAVE?
 	}
 
@@ -224,7 +224,7 @@ void BMS_set_thermistor_zeros(BMS_struct_t* BMS)
 
 	for(int i = 0; i < N_OF_PACKS; i++)
 	{
-		for(int j = 0; j < 5; ++j)
+		for(int j = 0; j < N_OF_THERMISTORS; ++j)
 			thermistor_zeros[i][j] = mean - BMS->sensor[i]->GxV[j];
 	}
 }
@@ -262,9 +262,9 @@ void BMS_init(BMS_struct_t* BMS)
 
 	/*Set initial BMS configuration*/
 	BMS->error = ERR_NO_ERROR;
-	BMS->v_min = 50000;
-	BMS->v_max = 0;
-	BMS->mode = 0;
+	BMS->v_max = RESET_V_MAX;
+	BMS->v_min = RESET_V_MIN;
+	BMS->mode = BMS_MONITORING;
 
 	uint16_t aux;
 	EE_ReadVariable(0x0, &aux);
