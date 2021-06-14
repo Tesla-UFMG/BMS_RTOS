@@ -34,9 +34,6 @@ typedef struct BMS_struct
 	uint16_t v_max;							//Highest cell voltage in the bank
 	uint16_t v_delta;						//Difference between highest and lowest voltage in the bank
 	uint16_t t_max;							//Highest temperature in the bank
-	uint16_t v_min_filtered;
-	uint16_t v_max_filtered;
-	uint16_t t_max_filtered;
 
 	//Current settings
 	//float current[N_OF_DHAB];				//Current real value
