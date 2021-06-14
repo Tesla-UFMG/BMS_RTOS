@@ -59,21 +59,21 @@ DMA_HandleTypeDef hdma_usart3_rx;
 osThreadId_t readCellsVoltsHandle;
 const osThreadAttr_t readCellsVolts_attributes = {
   .name = "readCellsVolts",
-  .priority = (osPriority_t) osPriorityHigh,
+  .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
 /* Definitions for readCellsTemp */
 osThreadId_t readCellsTempHandle;
 const osThreadAttr_t readCellsTemp_attributes = {
   .name = "readCellsTemp",
-  .priority = (osPriority_t) osPriorityAboveNormal,
+  .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
 /* Definitions for readCellsStatus */
 osThreadId_t readCellsStatusHandle;
 const osThreadAttr_t readCellsStatus_attributes = {
   .name = "readCellsStatus",
-  .priority = (osPriority_t) osPriorityAboveNormal1,
+  .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
 /* Definitions for CANvoltage */
@@ -115,25 +115,22 @@ const osThreadAttr_t CANinfo_attributes = {
 osThreadId_t balanceCheckHandle;
 const osThreadAttr_t balanceCheck_attributes = {
   .name = "balanceCheck",
-  .priority = (osPriority_t) osPriorityBelowNormal,
+  .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
 /* Definitions for chargeUpdate */
 osThreadId_t chargeUpdateHandle;
 const osThreadAttr_t chargeUpdate_attributes = {
   .name = "chargeUpdate",
-  .priority = (osPriority_t) osPriorityAboveNormal2,
+  .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for commSemaphore */
-osSemaphoreId_t commSemaphoreHandle;
-const osSemaphoreAttr_t commSemaphore_attributes = {
-  .name = "commSemaphore"
-};
-/* Definitions for ltcSemaphore */
-osSemaphoreId_t ltcSemaphoreHandle;
-const osSemaphoreAttr_t ltcSemaphore_attributes = {
-  .name = "ltcSemaphore"
+/* Definitions for dataUpdate */
+osThreadId_t dataUpdateHandle;
+const osThreadAttr_t dataUpdate_attributes = {
+  .name = "dataUpdate",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
 };
 /* Definitions for filterMaxVolts */
 osThreadId_t filterMaxVoltsHandle;
@@ -191,6 +188,13 @@ const osThreadAttr_t errorMonitoring_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
+/* Definitions for nextion_page */
+osThreadId_t nextion_pageHandle;
+const osThreadAttr_t nextion_page_attributes = {
+  .name = "nextion_page",
+  .priority = (osPriority_t) osPriorityLow,
+  .stack_size = 128 * 4
+};
 /* Definitions for q_maxVoltages */
 osMessageQueueId_t q_maxVoltagesHandle;
 const osMessageQueueAttr_t q_maxVoltages_attributes = {
@@ -210,6 +214,16 @@ const osMessageQueueAttr_t q_maxTemperatures_attributes = {
 osMessageQueueId_t q_reportErrorHandle;
 const osMessageQueueAttr_t q_reportError_attributes = {
   .name = "q_reportError"
+};
+/* Definitions for commSemaphore */
+osSemaphoreId_t commSemaphoreHandle;
+const osSemaphoreAttr_t commSemaphore_attributes = {
+  .name = "commSemaphore"
+};
+/* Definitions for ltcSemaphore */
+osSemaphoreId_t ltcSemaphoreHandle;
+const osSemaphoreAttr_t ltcSemaphore_attributes = {
+  .name = "ltcSemaphore"
 };
 /* USER CODE BEGIN PV */
 
@@ -261,6 +275,7 @@ void error_undervoltage(void *argument);
 void error_over_temperature(void *argument);
 void error_GLV_undervoltage(void *argument);
 void error_monitoring(void *argument);
+void nextionPage(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -472,7 +487,10 @@ int main(void)
 
   /* creation of errorMonitoring */
   errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &errorMonitoring_attributes);
-  
+
+  /* creation of nextion_page */
+  nextion_pageHandle = osThreadNew(nextionPage, NULL, &nextion_page_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -1490,6 +1508,24 @@ void error_monitoring(void *argument)
     osDelay(100);
   }
   /* USER CODE END error_monitoring */
+}
+
+/* USER CODE BEGIN Header_nextionPage */
+/**
+* @brief Function implementing the nextion_page thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_nextionPage */
+void nextionPage(void *argument)
+{
+  /* USER CODE BEGIN nextionPage */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END nextionPage */
 }
 
  /**

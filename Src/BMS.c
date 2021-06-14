@@ -9,6 +9,10 @@ static int8_t UV_retries, OV_retries, OT_retries;
 extern CAN_HandleTypeDef hcan;
 extern CAN_TxHeaderTypeDef pHeader;
 extern osSemaphoreId_t ltcSemaphoreHandle;
+extern osMessageQueueId_t q_maxVoltagesHandle;
+extern osMessageQueueId_t q_minVoltagesHandle;
+extern osMessageQueueId_t q_maxTemperaturesHandle;
+
 
 extern void Error_Handler();
 
@@ -81,11 +85,11 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
 
-		uint16_t max_voltage, min_voltage, max_tamperature;
+		uint16_t max_voltage, min_voltage, max_temperature;
 
 		max_voltage = RESET_V_MAX;
 		min_voltage = RESET_V_MIN;
-		max_tamperature = RESET_T_MAX;
+		max_temperature = RESET_T_MAX;
 
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{
@@ -102,14 +106,14 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 
 			for(uint8_t j = 0; j < 4; j++) //TODO 5 termistores por stack
 			{
-				if(BMS->sensor[i]->GxV[j] > max_tamperature)
-					max_tamperature = BMS->sensor[i]->GxV[j];
+				if(BMS->sensor[i]->GxV[j] > max_temperature)
+					max_temperature = BMS->sensor[i]->GxV[j];
 			}
 		}
 
 		osMessagePut(q_maxVoltagesHandle, max_voltage, 0);
 		osMessagePut(q_minVoltagesHandle, min_voltage, 0);
-		osMessagePut(q_maxTemperaturesHandle, max_tamperature, 0);
+		osMessagePut(q_maxTemperaturesHandle, max_temperature, 0);
 	}
 
 	/*Convert the thermistors' temperature value*/
