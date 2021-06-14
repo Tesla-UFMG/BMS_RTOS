@@ -9,6 +9,10 @@ static int8_t UV_retries, OV_retries, OT_retries;
 extern CAN_HandleTypeDef hcan;
 extern CAN_TxHeaderTypeDef pHeader;
 extern osSemaphoreId_t ltcSemaphoreHandle;
+extern osMessageQueueId_t q_maxVoltagesHandle;
+extern osMessageQueueId_t q_minVoltagesHandle;
+extern osMessageQueueId_t q_maxTemperaturesHandle;
+
 
 extern void Error_Handler();
 
@@ -81,14 +85,14 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
 
-		BMS->v_max	 = RESET_V_MAX;
+		BMS->v_max = RESET_V_MAX;
 		BMS->v_min = RESET_V_MIN;
 
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{
 			LTC_read(LTC_READ_CELL, BMS->config, BMS->sensor[i]);
 			osSemaphoreRelease(ltcSemaphoreHandle);
-
+      
 			if(BMS->sensor[i]->V_MAX > BMS->v_max)
 				BMS->v_max = BMS->sensor[i]->V_MAX;
 
