@@ -1201,25 +1201,26 @@ void filter_max_voltages(void *argument)
 {
   /* USER CODE BEGIN filter_max_voltages */
   uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
-  uint8_t index = 0, count = 0;
+  uint8_t index = 0;
   osEvent event;
 
   //start previous_voltage array and set sum initial value
-  while(count < N_AVERAGE)
+  while(index < N_AVERAGE)
   {
 	  event = osMessageGet(q_maxVoltagesHandle, 0);
 	  if(event == osEventMessage)
 	  {
 		  input_voltage = event->value;
 		  sum += input_voltage;
-		  previous_voltages[count] = input_voltage;
+		  previous_voltages[index] = input_voltage;
 
-		  count++;
+		  index++;
 	  }
 	  else
 		  osDelay(10);
   }
 
+  index = 0;
   /* Infinite loop */
   for(;;)
   {
@@ -1236,7 +1237,7 @@ void filter_max_voltages(void *argument)
 		if(++index == N_AVERAGE)
 			index = 0;
 
-		BMS->v_max = sum / N_AVERAGE;
+		BMS->v_max_filtered = sum / N_AVERAGE;
 	}
 
 	osDelay(100);
@@ -1255,25 +1256,26 @@ void filter_min_voltages(void *argument)
 {
   /* USER CODE BEGIN filter_min_voltages */
   uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
-  uint8_t index = 0, count = 0;
+  uint8_t index = 0;
   osEvent event;
 
   //start previous_voltage array and set sum initial value
-  while(count < N_AVERAGE)
+  while(index < N_AVERAGE)
   {
 	  event = osMessageGet(q_minVoltagesHandle, 0);
 	  if(event == osEventMessage)
 	  {
 		  input_voltage = event->value;
 		  sum += input_voltage;
-		  previous_voltages[count] = input_voltage;
+		  previous_voltages[index] = input_voltage;
 
-		  count++;
+		  index++;
 	  }
 	  else
 		  osDelay(10);
   }
 
+  index = 0;
   /* Infinite loop */
   for(;;)
   {
@@ -1290,7 +1292,7 @@ void filter_min_voltages(void *argument)
 		if(++index == N_AVERAGE)
 			index = 0;
 
-		BMS->v_min = sum / N_AVERAGE;
+		BMS->v_min_filtered = sum / N_AVERAGE;
 	}
 
     osDelay(100);
@@ -1309,25 +1311,26 @@ void filter_temperature(void *argument)
 {
   /* USER CODE BEGIN filter_temperature */
   uint16_t sum = 0, input_temperature, previous_temperatures[N_AVERAGE];
-  uint8_t index = 0, count = 0;
+  uint8_t index = 0;
   osEvent event;
 
   //start previous_voltage array and set sum initial value
-  while(count < N_AVERAGE)
+  while(index < N_AVERAGE)
   {
 	  event = osMessageGet(q_maxTemperaturesHandle, 0);
 	  if(event == osEventMessage)
 	  {
 		  input_temperature = event->value;
 		  sum += input_temperature;
-		  previous_temperatures[count] = input_temperature;
+		  previous_temperatures[index] = input_temperature;
 
-		  count++;
+		  index++;
 	  }
 	  else
 		  osDelay(10);
   }
 
+  index = 0;
   /* Infinite loop */
   for(;;)
   {
@@ -1344,7 +1347,7 @@ void filter_temperature(void *argument)
 		if(++index == N_AVERAGE)
 			index = 0;
 
-		BMS->t_max = sum / N_AVERAGE;
+		BMS->t_max_filtered = sum / N_AVERAGE;
 	}
 
 	osDelay(100);
