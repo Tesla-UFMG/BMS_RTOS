@@ -85,35 +85,20 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
 
-		uint16_t max_voltage, min_voltage, max_temperature;
-
-		max_voltage = RESET_V_MAX;
-		min_voltage = RESET_V_MIN;
-		max_temperature = RESET_T_MAX;
+		BMS->v_max = RESET_V_MAX;
+		BMS->v_min = RESET_V_MIN;
 
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{
 			LTC_read(LTC_READ_CELL, BMS->config, BMS->sensor[i]);
 			osSemaphoreRelease(ltcSemaphoreHandle);
+      
+			if(BMS->sensor[i]->V_MAX > BMS->v_max)
+				BMS->v_max = BMS->sensor[i]->V_MAX;
 
-			if(BMS->sensor[i]->V_MAX > max_voltage)
-				max_voltage = BMS->sensor[i]->V_MAX;
-
-			if(BMS->sensor[i]->V_MIN < min_voltage)
-				min_voltage = BMS->sensor[i]->V_MIN;
-
-			BMS->v_TS += BMS->sensor[i]->SOC;
-
-			for(uint8_t j = 0; j < 4; j++) //TODO 5 termistores por stack
-			{
-				if(BMS->sensor[i]->GxV[j] > max_temperature)
-					max_temperature = BMS->sensor[i]->GxV[j];
-			}
+			if(BMS->sensor[i]->V_MIN < BMS->v_min)
+				BMS->v_min = BMS->sensor[i]->V_MIN;
 		}
-
-		osMessagePut(q_maxVoltagesHandle, max_voltage, 0);
-		osMessagePut(q_minVoltagesHandle, min_voltage, 0);
-		osMessagePut(q_maxTemperaturesHandle, max_temperature, 0);
 	}
 
 	/*Convert the thermistors' temperature value*/
@@ -124,12 +109,14 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
 
+		BMS->t_max = RESET_T_MAX;
+
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{
 			LTC_read(LTC_READ_GPIO, BMS->config, BMS->sensor[i]);
 			osSemaphoreRelease(ltcSemaphoreHandle);
 
-			for(uint8_t j = 0; j < 4; j++)
+			for(uint8_t j = 0; j < N_OF_THERMISTORS; j++)
 			{
 				if(BMS->sensor[i]->GxV[j] > BMS->t_max)
 					BMS->t_max = BMS->sensor[i]->GxV[j];
@@ -144,6 +131,8 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 		BMS->config->command->NAME = LTC_COMMAND_ADSTAT;
 		BMS->config->command->BROADCAST = TRUE;
 		LTC_send_command(BMS->config);
+
+		BMS->v_TS = 0;
 
 		for(uint8_t i = 0; i < N_OF_SLAVES; i++)
 		{

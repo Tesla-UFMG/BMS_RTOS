@@ -970,9 +970,10 @@ void read_cells_volts(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  BMS->v_min = 50000;
-	  BMS->v_max = 0;
 	  BMS_convert(BMS_CONVERT_CELL, BMS);
+	  osMessagePut(q_maxVoltagesHandle, BMS->v_max, 0);
+	  osMessagePut(q_minVoltagesHandle, BMS->v_min, 0);
+
 	  osDelay(100);
   }
   /* USER CODE END 5 */
@@ -991,8 +992,9 @@ void read_cells_temp(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  BMS->t_max = 0;
 	  BMS_convert(BMS_CONVERT_GPIO, BMS);
+	  osMessagePut(q_maxTemperaturesHandle, BMS->t_max, 0);
+
 	  osDelay(100);
   }
   /* USER CODE END read_cells_temp */
@@ -1011,7 +1013,6 @@ void read_cells_status(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  BMS->v_TS = 0;
 	  BMS_convert(BMS_CONVERT_STAT, BMS);
 	  osDelay(100);
   }
@@ -1218,25 +1219,26 @@ void filter_max_voltages(void *argument)
 {
   /* USER CODE BEGIN filter_max_voltages */
   uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
-  uint8_t index = 0, count = 0;
+  uint8_t index = 0;
   osEvent event;
 
   //start previous_voltage array and set sum initial value
-  while(count < N_AVERAGE)
+  while(index < N_AVERAGE)
   {
 	  event = osMessageGet(q_maxVoltagesHandle, 0);
 	  if(event == osEventMessage)
 	  {
 		  input_voltage = event->value;
 		  sum += input_voltage;
-		  previous_voltages[count] = input_voltage;
+		  previous_voltages[index] = input_voltage;
 
-		  count++;
+		  index++;
 	  }
 	  else
 		  osDelay(10);
   }
 
+  index = 0;
   /* Infinite loop */
   for(;;)
   {
@@ -1253,7 +1255,7 @@ void filter_max_voltages(void *argument)
 		if(++index == N_AVERAGE)
 			index = 0;
 
-		BMS->v_max = sum / N_AVERAGE;
+		BMS->v_max_filtered = sum / N_AVERAGE;
 	}
 
 	osDelay(100);
@@ -1272,25 +1274,26 @@ void filter_min_voltages(void *argument)
 {
   /* USER CODE BEGIN filter_min_voltages */
   uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
-  uint8_t index = 0, count = 0;
+  uint8_t index = 0;
   osEvent event;
 
   //start previous_voltage array and set sum initial value
-  while(count < N_AVERAGE)
+  while(index < N_AVERAGE)
   {
 	  event = osMessageGet(q_minVoltagesHandle, 0);
 	  if(event == osEventMessage)
 	  {
 		  input_voltage = event->value;
 		  sum += input_voltage;
-		  previous_voltages[count] = input_voltage;
+		  previous_voltages[index] = input_voltage;
 
-		  count++;
+		  index++;
 	  }
 	  else
 		  osDelay(10);
   }
 
+  index = 0;
   /* Infinite loop */
   for(;;)
   {
@@ -1307,7 +1310,7 @@ void filter_min_voltages(void *argument)
 		if(++index == N_AVERAGE)
 			index = 0;
 
-		BMS->v_min = sum / N_AVERAGE;
+		BMS->v_min_filtered = sum / N_AVERAGE;
 	}
 
     osDelay(100);
@@ -1326,25 +1329,26 @@ void filter_temperature(void *argument)
 {
   /* USER CODE BEGIN filter_temperature */
   uint16_t sum = 0, input_temperature, previous_temperatures[N_AVERAGE];
-  uint8_t index = 0, count = 0;
+  uint8_t index = 0;
   osEvent event;
 
   //start previous_voltage array and set sum initial value
-  while(count < N_AVERAGE)
+  while(index < N_AVERAGE)
   {
 	  event = osMessageGet(q_maxTemperaturesHandle, 0);
 	  if(event == osEventMessage)
 	  {
 		  input_temperature = event->value;
 		  sum += input_temperature;
-		  previous_temperatures[count] = input_temperature;
+		  previous_temperatures[index] = input_temperature;
 
-		  count++;
+		  index++;
 	  }
 	  else
 		  osDelay(10);
   }
 
+  index = 0;
   /* Infinite loop */
   for(;;)
   {
@@ -1361,7 +1365,7 @@ void filter_temperature(void *argument)
 		if(++index == N_AVERAGE)
 			index = 0;
 
-		BMS->t_max = sum / N_AVERAGE;
+		BMS->t_max_filtered = sum / N_AVERAGE;
 	}
 
 	osDelay(100);
@@ -1382,7 +1386,7 @@ void error_overvoltage(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	if(BMS->v_max >= MAX_CELL_V_DISCHARGE)
+	if(BMS->v_max_filtered >= MAX_CELL_V_DISCHARGE)
 	{
 		BMS->error |= ERR_OVER_VOLTAGE;
 		osMessagePut(q_reportErrorHandle, info, 0);
@@ -1410,7 +1414,7 @@ void error_undervoltage(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	if(BMS->v_min <= MIN_CELL_V)
+	if(BMS->v_min_filtered <= MIN_CELL_V)
 	{
 		BMS->error |= ERR_UNDER_VOLTAGE;
 		osMessagePut(q_reportErrorHandle, info, 0);
@@ -1438,7 +1442,7 @@ void error_over_temperature(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	if(BMS->t_max >= MAX_TEMPERATURE)
+	if(BMS->t_max_filtered >= MAX_TEMPERATURE)
 	{
 	  	BMS->error |= ERR_OVER_TEMPERATURE;
 	  	osMessagePut(q_reportErrorHandle, info, 0);
