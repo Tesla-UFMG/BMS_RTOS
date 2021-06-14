@@ -153,24 +153,17 @@ const osThreadAttr_t filterTemp_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for errorOvervolt */
-osThreadId_t errorOvervoltHandle;
-const osThreadAttr_t errorOvervolt_attributes = {
-  .name = "errorOvervolt",
+/* Definitions for errorVoltage */
+osThreadId_t errorVoltageHandle;
+const osThreadAttr_t errorVoltage_attributes = {
+  .name = "errorVoltage",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for errorUndervolt */
-osThreadId_t errorUndervoltHandle;
-const osThreadAttr_t errorUndervolt_attributes = {
-  .name = "errorUndervolt",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
-/* Definitions for errorOverTemp */
-osThreadId_t errorOverTempHandle;
-const osThreadAttr_t errorOverTemp_attributes = {
-  .name = "errorOverTemp",
+/* Definitions for errorTemperature */
+osThreadId_t errorTemperatureHandle;
+const osThreadAttr_t errorTemperature_attributes = {
+  .name = "errorTemperature",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
@@ -253,8 +246,7 @@ void data_update(void *argument);
 void filter_max_voltages(void *argument);
 void filter_min_voltages(void *argument);
 void filter_temperature(void *argument);
-void error_overvoltage(void *argument);
-void error_undervoltage(void *argument);
+void error_voltage(void *argument);
 void error_over_temperature(void *argument);
 void error_GLV_undervoltage(void *argument);
 void error_monitoring(void *argument);
@@ -456,14 +448,11 @@ int main(void)
   /* creation of filterTemp */
   filterTempHandle = osThreadNew(filter_temperature, NULL, &filterTemp_attributes);
 
-  /* creation of errorOvervolt */
-  errorOvervoltHandle = osThreadNew(error_overvoltage, NULL, &errorOvervolt_attributes);
+  /* creation of errorVoltage */
+  errorVoltageHandle = osThreadNew(error_voltage, NULL, &errorVoltage_attributes);
 
-  /* creation of errorUndervolt */
-  errorUndervoltHandle = osThreadNew(error_undervoltage, NULL, &errorUndervolt_attributes);
-
-  /* creation of errorOverTemp */
-  errorOverTempHandle = osThreadNew(error_over_temperature, NULL, &errorOverTemp_attributes);
+  /* creation of errorTemperature */
+  errorTemperatureHandle = osThreadNew(error_over_temperature, NULL, &errorTemperature_attributes);
 
   /* creation of errorGLV */
   errorGLVHandle = osThreadNew(error_GLV_undervoltage, NULL, &errorGLV_attributes);
@@ -1340,14 +1329,14 @@ void filter_temperature(void *argument)
   /* USER CODE END filter_temperature */
 }
 
-/* USER CODE BEGIN Header_error_overvoltage */
+/* USER CODE BEGIN Header_error_voltage */
 /**
-* @brief Function implementing the errorOvervolt thread.
+* @brief Function implementing the errorVoltage thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_error_overvoltage */
-void error_overvoltage(void *argument)
+/* USER CODE END Header_error_voltage */
+void error_voltage(void *argument)
 {
   /* USER CODE BEGIN error_voltage */
   uint16_t errorOvervoltage = 0, errorUndervoltage = 1;
@@ -1376,7 +1365,7 @@ void error_overvoltage(void *argument)
 
     osDelay(100);
   }
-  /* USER CODE END error_undervoltage */
+  /* USER CODE END error_voltage */
 }
 
 /* USER CODE BEGIN Header_error_over_temperature */
