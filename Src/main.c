@@ -952,9 +952,10 @@ void read_cells_volts(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  BMS->v_min = 50000;
-	  BMS->v_max = 0;
 	  BMS_convert(BMS_CONVERT_CELL, BMS);
+	  osMessagePut(q_maxVoltagesHandle, BMS->v_max, 0);
+	  osMessagePut(q_minVoltagesHandle, BMS->v_min, 0);
+
 	  osDelay(100);
   }
   /* USER CODE END 5 */
@@ -973,8 +974,9 @@ void read_cells_temp(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  BMS->t_max = 0;
 	  BMS_convert(BMS_CONVERT_GPIO, BMS);
+	  osMessagePut(q_maxTemperaturesHandle, BMS->t_max, 0);
+
 	  osDelay(100);
   }
   /* USER CODE END read_cells_temp */
@@ -993,7 +995,6 @@ void read_cells_status(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	  BMS->v_TS = 0;
 	  BMS_convert(BMS_CONVERT_STAT, BMS);
 	  osDelay(100);
   }
