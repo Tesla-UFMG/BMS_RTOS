@@ -1468,7 +1468,43 @@ void nextionPage(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	uint16_t errorID;
+	osStatus_t status;
+
+	status = osMessageQueueGet(q_reportErrorHandle, &errorID, NULL, 0);
+
+	if(status == osOK)
+	{
+		switch(errorID)
+		{
+			case 0:
+				NexScrollingTextSetText(0, "Over Voltage");
+				NexScrollingTextSetPic(0, 11);
+				break;
+
+			case 1:
+				NexScrollingTextSetText(0, "Under Voltage");
+				NexScrollingTextSetPic(0, 11);
+				break;
+			case 2:
+				NexScrollingTextSetText(0, "Over Temperature");
+				NexScrollingTextSetPic(0, 11);
+				break;
+			case 3:
+				NexScrollingTextSetText(0, "GLV Low Voltage");
+				NexScrollingTextSetPic(0, 11);
+				break;
+			case 4:
+				NexScrollingTextSetText(0, "Comm Error");
+				NexScrollingTextSetPic(0, 11);
+				break;
+			default:
+				NexScrollingTextSetText(0,"ALL OK!");
+				NexScrollingTextSetPic(0, 10);
+		}
+	}
+
+    osDelay(100);
   }
   /* USER CODE END nextionPage */
 }
