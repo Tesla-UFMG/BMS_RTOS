@@ -39,7 +39,7 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3/portmacro.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
- ../Inc/nextion.h ../Inc/DMA_USART.h
+ ../Inc/nextion_functions.h ../Inc/nextion.h ../Inc/DMA_USART.h
 
 ../Inc/main.h:
 
@@ -134,6 +134,8 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
 ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3/portmacro.h:
 
 ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
+
+../Inc/nextion_functions.h:
 
 ../Inc/nextion.h:
 

@@ -181,10 +181,10 @@ const osThreadAttr_t errorMonitoring_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for nextion_page */
-osThreadId_t nextion_pageHandle;
-const osThreadAttr_t nextion_page_attributes = {
-  .name = "nextion_page",
+/* Definitions for nextion_loop */
+osThreadId_t nextion_loopHandle;
+const osThreadAttr_t nextion_loop_attributes = {
+  .name = "nextion_loop",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
@@ -250,7 +250,7 @@ void error_voltage(void *argument);
 void error_over_temperature(void *argument);
 void error_GLV_undervoltage(void *argument);
 void error_monitoring(void *argument);
-void nextionPage(void *argument);
+void nextionLoop(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -267,6 +267,8 @@ int32_t ADC_buf[5];
 
 int initial_readings = 0;
 float current_zero[N_OF_DHAB];
+
+CAN_TxHeaderTypeDef pHeader;
 
 float filter(float old, float new)
 {
@@ -460,8 +462,8 @@ int main(void)
   /* creation of errorMonitoring */
   errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &errorMonitoring_attributes);
 
-  /* creation of nextion_page */
-  nextion_pageHandle = osThreadNew(nextionPage, NULL, &nextion_page_attributes);
+  /* creation of nextion_loop */
+  nextion_loopHandle = osThreadNew(nextionLoop, NULL, &nextion_loop_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1455,22 +1457,23 @@ void error_monitoring(void *argument)
   /* USER CODE END error_monitoring */
 }
 
-/* USER CODE BEGIN Header_nextionPage */
+/* USER CODE BEGIN Header_nextionLoop */
 /**
-* @brief Function implementing the nextion_page thread.
+* @brief Function implementing the nextion_loop thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_nextionPage */
-void nextionPage(void *argument)
+/* USER CODE END Header_nextionLoop */
+void nextionLoop(void *argument)
 {
-  /* USER CODE BEGIN nextionPage */
+  /* USER CODE BEGIN nextionLoop */
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	  nex_loop(BMS);
+	  osDelay(100);
   }
-  /* USER CODE END nextionPage */
+  /* USER CODE END nextionLoop */
 }
 
  /**

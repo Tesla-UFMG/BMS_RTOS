@@ -41,7 +41,7 @@ Src/freertos.o: ../Src/freertos.c \
  ../Inc/DHAB_s125.h ../Inc/CAN.h ../Inc/EEPROM.h ../Inc/flash.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../Inc/nextion.h ../Inc/DMA_USART.h
+ ../Inc/nextion_functions.h ../Inc/nextion.h ../Inc/DMA_USART.h
 
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 
@@ -140,6 +140,8 @@ Src/freertos.o: ../Src/freertos.c \
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+
+../Inc/nextion_functions.h:
 
 ../Inc/nextion.h:
 
