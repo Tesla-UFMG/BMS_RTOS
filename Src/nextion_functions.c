@@ -1,9 +1,11 @@
 #include "nextion_functions.h"
-extern UART_HandleTypeDef huart3;
 
+uint8_t stat = 0;
+
+extern UART_HandleTypeDef huart3;
 extern uint8_t uart_user_message[256];	/* Buffer received for user access */
 extern uint8_t next_error[5];
-uint8_t stat = 0;
+extern osMessageQueueId_t q_reportErrorHandle;
 
 void uart3_message_received(BMS_struct_t *BMS)
 {
@@ -63,32 +65,41 @@ void nex_loop(BMS_struct_t *BMS){
 
 	HAL_UART_DMAPause(&huart3);
 
-	if(next_error[0] == 1){
-		NexScrollingTextSetText(0, "Under Voltage");
-		NexScrollingTextSetPic(0, 11);
-	}
-	else if(next_error[1] == 1){
-		NexScrollingTextSetText(0, "Over Voltage");
-		NexScrollingTextSetPic(0, 11);
-	}
-	else if(next_error[2] == 1){
-		NexScrollingTextSetText(0, "Over Temperature");
-		NexScrollingTextSetPic(0, 11);
-	}
-	else if(next_error[3] == 1){
-		NexScrollingTextSetText(0, "Comm Error");
-		NexScrollingTextSetPic(0, 11);
-	}
-	else if(next_error[4] == 1){
-		NexScrollingTextSetText(0, "GLV Low Voltage");
-		NexScrollingTextSetPic(0, 11);
-	}
-	else{
-		NexScrollingTextSetText(0,"ALL OK!");
-		NexScrollingTextSetPic(0, 10);
-	}
+	uint16_t errorID;
+	osStatus_t status;
 
+	status = osMessageQueueGet(q_reportErrorHandle, &errorID, NULL, 0);
 
+	if(status == osOK)
+	{
+		switch(errorID)
+		{
+			case 0:
+				NexScrollingTextSetText(0, "Over Voltage");
+				NexScrollingTextSetPic(0, 11);
+				break;
+
+			case 1:
+				NexScrollingTextSetText(0, "Under Voltage");
+				NexScrollingTextSetPic(0, 11);
+				break;
+			case 2:
+				NexScrollingTextSetText(0, "Over Temperature");
+				NexScrollingTextSetPic(0, 11);
+				break;
+			case 3:
+				NexScrollingTextSetText(0, "GLV Low Voltage");
+				NexScrollingTextSetPic(0, 11);
+				break;
+			case 4:
+				NexScrollingTextSetText(0, "Comm Error");
+				NexScrollingTextSetPic(0, 11);
+				break;
+			default:
+				NexScrollingTextSetText(0,"ALL OK!");
+				NexScrollingTextSetPic(0, 10);
+		}
+	}
 
 	uint16_t buffer[N_OF_CELLS];
 

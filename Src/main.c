@@ -181,10 +181,10 @@ const osThreadAttr_t errorMonitoring_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for nextion_loop */
-osThreadId_t nextion_loopHandle;
-const osThreadAttr_t nextion_loop_attributes = {
-  .name = "nextion_loop",
+/* Definitions for nextionLoop */
+osThreadId_t nextionLoopHandle;
+const osThreadAttr_t nextionLoop_attributes = {
+  .name = "nextionLoop",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
@@ -250,7 +250,7 @@ void error_voltage(void *argument);
 void error_over_temperature(void *argument);
 void error_GLV_undervoltage(void *argument);
 void error_monitoring(void *argument);
-void nextionLoop(void *argument);
+void nextion_loop(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -462,8 +462,8 @@ int main(void)
   /* creation of errorMonitoring */
   errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &errorMonitoring_attributes);
 
-  /* creation of nextion_loop */
-  nextion_loopHandle = osThreadNew(nextionLoop, NULL, &nextion_loop_attributes);
+  /* creation of nextionLoop */
+  nextionLoopHandle = osThreadNew(nextion_loop, NULL, &nextionLoop_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1457,60 +1457,23 @@ void error_monitoring(void *argument)
   /* USER CODE END error_monitoring */
 }
 
-/* USER CODE BEGIN Header_nextionLoop */
+/* USER CODE BEGIN Header_nextion_loop */
 /**
-* @brief Function implementing the nextion_loop thread.
+* @brief Function implementing the nextionLoop thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_nextionLoop */
-void nextionLoop(void *argument)
+/* USER CODE END Header_nextion_loop */
+void nextion_loop(void *argument)
 {
-  /* USER CODE BEGIN nextionLoop */
+  /* USER CODE BEGIN nextion_loop */
   /* Infinite loop */
   for(;;)
   {
-	  osDelay(100);
-
-	uint16_t errorID;
-	osStatus_t status;
-
-	status = osMessageQueueGet(q_reportErrorHandle, &errorID, NULL, 0);
-
-	if(status == osOK)
-	{
-		switch(errorID)
-		{
-			case 0:
-				NexScrollingTextSetText(0, "Over Voltage");
-				NexScrollingTextSetPic(0, 11);
-				break;
-
-			case 1:
-				NexScrollingTextSetText(0, "Under Voltage");
-				NexScrollingTextSetPic(0, 11);
-				break;
-			case 2:
-				NexScrollingTextSetText(0, "Over Temperature");
-				NexScrollingTextSetPic(0, 11);
-				break;
-			case 3:
-				NexScrollingTextSetText(0, "GLV Low Voltage");
-				NexScrollingTextSetPic(0, 11);
-				break;
-			case 4:
-				NexScrollingTextSetText(0, "Comm Error");
-				NexScrollingTextSetPic(0, 11);
-				break;
-			default:
-				NexScrollingTextSetText(0,"ALL OK!");
-				NexScrollingTextSetPic(0, 10);
-		}
-	}
-
-    osDelay(100);
+	  nex_loop(BMS);
+	  osDelay(1);
   }
-  /* USER CODE END nextionLoop */
+  /* USER CODE END nextion_loop */
 }
 
  /**
