@@ -124,7 +124,7 @@ uint16_t LTC_SPI(uint16_t);
 void LTC_transmit_receive (uint16_t, uint16_t*, uint16_t*);
 void LTC_send_command(LTC_config_t*, ...);
 void LTC_init(LTC_config_t*);
-static void LTC_temperature_convert(LTC_sensor_t*);
+void LTC_temperature_convert(LTC_sensor_t*);
 void LTC_wait(LTC_config_t*, LTC_sensor_t*);
 void LTC_read(uint8_t, LTC_config_t*, LTC_sensor_t*);
 void LTC_set_balance_flag(LTC_config_t*, LTC_sensor_t*);
