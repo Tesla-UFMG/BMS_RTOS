@@ -32,6 +32,7 @@
 
 extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim4;
+extern void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 

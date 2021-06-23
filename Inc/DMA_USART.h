@@ -13,6 +13,7 @@
 */
 
 #include "stm32f1xx_hal.h"
+#include <string.h>
 
 #define DMA_RX_BUFFER_SIZE 256
 
