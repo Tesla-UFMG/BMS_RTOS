@@ -55,136 +55,136 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart3_rx;
 
-/* Definitions for readCellsVolts */
-osThreadId_t readCellsVoltsHandle;
-const osThreadAttr_t readCellsVolts_attributes = {
-  .name = "readCellsVolts",
+/* Definitions for t_readCellsVolts */
+osThreadId_t t_readCellsVoltsHandle;
+const osThreadAttr_t t_readCellsVolts_attributes = {
+  .name = "t_readCellsVolts",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for readCellsTemp */
-osThreadId_t readCellsTempHandle;
-const osThreadAttr_t readCellsTemp_attributes = {
-  .name = "readCellsTemp",
+/* Definitions for t_readCellsTemp */
+osThreadId_t t_readCellsTempHandle;
+const osThreadAttr_t t_readCellsTemp_attributes = {
+  .name = "t_readCellsTemp",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for readCellsStatus */
-osThreadId_t readCellsStatusHandle;
-const osThreadAttr_t readCellsStatus_attributes = {
-  .name = "readCellsStatus",
+/* Definitions for t_readCellsStatus */
+osThreadId_t t_readCellsStatusHandle;
+const osThreadAttr_t t_readCellsStatus_attributes = {
+  .name = "t_readCellsStatus",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANvoltage */
-osThreadId_t CANvoltageHandle;
-const osThreadAttr_t CANvoltage_attributes = {
-  .name = "CANvoltage",
+/* Definitions for t_CANvoltage */
+osThreadId_t t_CANvoltageHandle;
+const osThreadAttr_t t_CANvoltage_attributes = {
+  .name = "t_CANvoltage",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANtemperature */
-osThreadId_t CANtemperatureHandle;
-const osThreadAttr_t CANtemperature_attributes = {
-  .name = "CANtemperature",
+/* Definitions for t_CANtemperature */
+osThreadId_t t_CANtemperatureHandle;
+const osThreadAttr_t t_CANtemperature_attributes = {
+  .name = "t_CANtemperature",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANcurrent */
-osThreadId_t CANcurrentHandle;
-const osThreadAttr_t CANcurrent_attributes = {
-  .name = "CANcurrent",
+/* Definitions for t_CANcurrent */
+osThreadId_t t_CANcurrentHandle;
+const osThreadAttr_t t_CANcurrent_attributes = {
+  .name = "t_CANcurrent",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANglv */
-osThreadId_t CANglvHandle;
-const osThreadAttr_t CANglv_attributes = {
-  .name = "CANglv",
+/* Definitions for t_CANglv */
+osThreadId_t t_CANglvHandle;
+const osThreadAttr_t t_CANglv_attributes = {
+  .name = "t_CANglv",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANinfo */
-osThreadId_t CANinfoHandle;
-const osThreadAttr_t CANinfo_attributes = {
-  .name = "CANinfo",
+/* Definitions for t_CANinfo */
+osThreadId_t t_CANinfoHandle;
+const osThreadAttr_t t_CANinfo_attributes = {
+  .name = "t_CANinfo",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for balanceCheck */
-osThreadId_t balanceCheckHandle;
-const osThreadAttr_t balanceCheck_attributes = {
-  .name = "balanceCheck",
+/* Definitions for t_balanceCheck */
+osThreadId_t t_balanceCheckHandle;
+const osThreadAttr_t t_balanceCheck_attributes = {
+  .name = "t_balanceCheck",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for chargeUpdate */
-osThreadId_t chargeUpdateHandle;
-const osThreadAttr_t chargeUpdate_attributes = {
-  .name = "chargeUpdate",
+/* Definitions for t_chargeUpdate */
+osThreadId_t t_chargeUpdateHandle;
+const osThreadAttr_t t_chargeUpdate_attributes = {
+  .name = "t_chargeUpdate",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for dataUpdate */
-osThreadId_t dataUpdateHandle;
-const osThreadAttr_t dataUpdate_attributes = {
-  .name = "dataUpdate",
+/* Definitions for t_dataUpdate */
+osThreadId_t t_dataUpdateHandle;
+const osThreadAttr_t t_dataUpdate_attributes = {
+  .name = "t_dataUpdate",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for filterMaxVolts */
-osThreadId_t filterMaxVoltsHandle;
-const osThreadAttr_t filterMaxVolts_attributes = {
-  .name = "filterMaxVolts",
+/* Definitions for t_filterMaxVolts */
+osThreadId_t t_filterMaxVoltsHandle;
+const osThreadAttr_t t_filterMaxVolts_attributes = {
+  .name = "t_filterMaxVolts",
   .priority = (osPriority_t) osPriorityBelowNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for filterMinVolts */
-osThreadId_t filterMinVoltsHandle;
-const osThreadAttr_t filterMinVolts_attributes = {
-  .name = "filterMinVolts",
+/* Definitions for t_filterMinVolts */
+osThreadId_t t_filterMinVoltsHandle;
+const osThreadAttr_t t_filterMinVolts_attributes = {
+  .name = "t_filterMinVolts",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
-/* Definitions for filterTemp */
-osThreadId_t filterTempHandle;
-const osThreadAttr_t filterTemp_attributes = {
-  .name = "filterTemp",
+/* Definitions for t_filterTemp */
+osThreadId_t t_filterTempHandle;
+const osThreadAttr_t t_filterTemp_attributes = {
+  .name = "t_filterTemp",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for errorVoltage */
-osThreadId_t errorVoltageHandle;
-const osThreadAttr_t errorVoltage_attributes = {
-  .name = "errorVoltage",
+/* Definitions for t_errorVoltage */
+osThreadId_t t_errorVoltageHandle;
+const osThreadAttr_t t_errorVoltage_attributes = {
+  .name = "t_errorVoltage",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for errorTemperature */
-osThreadId_t errorTemperatureHandle;
-const osThreadAttr_t errorTemperature_attributes = {
-  .name = "errorTemperature",
+/* Definitions for t_errorTemp */
+osThreadId_t t_errorTempHandle;
+const osThreadAttr_t t_errorTemp_attributes = {
+  .name = "t_errorTemp",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for errorGLV */
-osThreadId_t errorGLVHandle;
-const osThreadAttr_t errorGLV_attributes = {
-  .name = "errorGLV",
+/* Definitions for t_errorGLV */
+osThreadId_t t_errorGLVHandle;
+const osThreadAttr_t t_errorGLV_attributes = {
+  .name = "t_errorGLV",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
-/* Definitions for errorMonitoring */
-osThreadId_t errorMonitoringHandle;
-const osThreadAttr_t errorMonitoring_attributes = {
-  .name = "errorMonitoring",
+/* Definitions for t_errorMonitoring */
+osThreadId_t t_errorMonitoringHandle;
+const osThreadAttr_t t_errorMonitoring_attributes = {
+  .name = "t_errorMonitoring",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for nextionLoop */
-osThreadId_t nextionLoopHandle;
-const osThreadAttr_t nextionLoop_attributes = {
-  .name = "nextionLoop",
+/* Definitions for t_nextionLoop */
+osThreadId_t t_nextionLoopHandle;
+const osThreadAttr_t t_nextionLoop_attributes = {
+  .name = "t_nextionLoop",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
@@ -407,62 +407,62 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of readCellsVolts */
-  readCellsVoltsHandle = osThreadNew(read_cells_volts, NULL, &readCellsVolts_attributes);
+  /* creation of t_readCellsVolts */
+  t_readCellsVoltsHandle = osThreadNew(read_cells_volts, NULL, &t_readCellsVolts_attributes);
 
-  /* creation of readCellsTemp */
-  readCellsTempHandle = osThreadNew(read_cells_temp, NULL, &readCellsTemp_attributes);
+  /* creation of t_readCellsTemp */
+  t_readCellsTempHandle = osThreadNew(read_cells_temp, NULL, &t_readCellsTemp_attributes);
 
-  /* creation of readCellsStatus */
-  readCellsStatusHandle = osThreadNew(read_cells_status, NULL, &readCellsStatus_attributes);
+  /* creation of t_readCellsStatus */
+  t_readCellsStatusHandle = osThreadNew(read_cells_status, NULL, &t_readCellsStatus_attributes);
 
-  /* creation of CANvoltage */
-  CANvoltageHandle = osThreadNew(CAN_voltage, NULL, &CANvoltage_attributes);
+  /* creation of t_CANvoltage */
+  t_CANvoltageHandle = osThreadNew(CAN_voltage, NULL, &t_CANvoltage_attributes);
 
-  /* creation of CANtemperature */
-  CANtemperatureHandle = osThreadNew(CAN_temperature, NULL, &CANtemperature_attributes);
+  /* creation of t_CANtemperature */
+  t_CANtemperatureHandle = osThreadNew(CAN_temperature, NULL, &t_CANtemperature_attributes);
 
-  /* creation of CANcurrent */
-  CANcurrentHandle = osThreadNew(CAN_current, NULL, &CANcurrent_attributes);
+  /* creation of t_CANcurrent */
+  t_CANcurrentHandle = osThreadNew(CAN_current, NULL, &t_CANcurrent_attributes);
 
-  /* creation of CANglv */
-  CANglvHandle = osThreadNew(CAN_GLV, NULL, &CANglv_attributes);
+  /* creation of t_CANglv */
+  t_CANglvHandle = osThreadNew(CAN_GLV, NULL, &t_CANglv_attributes);
 
-  /* creation of CANinfo */
-  CANinfoHandle = osThreadNew(CAN_info, NULL, &CANinfo_attributes);
+  /* creation of t_CANinfo */
+  t_CANinfoHandle = osThreadNew(CAN_info, NULL, &t_CANinfo_attributes);
 
-  /* creation of balanceCheck */
-  balanceCheckHandle = osThreadNew(balance_check, NULL, &balanceCheck_attributes);
+  /* creation of t_balanceCheck */
+  t_balanceCheckHandle = osThreadNew(balance_check, NULL, &t_balanceCheck_attributes);
 
-  /* creation of chargeUpdate */
-  chargeUpdateHandle = osThreadNew(charge_update, NULL, &chargeUpdate_attributes);
+  /* creation of t_chargeUpdate */
+  t_chargeUpdateHandle = osThreadNew(charge_update, NULL, &t_chargeUpdate_attributes);
 
-  /* creation of dataUpdate */
-  dataUpdateHandle = osThreadNew(data_update, NULL, &dataUpdate_attributes);
+  /* creation of t_dataUpdate */
+  t_dataUpdateHandle = osThreadNew(data_update, NULL, &t_dataUpdate_attributes);
 
-  /* creation of filterMaxVolts */
-  filterMaxVoltsHandle = osThreadNew(filter_max_voltages, NULL, &filterMaxVolts_attributes);
+  /* creation of t_filterMaxVolts */
+  t_filterMaxVoltsHandle = osThreadNew(filter_max_voltages, NULL, &t_filterMaxVolts_attributes);
 
-  /* creation of filterMinVolts */
-  filterMinVoltsHandle = osThreadNew(filter_min_voltages, NULL, &filterMinVolts_attributes);
+  /* creation of t_filterMinVolts */
+  t_filterMinVoltsHandle = osThreadNew(filter_min_voltages, NULL, &t_filterMinVolts_attributes);
 
-  /* creation of filterTemp */
-  filterTempHandle = osThreadNew(filter_temperature, NULL, &filterTemp_attributes);
+  /* creation of t_filterTemp */
+  t_filterTempHandle = osThreadNew(filter_temperature, NULL, &t_filterTemp_attributes);
 
-  /* creation of errorVoltage */
-  errorVoltageHandle = osThreadNew(error_voltage, NULL, &errorVoltage_attributes);
+  /* creation of t_errorVoltage */
+  t_errorVoltageHandle = osThreadNew(error_voltage, NULL, &t_errorVoltage_attributes);
 
-  /* creation of errorTemperature */
-  errorTemperatureHandle = osThreadNew(error_over_temperature, NULL, &errorTemperature_attributes);
+  /* creation of t_errorTemp */
+  t_errorTempHandle = osThreadNew(error_over_temperature, NULL, &t_errorTemp_attributes);
 
-  /* creation of errorGLV */
-  errorGLVHandle = osThreadNew(error_GLV_undervoltage, NULL, &errorGLV_attributes);
+  /* creation of t_errorGLV */
+  t_errorGLVHandle = osThreadNew(error_GLV_undervoltage, NULL, &t_errorGLV_attributes);
 
-  /* creation of errorMonitoring */
-  errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &errorMonitoring_attributes);
+  /* creation of t_errorMonitoring */
+  t_errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &t_errorMonitoring_attributes);
 
-  /* creation of nextionLoop */
-  nextionLoopHandle = osThreadNew(nextion_loop, NULL, &nextionLoop_attributes);
+  /* creation of t_nextionLoop */
+  t_nextionLoopHandle = osThreadNew(nextion_loop, NULL, &t_nextionLoop_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -930,7 +930,6 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_read_cells_volts */
  /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM1 interrupt took place, inside
