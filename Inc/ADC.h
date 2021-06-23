@@ -32,6 +32,7 @@
 /* USER CODE END Includes */
 
 extern ADC_HandleTypeDef hadc1;
+extern void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 
