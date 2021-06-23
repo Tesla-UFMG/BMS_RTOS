@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+*.cfg
 
 # External tool builders
 .externalToolBuilders/
@@ -23,7 +24,8 @@ local.properties
 *.launch
 
 # CDT-specific
-.cproject
+#.cproject
+#.settings/language.settings.xml
 
 # PDT-specific
 .buildpath
@@ -181,11 +183,6 @@ pip-log.txt
 *.lnp
 *.axf
 [Bb]uild/
-
-
-
-
-
 
 # User-specific uVision files
 *.opt
@@ -351,6 +348,7 @@ fabric.properties
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
+Debug/
 build/
 cmake-build-debug/
 cmake-build-release/

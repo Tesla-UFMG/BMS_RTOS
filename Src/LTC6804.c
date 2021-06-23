@@ -348,7 +348,7 @@ in the LTC6804 datasheet, page 27.
 
  Version 1.0 - Initial release 26/10/2020 by Tesla UFMG
 *******************************************************/
-static void LTC_temperature_convert(LTC_sensor_t* sensor)
+void LTC_temperature_convert(LTC_sensor_t* sensor)
 {
 	float t0, B, r, r0;
 	t0 = 25 + 273;

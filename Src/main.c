@@ -55,136 +55,136 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart3_rx;
 
-/* Definitions for readCellsVolts */
-osThreadId_t readCellsVoltsHandle;
-const osThreadAttr_t readCellsVolts_attributes = {
-  .name = "readCellsVolts",
+/* Definitions for t_readCellsVolts */
+osThreadId_t t_readCellsVoltsHandle;
+const osThreadAttr_t t_readCellsVolts_attributes = {
+  .name = "t_readCellsVolts",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for readCellsTemp */
-osThreadId_t readCellsTempHandle;
-const osThreadAttr_t readCellsTemp_attributes = {
-  .name = "readCellsTemp",
+/* Definitions for t_readCellsTemp */
+osThreadId_t t_readCellsTempHandle;
+const osThreadAttr_t t_readCellsTemp_attributes = {
+  .name = "t_readCellsTemp",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for readCellsStatus */
-osThreadId_t readCellsStatusHandle;
-const osThreadAttr_t readCellsStatus_attributes = {
-  .name = "readCellsStatus",
+/* Definitions for t_readCellsStatus */
+osThreadId_t t_readCellsStatusHandle;
+const osThreadAttr_t t_readCellsStatus_attributes = {
+  .name = "t_readCellsStatus",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANvoltage */
-osThreadId_t CANvoltageHandle;
-const osThreadAttr_t CANvoltage_attributes = {
-  .name = "CANvoltage",
+/* Definitions for t_CANvoltage */
+osThreadId_t t_CANvoltageHandle;
+const osThreadAttr_t t_CANvoltage_attributes = {
+  .name = "t_CANvoltage",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANtemperature */
-osThreadId_t CANtemperatureHandle;
-const osThreadAttr_t CANtemperature_attributes = {
-  .name = "CANtemperature",
+/* Definitions for t_CANtemperature */
+osThreadId_t t_CANtemperatureHandle;
+const osThreadAttr_t t_CANtemperature_attributes = {
+  .name = "t_CANtemperature",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANcurrent */
-osThreadId_t CANcurrentHandle;
-const osThreadAttr_t CANcurrent_attributes = {
-  .name = "CANcurrent",
+/* Definitions for t_CANcurrent */
+osThreadId_t t_CANcurrentHandle;
+const osThreadAttr_t t_CANcurrent_attributes = {
+  .name = "t_CANcurrent",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANglv */
-osThreadId_t CANglvHandle;
-const osThreadAttr_t CANglv_attributes = {
-  .name = "CANglv",
+/* Definitions for t_CANglv */
+osThreadId_t t_CANglvHandle;
+const osThreadAttr_t t_CANglv_attributes = {
+  .name = "t_CANglv",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for CANinfo */
-osThreadId_t CANinfoHandle;
-const osThreadAttr_t CANinfo_attributes = {
-  .name = "CANinfo",
+/* Definitions for t_CANinfo */
+osThreadId_t t_CANinfoHandle;
+const osThreadAttr_t t_CANinfo_attributes = {
+  .name = "t_CANinfo",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for balanceCheck */
-osThreadId_t balanceCheckHandle;
-const osThreadAttr_t balanceCheck_attributes = {
-  .name = "balanceCheck",
+/* Definitions for t_balanceCheck */
+osThreadId_t t_balanceCheckHandle;
+const osThreadAttr_t t_balanceCheck_attributes = {
+  .name = "t_balanceCheck",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for chargeUpdate */
-osThreadId_t chargeUpdateHandle;
-const osThreadAttr_t chargeUpdate_attributes = {
-  .name = "chargeUpdate",
+/* Definitions for t_chargeUpdate */
+osThreadId_t t_chargeUpdateHandle;
+const osThreadAttr_t t_chargeUpdate_attributes = {
+  .name = "t_chargeUpdate",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for dataUpdate */
-osThreadId_t dataUpdateHandle;
-const osThreadAttr_t dataUpdate_attributes = {
-  .name = "dataUpdate",
+/* Definitions for t_dataUpdate */
+osThreadId_t t_dataUpdateHandle;
+const osThreadAttr_t t_dataUpdate_attributes = {
+  .name = "t_dataUpdate",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for filterMaxVolts */
-osThreadId_t filterMaxVoltsHandle;
-const osThreadAttr_t filterMaxVolts_attributes = {
-  .name = "filterMaxVolts",
+/* Definitions for t_filterMaxVolts */
+osThreadId_t t_filterMaxVoltsHandle;
+const osThreadAttr_t t_filterMaxVolts_attributes = {
+  .name = "t_filterMaxVolts",
   .priority = (osPriority_t) osPriorityBelowNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for filterMinVolts */
-osThreadId_t filterMinVoltsHandle;
-const osThreadAttr_t filterMinVolts_attributes = {
-  .name = "filterMinVolts",
+/* Definitions for t_filterMinVolts */
+osThreadId_t t_filterMinVoltsHandle;
+const osThreadAttr_t t_filterMinVolts_attributes = {
+  .name = "t_filterMinVolts",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
-/* Definitions for filterTemp */
-osThreadId_t filterTempHandle;
-const osThreadAttr_t filterTemp_attributes = {
-  .name = "filterTemp",
+/* Definitions for t_filterTemp */
+osThreadId_t t_filterTempHandle;
+const osThreadAttr_t t_filterTemp_attributes = {
+  .name = "t_filterTemp",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for errorVoltage */
-osThreadId_t errorVoltageHandle;
-const osThreadAttr_t errorVoltage_attributes = {
-  .name = "errorVoltage",
+/* Definitions for t_errorVoltage */
+osThreadId_t t_errorVoltageHandle;
+const osThreadAttr_t t_errorVoltage_attributes = {
+  .name = "t_errorVoltage",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for errorTemperature */
-osThreadId_t errorTemperatureHandle;
-const osThreadAttr_t errorTemperature_attributes = {
-  .name = "errorTemperature",
+/* Definitions for t_errorTemp */
+osThreadId_t t_errorTempHandle;
+const osThreadAttr_t t_errorTemp_attributes = {
+  .name = "t_errorTemp",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for errorGLV */
-osThreadId_t errorGLVHandle;
-const osThreadAttr_t errorGLV_attributes = {
-  .name = "errorGLV",
+/* Definitions for t_errorGLV */
+osThreadId_t t_errorGLVHandle;
+const osThreadAttr_t t_errorGLV_attributes = {
+  .name = "t_errorGLV",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
-/* Definitions for errorMonitoring */
-osThreadId_t errorMonitoringHandle;
-const osThreadAttr_t errorMonitoring_attributes = {
-  .name = "errorMonitoring",
+/* Definitions for t_errorMonitoring */
+osThreadId_t t_errorMonitoringHandle;
+const osThreadAttr_t t_errorMonitoring_attributes = {
+  .name = "t_errorMonitoring",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for nextionLoop */
-osThreadId_t nextionLoopHandle;
-const osThreadAttr_t nextionLoop_attributes = {
-  .name = "nextionLoop",
+/* Definitions for t_nextionLoop */
+osThreadId_t t_nextionLoopHandle;
+const osThreadAttr_t t_nextionLoop_attributes = {
+  .name = "t_nextionLoop",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
@@ -232,25 +232,25 @@ static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
-void read_cells_volts(void *argument);
-void read_cells_temp(void *argument);
-void read_cells_status(void *argument);
-void CAN_voltage(void *argument);
-void CAN_temperature(void *argument);
-void CAN_current(void *argument);
-void CAN_GLV(void *argument);
-void CAN_info(void *argument);
-void balance_check(void *argument);
-void charge_update(void *argument);
-void data_update(void *argument);
-void filter_max_voltages(void *argument);
-void filter_min_voltages(void *argument);
-void filter_temperature(void *argument);
-void error_voltage(void *argument);
-void error_over_temperature(void *argument);
-void error_GLV_undervoltage(void *argument);
-void error_monitoring(void *argument);
-void nextion_loop(void *argument);
+extern void read_cells_volts(void *argument);
+extern void read_cells_temp(void *argument);
+extern void read_cells_status(void *argument);
+extern void CAN_voltage(void *argument);
+extern void CAN_temperature(void *argument);
+extern void CAN_current(void *argument);
+extern void CAN_GLV(void *argument);
+extern void CAN_info(void *argument);
+extern void balance_check(void *argument);
+extern void charge_update(void *argument);
+extern void data_update(void *argument);
+extern void filter_max_voltages(void *argument);
+extern void filter_min_voltages(void *argument);
+extern void filter_temperature(void *argument);
+extern void error_voltage(void *argument);
+extern void error_over_temperature(void *argument);
+extern void error_GLV_undervoltage(void *argument);
+extern void error_monitoring(void *argument);
+extern void nextion_loop(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -302,7 +302,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 
 	BMS->v_GLV = filter(BMS->v_GLV , ((float)(ADC_buf[4] + 400) * 4.5));
 }
-
 /* USER CODE END 0 */
 
 /**
@@ -408,62 +407,62 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of readCellsVolts */
-  readCellsVoltsHandle = osThreadNew(read_cells_volts, NULL, &readCellsVolts_attributes);
+  /* creation of t_readCellsVolts */
+  t_readCellsVoltsHandle = osThreadNew(read_cells_volts, NULL, &t_readCellsVolts_attributes);
 
-  /* creation of readCellsTemp */
-  readCellsTempHandle = osThreadNew(read_cells_temp, NULL, &readCellsTemp_attributes);
+  /* creation of t_readCellsTemp */
+  t_readCellsTempHandle = osThreadNew(read_cells_temp, NULL, &t_readCellsTemp_attributes);
 
-  /* creation of readCellsStatus */
-  readCellsStatusHandle = osThreadNew(read_cells_status, NULL, &readCellsStatus_attributes);
+  /* creation of t_readCellsStatus */
+  t_readCellsStatusHandle = osThreadNew(read_cells_status, NULL, &t_readCellsStatus_attributes);
 
-  /* creation of CANvoltage */
-  CANvoltageHandle = osThreadNew(CAN_voltage, NULL, &CANvoltage_attributes);
+  /* creation of t_CANvoltage */
+  t_CANvoltageHandle = osThreadNew(CAN_voltage, NULL, &t_CANvoltage_attributes);
 
-  /* creation of CANtemperature */
-  CANtemperatureHandle = osThreadNew(CAN_temperature, NULL, &CANtemperature_attributes);
+  /* creation of t_CANtemperature */
+  t_CANtemperatureHandle = osThreadNew(CAN_temperature, NULL, &t_CANtemperature_attributes);
 
-  /* creation of CANcurrent */
-  CANcurrentHandle = osThreadNew(CAN_current, NULL, &CANcurrent_attributes);
+  /* creation of t_CANcurrent */
+  t_CANcurrentHandle = osThreadNew(CAN_current, NULL, &t_CANcurrent_attributes);
 
-  /* creation of CANglv */
-  CANglvHandle = osThreadNew(CAN_GLV, NULL, &CANglv_attributes);
+  /* creation of t_CANglv */
+  t_CANglvHandle = osThreadNew(CAN_GLV, NULL, &t_CANglv_attributes);
 
-  /* creation of CANinfo */
-  CANinfoHandle = osThreadNew(CAN_info, NULL, &CANinfo_attributes);
+  /* creation of t_CANinfo */
+  t_CANinfoHandle = osThreadNew(CAN_info, NULL, &t_CANinfo_attributes);
 
-  /* creation of balanceCheck */
-  balanceCheckHandle = osThreadNew(balance_check, NULL, &balanceCheck_attributes);
+  /* creation of t_balanceCheck */
+  t_balanceCheckHandle = osThreadNew(balance_check, NULL, &t_balanceCheck_attributes);
 
-  /* creation of chargeUpdate */
-  chargeUpdateHandle = osThreadNew(charge_update, NULL, &chargeUpdate_attributes);
+  /* creation of t_chargeUpdate */
+  t_chargeUpdateHandle = osThreadNew(charge_update, NULL, &t_chargeUpdate_attributes);
 
-  /* creation of dataUpdate */
-  dataUpdateHandle = osThreadNew(data_update, NULL, &dataUpdate_attributes);
+  /* creation of t_dataUpdate */
+  t_dataUpdateHandle = osThreadNew(data_update, NULL, &t_dataUpdate_attributes);
 
-  /* creation of filterMaxVolts */
-  filterMaxVoltsHandle = osThreadNew(filter_max_voltages, NULL, &filterMaxVolts_attributes);
+  /* creation of t_filterMaxVolts */
+  t_filterMaxVoltsHandle = osThreadNew(filter_max_voltages, NULL, &t_filterMaxVolts_attributes);
 
-  /* creation of filterMinVolts */
-  filterMinVoltsHandle = osThreadNew(filter_min_voltages, NULL, &filterMinVolts_attributes);
+  /* creation of t_filterMinVolts */
+  t_filterMinVoltsHandle = osThreadNew(filter_min_voltages, NULL, &t_filterMinVolts_attributes);
 
-  /* creation of filterTemp */
-  filterTempHandle = osThreadNew(filter_temperature, NULL, &filterTemp_attributes);
+  /* creation of t_filterTemp */
+  t_filterTempHandle = osThreadNew(filter_temperature, NULL, &t_filterTemp_attributes);
 
-  /* creation of errorVoltage */
-  errorVoltageHandle = osThreadNew(error_voltage, NULL, &errorVoltage_attributes);
+  /* creation of t_errorVoltage */
+  t_errorVoltageHandle = osThreadNew(error_voltage, NULL, &t_errorVoltage_attributes);
 
-  /* creation of errorTemperature */
-  errorTemperatureHandle = osThreadNew(error_over_temperature, NULL, &errorTemperature_attributes);
+  /* creation of t_errorTemp */
+  t_errorTempHandle = osThreadNew(error_over_temperature, NULL, &t_errorTemp_attributes);
 
-  /* creation of errorGLV */
-  errorGLVHandle = osThreadNew(error_GLV_undervoltage, NULL, &errorGLV_attributes);
+  /* creation of t_errorGLV */
+  t_errorGLVHandle = osThreadNew(error_GLV_undervoltage, NULL, &t_errorGLV_attributes);
 
-  /* creation of errorMonitoring */
-  errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &errorMonitoring_attributes);
+  /* creation of t_errorMonitoring */
+  t_errorMonitoringHandle = osThreadNew(error_monitoring, NULL, &t_errorMonitoring_attributes);
 
-  /* creation of nextionLoop */
-  nextionLoopHandle = osThreadNew(nextion_loop, NULL, &nextionLoop_attributes);
+  /* creation of t_nextionLoop */
+  t_nextionLoopHandle = osThreadNew(nextion_loop, NULL, &t_nextionLoop_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -930,551 +929,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
-
-/* USER CODE BEGIN Header_read_cells_volts */
-/**
-  * @brief  Function implementing the readCellsVolts thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_read_cells_volts */
-void read_cells_volts(void *argument)
-{
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-	  BMS_convert(BMS_CONVERT_CELL, BMS);
-	  osDelay(100);
-  }
-  /* USER CODE END 5 */
-}
-
-/* USER CODE BEGIN Header_read_cells_temp */
-/**
-  * @brief  Function implementing the readCellsTemp thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_read_cells_temp */
-void read_cells_temp(void *argument)
-{
-  /* USER CODE BEGIN read_cells_temp */
-  /* Infinite loop */
-  for(;;)
-  {
-	  BMS_convert(BMS_CONVERT_GPIO, BMS);
-	  osDelay(100);
-  }
-  /* USER CODE END read_cells_temp */
-}
-
-/* USER CODE BEGIN Header_read_cells_status */
-/**
-* @brief Function implementing the readCellsStatus thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_read_cells_status */
-void read_cells_status(void *argument)
-{
-  /* USER CODE BEGIN read_cells_status */
-  /* Infinite loop */
-  for(;;)
-  {
-	  BMS_convert(BMS_CONVERT_STAT, BMS);
-	  osDelay(100);
-  }
-  /* USER CODE END read_cells_status */
-}
-
-/* USER CODE BEGIN Header_CAN_voltage */
-/**
-* @brief Function implementing the CANvoltage thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_voltage */
-void CAN_voltage(void *argument)
-{
-  /* USER CODE BEGIN CAN_voltage */
-
-  /* Infinite loop */
-  for(;;)
-  {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_voltage(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
-	  osDelay(100);
-  }
-  /* USER CODE END CAN_voltage */
-}
-
-/* USER CODE BEGIN Header_CAN_temperature */
-/**
-* @brief Function implementing the CANtemperature thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_temperature */
-void CAN_temperature(void *argument)
-{
-  /* USER CODE BEGIN CAN_temperature */
-  /* Infinite loop */
-  for(;;)
-  {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_temperature(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
-	  osDelay(100);
-  }
-  /* USER CODE END CAN_temperature */
-}
-
-/* USER CODE BEGIN Header_CAN_current */
-/**
-* @brief Function implementing the CANcurrent thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_current */
-void CAN_current(void *argument)
-{
-  /* USER CODE BEGIN CAN_current */
-  /* Infinite loop */
-  for(;;)
-  {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_current(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
-	  osDelay(100);
-  }
-  /* USER CODE END CAN_current */
-}
-
-/* USER CODE BEGIN Header_CAN_GLV */
-/**
-* @brief Function implementing the CANglv thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_GLV */
-void CAN_GLV(void *argument)
-{
-  /* USER CODE BEGIN CAN_GLV */
-  /* Infinite loop */
-  for(;;)
-  {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_GLV(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
-	  osDelay(100);
-  }
-  /* USER CODE END CAN_GLV */
-}
-
-/* USER CODE BEGIN Header_CAN_info */
-/**
-* @brief Function implementing the CANinfo thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_info */
-void CAN_info(void *argument)
-{
-  /* USER CODE BEGIN CAN_info */
-  /* Infinite loop */
-  for(;;)
-  {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_info(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
-	  osDelay(100);
-  }
-  /* USER CODE END CAN_info */
-}
-
-/* USER CODE BEGIN Header_balance_check */
-/**
-* @brief Function implementing the balanceCheck thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_balance_check */
-void balance_check(void *argument)
-{
-  /* USER CODE BEGIN balance_check */
-  /* Infinite loop */
-  for(;;)
-  {
-	  for(uint8_t i = 0; i < N_OF_PACKS; i++)
-	  {
-		  if(BMS->mode & BMS_BALANCING)
-	  		LTC_set_balance_flag(BMS->config, BMS->sensor[i]);
-		  else
-	  		LTC_reset_balance_flag(BMS->config, BMS->sensor[i]);
-
-		  LTC_balance(BMS->config, BMS->sensor[i]);
-	  }
-
-	  osDelay(100);
-  }
-  /* USER CODE END balance_check */
-}
-
-/* USER CODE BEGIN Header_charge_update */
-/**
-* @brief Function implementing the chargeUpdate thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_charge_update */
-void charge_update(void *argument)
-{
-  /* USER CODE BEGIN charge_update */
-  /* Infinite loop */
-  for(;;)
-  {
-	  if(BMS->mode & BMS_MONITORING)
-		  BMS_discharging(BMS);
-	  else if(BMS->mode & BMS_CHARGING)
-		  BMS_charging(BMS);
-
-	  if(BMS->charge < BMS->charge_min)
-	  	BMS->charge_min = BMS->charge;
-	  if(BMS->charge > BMS->charge_max)
-	  	BMS->charge_max = BMS->charge;
-
-	  EE_WriteVariable(0x0, (uint16_t) (BMS->charge >> 16));
-	  EE_WriteVariable(0x1, (uint16_t) BMS->charge);
-
-	  EE_WriteVariable(0x2, (uint16_t) (BMS->charge_min >> 16));
-	  EE_WriteVariable(0x3, (uint16_t) BMS->charge_min);
-
-	  EE_WriteVariable(0x4, (uint16_t) (BMS->charge_max >> 16));
-	  EE_WriteVariable(0x5, (uint16_t) BMS->charge_max);
-
-	  osDelay(100);
-  }
-  /* USER CODE END charge_update */
-}
-
-/* USER CODE BEGIN Header_data_update */
-/**
-* @brief Function implementing the dataUpdate thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_data_update */
-void data_update(void *argument)
-{
-  /* USER CODE BEGIN data_update */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END data_update */
-}
-
-/* USER CODE BEGIN Header_filter_max_voltages */
-/**
-* @brief Function implementing the filterMaxVolts thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_filter_max_voltages */
-void filter_max_voltages(void *argument)
-{
-  /* USER CODE BEGIN filter_max_voltages */
-  uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
-  uint8_t index = 0;
-  osStatus_t status;
-
-  //start previous_voltage array and set sum initial value
-  while(index < N_AVERAGE)
-  {
-	  status = osMessageQueueGet(q_maxVoltagesHandle, &input_voltage, NULL, 0);
-	  if(status == osOK)
-	  {
-		  sum += input_voltage;
-		  previous_voltages[index] = input_voltage;
-		  index++;
-	  }
-	  else
-		  osDelay(10);
-  }
-
-  index = 0;
-  /* Infinite loop */
-  for(;;)
-  {
-	status = osMessageQueueGet(q_maxVoltagesHandle, &input_voltage, NULL, 0);
-
-	if(status == osOK)
-	{
-		sum -= previous_voltages[index];
-		sum += input_voltage;
-		previous_voltages[index] = input_voltage;
-
-		if(++index == N_AVERAGE)
-			index = 0;
-
-		BMS->v_max = sum / N_AVERAGE;
-	}
-
-	osDelay(100);
-  }
-  /* USER CODE END filter_max_voltages */
-}
-
-/* USER CODE BEGIN Header_filter_min_voltages */
-/**
-* @brief Function implementing the filterMinVolts thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_filter_min_voltages */
-void filter_min_voltages(void *argument)
-{
-  /* USER CODE BEGIN filter_min_voltages */
-  uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
-  uint8_t index = 0;
-  osStatus_t status;
-
-  //start previous_voltage array and set sum initial value
-  while(index < N_AVERAGE)
-  {
-	  status = osMessageQueueGet(q_minVoltagesHandle, &input_voltage, NULL, 0);
-	  if(status == osOK)
-	  {
-		  sum += input_voltage;
-		  previous_voltages[index] = input_voltage;
-		  index++;
-	  }
-	  else
-		  osDelay(10);
-  }
-
-  index = 0;
-  /* Infinite loop */
-  for(;;)
-  {
-	status = osMessageQueueGet(q_minVoltagesHandle, &input_voltage, NULL, 0);
-
-	if(status == osOK)
-	{
-		sum -= previous_voltages[index];
-		sum += input_voltage;
-		previous_voltages[index] = input_voltage;
-
-		if(++index == N_AVERAGE)
-			index = 0;
-
-		BMS->v_min = sum / N_AVERAGE;
-	}
-
-    osDelay(100);
-  }
-  /* USER CODE END filter_min_voltages */
-}
-
-/* USER CODE BEGIN Header_filter_temperature */
-/**
-* @brief Function implementing the filterTemp thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_filter_temperature */
-void filter_temperature(void *argument)
-{
-  /* USER CODE BEGIN filter_temperature */
-  uint16_t sum = 0, input_temperature, previous_temperatures[N_AVERAGE];
-  uint8_t index = 0;
-  osStatus_t status;
-
-  //start previous_voltage array and set sum initial value
-  while(index < N_AVERAGE)
-  {
-	  status = osMessageQueueGet(q_maxTemperaturesHandle, &input_temperature, NULL, 0);
-	  if(status == osOK)
-	  {
-		  sum += input_temperature;
-		  previous_temperatures[index] = input_temperature;
-
-		  index++;
-	  }
-	  else
-		  osDelay(10);
-  }
-
-  index = 0;
-  /* Infinite loop */
-  for(;;)
-  {
-	status = osMessageQueueGet(q_maxTemperaturesHandle, &input_temperature, NULL, 0);
-
-	if(status == osOK)
-	{
-		sum -= previous_temperatures[index];
-		sum += input_temperature;
-		previous_temperatures[index] = input_temperature;
-
-		if(++index == N_AVERAGE)
-			index = 0;
-
-		BMS->t_max = sum / N_AVERAGE;
-	}
-
-	osDelay(100);
-  }
-  /* USER CODE END filter_temperature */
-}
-
-/* USER CODE BEGIN Header_error_voltage */
-/**
-* @brief Function implementing the errorVoltage thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_error_voltage */
-void error_voltage(void *argument)
-{
-  /* USER CODE BEGIN error_voltage */
-  uint16_t errorOvervoltage = 0, errorUndervoltage = 1;
-  /* Infinite loop */
-  for(;;)
-  {
-	if(BMS->v_max >= MAX_CELL_V_DISCHARGE)
-	{
-		BMS->error |= ERR_UNDER_VOLTAGE;
-		osMessageQueuePut(q_reportErrorHandle, &errorOvervoltage, 0, osWaitForever);
-	}
-	else
-	{
-		BMS->error &= ~ERR_UNDER_VOLTAGE;
-	}
-
-	if(BMS->v_min <= MIN_CELL_V)
-	{
-		BMS->error |= ERR_UNDER_VOLTAGE;
-		osMessageQueuePut(q_reportErrorHandle, &errorUndervoltage, 0, osWaitForever);
-	}
-	else
-	{
-		BMS->error &= ~ERR_UNDER_VOLTAGE;
-	}
-
-    osDelay(100);
-  }
-  /* USER CODE END error_voltage */
-}
-
-/* USER CODE BEGIN Header_error_over_temperature */
-/**
-* @brief Function implementing the errorOverTemp thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_error_over_temperature */
-void error_over_temperature(void *argument)
-{
-  /* USER CODE BEGIN error_over_temperature */
-  uint16_t errorOverTemperature = 2;
-  /* Infinite loop */
-  for(;;)
-  {
-	if(BMS->t_max >= MAX_TEMPERATURE)
-	{
-	  	BMS->error |= ERR_OVER_TEMPERATURE;
-	  	osMessageQueuePut(q_reportErrorHandle, &errorOverTemperature, 0, osWaitForever);
-	}
-	else
-	{
-	  	BMS->error &= ~ERR_OVER_TEMPERATURE;
-	}
-
-    osDelay(100);
-  }
-  /* USER CODE END error_over_temperature */
-}
-
-/* USER CODE BEGIN Header_error_GLV_undervoltage */
-/**
-* @brief Function implementing the errorGLV thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_error_GLV_undervoltage */
-void error_GLV_undervoltage(void *argument)
-{
-  /* USER CODE BEGIN error_GLV_undervoltage */
-  uint16_t errorGLV = 3;
-  /* Infinite loop */
-  for(;;)
-  {
-	if(BMS->v_GLV < MIN_GLV_V)
-	{
-		BMS->error |= ERR_GLV_VOLTAGE;
-		osMessageQueuePut(q_reportErrorHandle, &errorGLV, 0, osWaitForever);
-	}
-	else
-	{
-		BMS->error &= ~ERR_GLV_VOLTAGE;
-	}
-
-    osDelay(100);
-  }
-  /* USER CODE END error_GLV_undervoltage */
-}
-
-/* USER CODE BEGIN Header_error_monitoring */
-/**
-* @brief Function implementing the errorMonitoring thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_error_monitoring */
-void error_monitoring(void *argument)
-{
-  /* USER CODE BEGIN error_monitoring */
-  /* Infinite loop */
-  for(;;)
-  {
-	if(BMS->error != ERR_NO_ERROR)
-	{
-		HAL_GPIO_WritePin(AIR_ENABLE_GPIO_Port, AIR_ENABLE_Pin, RESET);
-		HAL_GPIO_WritePin(ERR_LED_GPIO_Port, ERR_LED_Pin, SET);
-	}
-	else
-	{
-		HAL_GPIO_WritePin(AIR_ENABLE_GPIO_Port, AIR_ENABLE_Pin, SET);
-		HAL_GPIO_WritePin(ERR_LED_GPIO_Port, ERR_LED_Pin, RESET);
-	}
-
-    osDelay(100);
-  }
-  /* USER CODE END error_monitoring */
-}
-
-/* USER CODE BEGIN Header_nextion_loop */
-/**
-* @brief Function implementing the nextionLoop thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_nextion_loop */
-void nextion_loop(void *argument)
-{
-  /* USER CODE BEGIN nextion_loop */
-  /* Infinite loop */
-  for(;;)
-  {
-	  nex_loop(BMS);
-	  osDelay(1);
-  }
-  /* USER CODE END nextion_loop */
-}
 
  /**
   * @brief  Period elapsed callback in non blocking mode
