@@ -17,4 +17,4 @@ extern osMessageQueueId_t q_minVoltagesHandle;
 extern osMessageQueueId_t q_maxTemperaturesHandle;
 extern osMessageQueueId_t q_reportErrorHandle;
 
-#endif
+#endif /* TASKS_H */
