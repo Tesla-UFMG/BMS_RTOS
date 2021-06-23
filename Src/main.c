@@ -225,7 +225,7 @@ static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
-void read_cells_volts(void *argument);
+extern void read_cells_volts(void *argument);
 extern void read_cells_temp(void *argument);
 extern void read_cells_status(void *argument);
 extern void CAN_voltage(void *argument);
@@ -918,24 +918,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
-
-/* USER CODE BEGIN Header_read_cells_volts */
-/**
-  * @brief  Function implementing the t_readCellsVolts thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_read_cells_volts */
-__weak void read_cells_volts(void *argument)
-{
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END 5 */
-}
 
  /**
   * @brief  Period elapsed callback in non blocking mode
