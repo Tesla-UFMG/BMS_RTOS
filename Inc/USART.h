@@ -27,6 +27,7 @@
 #include <stdarg.h>
 #include "dwt_stm32_delay.h"
 #include "defines.h"
+#include "stdio.h"
 
 /* USER CODE BEGIN Includes */
 

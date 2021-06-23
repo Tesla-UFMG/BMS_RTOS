@@ -22,8 +22,8 @@
 
 /* USER CODE BEGIN 0 */
 
-
 #define abs(x) ((x)>=0?(x):-(x))
+extern void Error_Handler(void);
 
 /* USER CODE END 0 */
 
