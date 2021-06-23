@@ -183,11 +183,6 @@ pip-log.txt
 *.axf
 [Bb]uild/
 
-
-
-
-
-
 # User-specific uVision files
 *.opt
 *.uvopt
@@ -352,6 +347,7 @@ fabric.properties
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
+Debug/
 build/
 cmake-build-debug/
 cmake-build-release/
