@@ -228,24 +228,6 @@ void charge_update(void *argument)
   /* USER CODE END charge_update */
 }
 
-/* USER CODE BEGIN Header_data_update */
-/**
-* @brief Function implementing the dataUpdate thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_data_update */
-void data_update(void *argument)
-{
-  /* USER CODE BEGIN data_update */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END data_update */
-}
-
 /* USER CODE BEGIN Header_filter_max_voltages */
 /**
 * @brief Function implementing the filterMaxVolts thread.

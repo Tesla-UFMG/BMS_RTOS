@@ -59,49 +59,49 @@ DMA_HandleTypeDef hdma_usart3_rx;
 osThreadId_t t_readCellsVoltsHandle;
 const osThreadAttr_t t_readCellsVolts_attributes = {
   .name = "t_readCellsVolts",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityHigh,
   .stack_size = 128 * 4
 };
 /* Definitions for t_readCellsTemp */
 osThreadId_t t_readCellsTempHandle;
 const osThreadAttr_t t_readCellsTemp_attributes = {
   .name = "t_readCellsTemp",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal1,
   .stack_size = 128 * 4
 };
 /* Definitions for t_readCellsStatus */
 osThreadId_t t_readCellsStatusHandle;
 const osThreadAttr_t t_readCellsStatus_attributes = {
   .name = "t_readCellsStatus",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal,
   .stack_size = 128 * 4
 };
 /* Definitions for t_CANvoltage */
 osThreadId_t t_CANvoltageHandle;
 const osThreadAttr_t t_CANvoltage_attributes = {
   .name = "t_CANvoltage",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityNormal4,
   .stack_size = 128 * 4
 };
 /* Definitions for t_CANtemperature */
 osThreadId_t t_CANtemperatureHandle;
 const osThreadAttr_t t_CANtemperature_attributes = {
   .name = "t_CANtemperature",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityNormal2,
   .stack_size = 128 * 4
 };
 /* Definitions for t_CANcurrent */
 osThreadId_t t_CANcurrentHandle;
 const osThreadAttr_t t_CANcurrent_attributes = {
   .name = "t_CANcurrent",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityNormal3,
   .stack_size = 128 * 4
 };
 /* Definitions for t_CANglv */
 osThreadId_t t_CANglvHandle;
 const osThreadAttr_t t_CANglv_attributes = {
   .name = "t_CANglv",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityNormal1,
   .stack_size = 128 * 4
 };
 /* Definitions for t_CANinfo */
@@ -115,21 +115,14 @@ const osThreadAttr_t t_CANinfo_attributes = {
 osThreadId_t t_balanceCheckHandle;
 const osThreadAttr_t t_balanceCheck_attributes = {
   .name = "t_balanceCheck",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityBelowNormal,
   .stack_size = 128 * 4
 };
 /* Definitions for t_chargeUpdate */
 osThreadId_t t_chargeUpdateHandle;
 const osThreadAttr_t t_chargeUpdate_attributes = {
   .name = "t_chargeUpdate",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
-/* Definitions for t_dataUpdate */
-osThreadId_t t_dataUpdateHandle;
-const osThreadAttr_t t_dataUpdate_attributes = {
-  .name = "t_dataUpdate",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal2,
   .stack_size = 128 * 4
 };
 /* Definitions for t_filterMaxVolts */
@@ -157,35 +150,35 @@ const osThreadAttr_t t_filterTemp_attributes = {
 osThreadId_t t_errorVoltageHandle;
 const osThreadAttr_t t_errorVoltage_attributes = {
   .name = "t_errorVoltage",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityHigh3,
   .stack_size = 128 * 4
 };
 /* Definitions for t_errorTemp */
 osThreadId_t t_errorTempHandle;
 const osThreadAttr_t t_errorTemp_attributes = {
   .name = "t_errorTemp",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityHigh2,
   .stack_size = 128 * 4
 };
 /* Definitions for t_errorGLV */
 osThreadId_t t_errorGLVHandle;
 const osThreadAttr_t t_errorGLV_attributes = {
   .name = "t_errorGLV",
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityHigh1,
   .stack_size = 128 * 4
 };
 /* Definitions for t_errorMonitoring */
 osThreadId_t t_errorMonitoringHandle;
 const osThreadAttr_t t_errorMonitoring_attributes = {
   .name = "t_errorMonitoring",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityRealtime,
   .stack_size = 128 * 4
 };
 /* Definitions for t_nextionLoop */
 osThreadId_t t_nextionLoopHandle;
 const osThreadAttr_t t_nextionLoop_attributes = {
   .name = "t_nextionLoop",
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityBelowNormal1,
   .stack_size = 128 * 4
 };
 /* Definitions for q_maxVoltages */
@@ -232,7 +225,7 @@ static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
-extern void read_cells_volts(void *argument);
+void read_cells_volts(void *argument);
 extern void read_cells_temp(void *argument);
 extern void read_cells_status(void *argument);
 extern void CAN_voltage(void *argument);
@@ -242,7 +235,6 @@ extern void CAN_GLV(void *argument);
 extern void CAN_info(void *argument);
 extern void balance_check(void *argument);
 extern void charge_update(void *argument);
-extern void data_update(void *argument);
 extern void filter_max_voltages(void *argument);
 extern void filter_min_voltages(void *argument);
 extern void filter_temperature(void *argument);
@@ -436,9 +428,6 @@ int main(void)
 
   /* creation of t_chargeUpdate */
   t_chargeUpdateHandle = osThreadNew(charge_update, NULL, &t_chargeUpdate_attributes);
-
-  /* creation of t_dataUpdate */
-  t_dataUpdateHandle = osThreadNew(data_update, NULL, &t_dataUpdate_attributes);
 
   /* creation of t_filterMaxVolts */
   t_filterMaxVoltsHandle = osThreadNew(filter_max_voltages, NULL, &t_filterMaxVolts_attributes);
@@ -898,8 +887,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(ISOSPI_CS_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : MODE_SELECT_Pin FLAG_RESET_Pin */
-  GPIO_InitStruct.Pin = MODE_SELECT_Pin|FLAG_RESET_Pin;
+  /*Configure GPIO pins : MODE_SELECT_Pin FLAG_RESET_Pin GLV_SAMPLE_Pin */
+  GPIO_InitStruct.Pin = MODE_SELECT_Pin|FLAG_RESET_Pin|GLV_SAMPLE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -929,6 +918,24 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_read_cells_volts */
+/**
+  * @brief  Function implementing the t_readCellsVolts thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_read_cells_volts */
+__weak void read_cells_volts(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END 5 */
+}
 
  /**
   * @brief  Period elapsed callback in non blocking mode
