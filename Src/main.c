@@ -83,13 +83,6 @@ const osThreadAttr_t t_CANtransmission_attributes = {
   .priority = (osPriority_t) osPriorityNormal4,
   .stack_size = 128 * 4
 };
-/* Definitions for t_balanceCheck */
-osThreadId_t t_balanceCheckHandle;
-const osThreadAttr_t t_balanceCheck_attributes = {
-  .name = "t_balanceCheck",
-  .priority = (osPriority_t) osPriorityBelowNormal,
-  .stack_size = 128 * 4
-};
 /* Definitions for t_chargeUpdate */
 osThreadId_t t_chargeUpdateHandle;
 const osThreadAttr_t t_chargeUpdate_attributes = {
@@ -196,7 +189,6 @@ extern void read_cells_volts(void *argument);
 extern void read_cells_temp(void *argument);
 extern void read_cells_status(void *argument);
 extern void CAN_transmission(void *argument);
-extern void balance_check(void *argument);
 extern void charge_update(void *argument);
 extern void filter_max_voltages(void *argument);
 extern void filter_min_voltages(void *argument);
@@ -370,9 +362,6 @@ int main(void)
 
   /* creation of t_CANtransmission */
   t_CANtransmissionHandle = osThreadNew(CAN_transmission, NULL, &t_CANtransmission_attributes);
-
-  /* creation of t_balanceCheck */
-  t_balanceCheckHandle = osThreadNew(balance_check, NULL, &t_balanceCheck_attributes);
 
   /* creation of t_chargeUpdate */
   t_chargeUpdateHandle = osThreadNew(charge_update, NULL, &t_chargeUpdate_attributes);

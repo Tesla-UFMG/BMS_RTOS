@@ -52,6 +52,15 @@ void read_cells_status(void *argument)
   for(;;)
   {
 	  BMS_convert(BMS_CONVERT_STAT, BMS);
+	  for(uint8_t i = 0; i < N_OF_PACKS; i++)
+	  {
+		  if(BMS->mode & BMS_BALANCING)
+			  LTC_set_balance_flag(BMS->config, BMS->sensor[i]);
+		  else
+			  LTC_reset_balance_flag(BMS->config, BMS->sensor[i]);
+
+		  LTC_balance(BMS->config, BMS->sensor[i]);
+	  }
 	  osDelay(100);
   }
   /* USER CODE END read_cells_status */
@@ -75,34 +84,6 @@ void CAN_transmission(void *argument)
 	  osDelay(100);
   }
   /* USER CODE END CAN_voltage */
-}
-
-/* USER CODE BEGIN Header_balance_check */
-/**
-* @brief Function implementing the balanceCheck thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_balance_check */
-void balance_check(void *argument)
-{
-  /* USER CODE BEGIN balance_check */
-  /* Infinite loop */
-  for(;;)
-  {
-	  for(uint8_t i = 0; i < N_OF_PACKS; i++)
-	  {
-		  if(BMS->mode & BMS_BALANCING)
-	  		LTC_set_balance_flag(BMS->config, BMS->sensor[i]);
-		  else
-	  		LTC_reset_balance_flag(BMS->config, BMS->sensor[i]);
-
-		  LTC_balance(BMS->config, BMS->sensor[i]);
-	  }
-
-	  osDelay(100);
-  }
-  /* USER CODE END balance_check */
 }
 
 /* USER CODE BEGIN Header_charge_update */
