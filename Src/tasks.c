@@ -64,103 +64,17 @@ void read_cells_status(void *argument)
 * @retval None
 */
 /* USER CODE END Header_CAN_voltage */
-void CAN_voltage(void *argument)
+void CAN_transmission(void *argument)
 {
   /* USER CODE BEGIN CAN_voltage */
 
   /* Infinite loop */
   for(;;)
   {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_voltage(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
+	  BMS_CAN(BMS);
 	  osDelay(100);
   }
   /* USER CODE END CAN_voltage */
-}
-
-/* USER CODE BEGIN Header_CAN_temperature */
-/**
-* @brief Function implementing the CANtemperature thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_temperature */
-void CAN_temperature(void *argument)
-{
-  /* USER CODE BEGIN CAN_temperature */
-  /* Infinite loop */
-  for(;;)
-  {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_temperature(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
-	  osDelay(100);
-  }
-  /* USER CODE END CAN_temperature */
-}
-
-/* USER CODE BEGIN Header_CAN_current */
-/**
-* @brief Function implementing the CANcurrent thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_current */
-void CAN_current(void *argument)
-{
-  /* USER CODE BEGIN CAN_current */
-  /* Infinite loop */
-  for(;;)
-  {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_current(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
-	  osDelay(100);
-  }
-  /* USER CODE END CAN_current */
-}
-
-/* USER CODE BEGIN Header_CAN_GLV */
-/**
-* @brief Function implementing the CANglv thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_GLV */
-void CAN_GLV(void *argument)
-{
-  /* USER CODE BEGIN CAN_GLV */
-  /* Infinite loop */
-  for(;;)
-  {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_GLV(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
-	  osDelay(100);
-  }
-  /* USER CODE END CAN_GLV */
-}
-
-/* USER CODE BEGIN Header_CAN_info */
-/**
-* @brief Function implementing the CANinfo thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_info */
-void CAN_info(void *argument)
-{
-  /* USER CODE BEGIN CAN_info */
-  /* Infinite loop */
-  for(;;)
-  {
-	  osSemaphoreAcquire(commSemaphoreHandle, osWaitForever);
-	  BMS_CAN_info(BMS);
-	  osSemaphoreRelease(commSemaphoreHandle);
-	  osDelay(100);
-  }
-  /* USER CODE END CAN_info */
 }
 
 /* USER CODE BEGIN Header_balance_check */

@@ -64,7 +64,7 @@ void BMS_CAN_temperature(BMS_struct_t*);
 void BMS_CAN_current(BMS_struct_t*);
 void BMS_CAN_GLV(BMS_struct_t*);
 void BMS_CAN_info(BMS_struct_t*);
-void BMS_can(BMS_struct_t*);
+void BMS_CAN(BMS_struct_t*);
 void BMS_SoC(BMS_struct_t*);
 void BMS_initial_SOC(BMS_struct_t*);
 void BMS_charging(BMS_struct_t*);
