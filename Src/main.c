@@ -76,46 +76,11 @@ const osThreadAttr_t t_readCellsStatus_attributes = {
   .priority = (osPriority_t) osPriorityAboveNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for t_CANvoltage */
-osThreadId_t t_CANvoltageHandle;
-const osThreadAttr_t t_CANvoltage_attributes = {
-  .name = "t_CANvoltage",
+/* Definitions for t_CANtransmission */
+osThreadId_t t_CANtransmissionHandle;
+const osThreadAttr_t t_CANtransmission_attributes = {
+  .name = "t_CANtransmission",
   .priority = (osPriority_t) osPriorityNormal4,
-  .stack_size = 128 * 4
-};
-/* Definitions for t_CANtemperature */
-osThreadId_t t_CANtemperatureHandle;
-const osThreadAttr_t t_CANtemperature_attributes = {
-  .name = "t_CANtemperature",
-  .priority = (osPriority_t) osPriorityNormal2,
-  .stack_size = 128 * 4
-};
-/* Definitions for t_CANcurrent */
-osThreadId_t t_CANcurrentHandle;
-const osThreadAttr_t t_CANcurrent_attributes = {
-  .name = "t_CANcurrent",
-  .priority = (osPriority_t) osPriorityNormal3,
-  .stack_size = 128 * 4
-};
-/* Definitions for t_CANglv */
-osThreadId_t t_CANglvHandle;
-const osThreadAttr_t t_CANglv_attributes = {
-  .name = "t_CANglv",
-  .priority = (osPriority_t) osPriorityNormal1,
-  .stack_size = 128 * 4
-};
-/* Definitions for t_CANinfo */
-osThreadId_t t_CANinfoHandle;
-const osThreadAttr_t t_CANinfo_attributes = {
-  .name = "t_CANinfo",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-};
-/* Definitions for t_balanceCheck */
-osThreadId_t t_balanceCheckHandle;
-const osThreadAttr_t t_balanceCheck_attributes = {
-  .name = "t_balanceCheck",
-  .priority = (osPriority_t) osPriorityBelowNormal,
   .stack_size = 128 * 4
 };
 /* Definitions for t_chargeUpdate */
@@ -201,11 +166,6 @@ osMessageQueueId_t q_reportErrorHandle;
 const osMessageQueueAttr_t q_reportError_attributes = {
   .name = "q_reportError"
 };
-/* Definitions for commSemaphore */
-osSemaphoreId_t commSemaphoreHandle;
-const osSemaphoreAttr_t commSemaphore_attributes = {
-  .name = "commSemaphore"
-};
 /* Definitions for ltcSemaphore */
 osSemaphoreId_t ltcSemaphoreHandle;
 const osSemaphoreAttr_t ltcSemaphore_attributes = {
@@ -228,12 +188,7 @@ static void MX_USART3_UART_Init(void);
 extern void read_cells_volts(void *argument);
 extern void read_cells_temp(void *argument);
 extern void read_cells_status(void *argument);
-extern void CAN_voltage(void *argument);
-extern void CAN_temperature(void *argument);
-extern void CAN_current(void *argument);
-extern void CAN_GLV(void *argument);
-extern void CAN_info(void *argument);
-extern void balance_check(void *argument);
+extern void CAN_transmission(void *argument);
 extern void charge_update(void *argument);
 extern void filter_max_voltages(void *argument);
 extern void filter_min_voltages(void *argument);
@@ -367,9 +322,6 @@ int main(void)
   /* USER CODE END RTOS_MUTEX */
 
   /* Create the semaphores(s) */
-  /* creation of commSemaphore */
-  commSemaphoreHandle = osSemaphoreNew(1, 1, &commSemaphore_attributes);
-
   /* creation of ltcSemaphore */
   ltcSemaphoreHandle = osSemaphoreNew(1, 1, &ltcSemaphore_attributes);
 
@@ -408,23 +360,8 @@ int main(void)
   /* creation of t_readCellsStatus */
   t_readCellsStatusHandle = osThreadNew(read_cells_status, NULL, &t_readCellsStatus_attributes);
 
-  /* creation of t_CANvoltage */
-  t_CANvoltageHandle = osThreadNew(CAN_voltage, NULL, &t_CANvoltage_attributes);
-
-  /* creation of t_CANtemperature */
-  t_CANtemperatureHandle = osThreadNew(CAN_temperature, NULL, &t_CANtemperature_attributes);
-
-  /* creation of t_CANcurrent */
-  t_CANcurrentHandle = osThreadNew(CAN_current, NULL, &t_CANcurrent_attributes);
-
-  /* creation of t_CANglv */
-  t_CANglvHandle = osThreadNew(CAN_GLV, NULL, &t_CANglv_attributes);
-
-  /* creation of t_CANinfo */
-  t_CANinfoHandle = osThreadNew(CAN_info, NULL, &t_CANinfo_attributes);
-
-  /* creation of t_balanceCheck */
-  t_balanceCheckHandle = osThreadNew(balance_check, NULL, &t_balanceCheck_attributes);
+  /* creation of t_CANtransmission */
+  t_CANtransmissionHandle = osThreadNew(CAN_transmission, NULL, &t_CANtransmission_attributes);
 
   /* creation of t_chargeUpdate */
   t_chargeUpdateHandle = osThreadNew(charge_update, NULL, &t_chargeUpdate_attributes);
