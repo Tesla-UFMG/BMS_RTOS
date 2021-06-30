@@ -268,7 +268,7 @@ void BMS_init(BMS_struct_t* BMS)
 	BMS->error = ERR_NO_ERROR;
 	BMS->v_max = RESET_V_MAX;
 	BMS->v_min = RESET_V_MIN;
-	BMS->mode = BMS_MONITORING;
+	BMS->mode  = BMS_MONITORING;
 
 	uint16_t aux;
 	EE_ReadVariable(0x0, &aux);
