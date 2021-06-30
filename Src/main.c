@@ -94,42 +94,42 @@ const osThreadAttr_t t_chargeUpdate_attributes = {
 osThreadId_t t_filterMaxVoltsHandle;
 const osThreadAttr_t t_filterMaxVolts_attributes = {
   .name = "t_filterMaxVolts",
-  .priority = (osPriority_t) osPriorityBelowNormal,
+  .priority = (osPriority_t) osPriorityHigh1,
   .stack_size = 128 * 4
 };
 /* Definitions for t_filterMinVolts */
 osThreadId_t t_filterMinVoltsHandle;
 const osThreadAttr_t t_filterMinVolts_attributes = {
   .name = "t_filterMinVolts",
-  .priority = (osPriority_t) osPriorityLow,
+  .priority = (osPriority_t) osPriorityHigh1,
   .stack_size = 128 * 4
 };
 /* Definitions for t_filterTemp */
 osThreadId_t t_filterTempHandle;
 const osThreadAttr_t t_filterTemp_attributes = {
   .name = "t_filterTemp",
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityAboveNormal3,
   .stack_size = 128 * 4
 };
 /* Definitions for t_errorVoltage */
 osThreadId_t t_errorVoltageHandle;
 const osThreadAttr_t t_errorVoltage_attributes = {
   .name = "t_errorVoltage",
-  .priority = (osPriority_t) osPriorityHigh3,
+  .priority = (osPriority_t) osPriorityHigh4,
   .stack_size = 128 * 4
 };
 /* Definitions for t_errorTemp */
 osThreadId_t t_errorTempHandle;
 const osThreadAttr_t t_errorTemp_attributes = {
   .name = "t_errorTemp",
-  .priority = (osPriority_t) osPriorityHigh2,
+  .priority = (osPriority_t) osPriorityHigh3,
   .stack_size = 128 * 4
 };
 /* Definitions for t_errorGLV */
 osThreadId_t t_errorGLVHandle;
 const osThreadAttr_t t_errorGLV_attributes = {
   .name = "t_errorGLV",
-  .priority = (osPriority_t) osPriorityHigh1,
+  .priority = (osPriority_t) osPriorityHigh2,
   .stack_size = 128 * 4
 };
 /* Definitions for t_errorMonitoring */
@@ -185,7 +185,7 @@ static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
-extern void read_cells_volts(void *argument);
+void read_cells_volts(void *argument);
 extern void read_cells_temp(void *argument);
 extern void read_cells_status(void *argument);
 extern void CAN_transmission(void *argument);
@@ -855,6 +855,24 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_read_cells_volts */
+/**
+  * @brief  Function implementing the t_readCellsVolts thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_read_cells_volts */
+__weak void read_cells_volts(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END 5 */
+}
 
  /**
   * @brief  Period elapsed callback in non blocking mode
