@@ -287,7 +287,7 @@ void filter_temperature(void *argument)
 void error_voltage(void *argument)
 {
   /* USER CODE BEGIN error_voltage */
-  uint16_t errorOvervoltage = 0, errorUndervoltage = 1;
+  uint16_t errorOvervoltage = ERR_OVER_VOLTAGE, errorUndervoltage = ERR_UNDER_VOLTAGE;
   /* Infinite loop */
   for(;;)
   {
@@ -326,7 +326,7 @@ void error_voltage(void *argument)
 void error_over_temperature(void *argument)
 {
   /* USER CODE BEGIN error_over_temperature */
-  uint16_t errorOverTemperature = 2;
+  uint16_t errorOverTemperature = ERR_OVER_TEMPERATURE;
   /* Infinite loop */
   for(;;)
   {
@@ -355,7 +355,7 @@ void error_over_temperature(void *argument)
 void error_GLV_undervoltage(void *argument)
 {
   /* USER CODE BEGIN error_GLV_undervoltage */
-  uint16_t errorGLV = 3;
+  uint16_t errorGLV = ERR_GLV_VOLTAGE;
   /* Infinite loop */
   for(;;)
   {

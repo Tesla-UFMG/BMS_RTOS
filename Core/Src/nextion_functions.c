@@ -74,24 +74,24 @@ void nex_loop(BMS_struct_t *BMS){
 	{
 		switch(errorID)
 		{
-			case 0:
+			case ERR_OVER_VOLTAGE:
 				NexScrollingTextSetText(0, "Over Voltage");
 				NexScrollingTextSetPic(0, 11);
 				break;
 
-			case 1:
+			case ERR_UNDER_VOLTAGE:
 				NexScrollingTextSetText(0, "Under Voltage");
 				NexScrollingTextSetPic(0, 11);
 				break;
-			case 2:
+			case ERR_OVER_TEMPERATURE:
 				NexScrollingTextSetText(0, "Over Temperature");
 				NexScrollingTextSetPic(0, 11);
 				break;
-			case 3:
+			case ERR_GLV_VOLTAGE:
 				NexScrollingTextSetText(0, "GLV Low Voltage");
 				NexScrollingTextSetPic(0, 11);
 				break;
-			case 4:
+			case ERR_COMM_ERROR:
 				NexScrollingTextSetText(0, "Comm Error");
 				NexScrollingTextSetPic(0, 11);
 				break;
