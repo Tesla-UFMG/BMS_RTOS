@@ -176,15 +176,15 @@ const osSemaphoreAttr_t ltcSemaphore_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_DMA_Init(void);
-static void MX_ADC1_Init(void);
-static void MX_CAN_Init(void);
-static void MX_SPI1_Init(void);
-static void MX_TIM3_Init(void);
-static void MX_TIM4_Init(void);
-static void MX_USART1_UART_Init(void);
-static void MX_USART3_UART_Init(void);
+extern void MX_GPIO_Init(void);
+extern void MX_DMA_Init(void);
+extern void MX_ADC1_Init(void);
+extern void MX_CAN_Init(void);
+extern void MX_SPI1_Init(void);
+extern void MX_TIM3_Init(void);
+extern void MX_TIM4_Init(void);
+extern void MX_USART1_UART_Init(void);
+extern void MX_USART3_UART_Init(void);
 extern void read_cells_volts(void *argument);
 extern void read_cells_temp(void *argument);
 extern void read_cells_status(void *argument);
