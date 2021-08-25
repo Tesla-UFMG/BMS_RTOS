@@ -1,54 +1,25 @@
 #include "tasks.h"
 
-/* USER CODE BEGIN Header_read_cells_volts */
-/**
-  * @brief  Function implementing the readCellsVolts thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_read_cells_volts */
 void read_cells_volts(void *argument)
 {
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
   for(;;)
   {
 	  BMS_convert(BMS_CONVERT_CELL, BMS);
 	  osDelay(100);
   }
-  /* USER CODE END 5 */
 }
 
-/* USER CODE BEGIN Header_read_cells_temp */
-/**
-  * @brief  Function implementing the readCellsTemp thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_read_cells_temp */
 void read_cells_temp(void *argument)
 {
-  /* USER CODE BEGIN read_cells_temp */
-  /* Infinite loop */
   for(;;)
   {
 	  BMS_convert(BMS_CONVERT_GPIO, BMS);
 	  osDelay(100);
   }
-  /* USER CODE END read_cells_temp */
 }
 
-/* USER CODE BEGIN Header_read_cells_status */
-/**
-* @brief Function implementing the readCellsStatus thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_read_cells_status */
 void read_cells_status(void *argument)
 {
-  /* USER CODE BEGIN read_cells_status */
-  /* Infinite loop */
   for(;;)
   {
 	  BMS_convert(BMS_CONVERT_STAT, BMS);
@@ -63,40 +34,19 @@ void read_cells_status(void *argument)
 	  }
 	  osDelay(100);
   }
-  /* USER CODE END read_cells_status */
 }
 
-/* USER CODE BEGIN Header_CAN_voltage */
-/**
-* @brief Function implementing the CANvoltage thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_CAN_voltage */
 void CAN_transmission(void *argument)
 {
-  /* USER CODE BEGIN CAN_voltage */
-
-  /* Infinite loop */
   for(;;)
   {
 	  BMS_CAN(BMS);
 	  osDelay(100);
   }
-  /* USER CODE END CAN_voltage */
 }
 
-/* USER CODE BEGIN Header_charge_update */
-/**
-* @brief Function implementing the chargeUpdate thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_charge_update */
 void charge_update(void *argument)
 {
-  /* USER CODE BEGIN charge_update */
-  /* Infinite loop */
   for(;;)
   {
 	  if(BMS->mode & BMS_MONITORING)
@@ -120,19 +70,10 @@ void charge_update(void *argument)
 
 	  osDelay(100);
   }
-  /* USER CODE END charge_update */
 }
 
-/* USER CODE BEGIN Header_filter_max_voltages */
-/**
-* @brief Function implementing the filterMaxVolts thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_filter_max_voltages */
 void filter_max_voltages(void *argument)
 {
-  /* USER CODE BEGIN filter_max_voltages */
   uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
   uint8_t index = 0;
   osStatus_t status;
@@ -171,19 +112,10 @@ void filter_max_voltages(void *argument)
 
 	osDelay(100);
   }
-  /* USER CODE END filter_max_voltages */
 }
 
-/* USER CODE BEGIN Header_filter_min_voltages */
-/**
-* @brief Function implementing the filterMinVolts thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_filter_min_voltages */
 void filter_min_voltages(void *argument)
 {
-  /* USER CODE BEGIN filter_min_voltages */
   uint16_t sum = 0, input_voltage, previous_voltages[N_AVERAGE];
   uint8_t index = 0;
   osStatus_t status;
@@ -222,19 +154,10 @@ void filter_min_voltages(void *argument)
 
     osDelay(100);
   }
-  /* USER CODE END filter_min_voltages */
 }
 
-/* USER CODE BEGIN Header_filter_temperature */
-/**
-* @brief Function implementing the filterTemp thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_filter_temperature */
 void filter_temperature(void *argument)
 {
-  /* USER CODE BEGIN filter_temperature */
   uint16_t sum = 0, input_temperature, previous_temperatures[N_AVERAGE];
   uint8_t index = 0;
   osStatus_t status;
@@ -274,21 +197,11 @@ void filter_temperature(void *argument)
 
 	osDelay(100);
   }
-  /* USER CODE END filter_temperature */
 }
 
-/* USER CODE BEGIN Header_error_voltage */
-/**
-* @brief Function implementing the errorVoltage thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_error_voltage */
 void error_voltage(void *argument)
 {
-  /* USER CODE BEGIN error_voltage */
   uint16_t errorOvervoltage = ERR_OVER_VOLTAGE, errorUndervoltage = ERR_UNDER_VOLTAGE;
-  /* Infinite loop */
   for(;;)
   {
 	if(BMS->v_max >= MAX_CELL_V_DISCHARGE)
@@ -313,21 +226,11 @@ void error_voltage(void *argument)
 
     osDelay(100);
   }
-  /* USER CODE END error_voltage */
 }
 
-/* USER CODE BEGIN Header_error_over_temperature */
-/**
-* @brief Function implementing the errorOverTemp thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_error_over_temperature */
 void error_over_temperature(void *argument)
 {
-  /* USER CODE BEGIN error_over_temperature */
   uint16_t errorOverTemperature = ERR_OVER_TEMPERATURE;
-  /* Infinite loop */
   for(;;)
   {
 	if(BMS->t_max >= MAX_TEMPERATURE)
@@ -342,21 +245,11 @@ void error_over_temperature(void *argument)
 
     osDelay(100);
   }
-  /* USER CODE END error_over_temperature */
 }
 
-/* USER CODE BEGIN Header_error_GLV_undervoltage */
-/**
-* @brief Function implementing the errorGLV thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_error_GLV_undervoltage */
 void error_GLV_undervoltage(void *argument)
 {
-  /* USER CODE BEGIN error_GLV_undervoltage */
   uint16_t errorGLV = ERR_GLV_VOLTAGE;
-  /* Infinite loop */
   for(;;)
   {
 	if(BMS->v_GLV < MIN_GLV_V)
@@ -371,20 +264,10 @@ void error_GLV_undervoltage(void *argument)
 
     osDelay(100);
   }
-  /* USER CODE END error_GLV_undervoltage */
 }
 
-/* USER CODE BEGIN Header_error_monitoring */
-/**
-* @brief Function implementing the errorMonitoring thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_error_monitoring */
 void error_monitoring(void *argument)
 {
-  /* USER CODE BEGIN error_monitoring */
-  /* Infinite loop */
   for(;;)
   {
 	if(BMS->error != ERR_NO_ERROR)
@@ -400,24 +283,13 @@ void error_monitoring(void *argument)
 
     osDelay(100);
   }
-  /* USER CODE END error_monitoring */
 }
 
-/* USER CODE BEGIN Header_nextion_loop */
-/**
-* @brief Function implementing the nextionLoop thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_nextion_loop */
 void nextion_loop(void *argument)
 {
-  /* USER CODE BEGIN nextion_loop */
-  /* Infinite loop */
   for(;;)
   {
 	  nex_loop(BMS);
 	  osDelay(1);
   }
-  /* USER CODE END nextion_loop */
 }
