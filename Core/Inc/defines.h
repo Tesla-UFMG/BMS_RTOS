@@ -9,6 +9,7 @@
 #define N_OF_CELLS					13
 #define N_OF_THERMISTORS			4
 #define N_OF_DHAB					3
+#define PACKS_IN_SERIES				2
 #define V_ERROR_COM					65528
 #define T_ERROR_COM					1
 #define BALANCE_TIME				120

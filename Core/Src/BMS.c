@@ -145,7 +145,7 @@ void BMS_convert(uint8_t BMS_CONVERT, BMS_struct_t* BMS)
 			BMS->v_TS += BMS->sensor[i]->SOC;
 		}
 
-		BMS->v_TS /= N_OF_PACKS/2;
+		BMS->v_TS /= (N_OF_PACKS / PACKS_IN_SERIES);
 	}
 }
 
