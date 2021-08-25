@@ -42,6 +42,8 @@
 
 /* USER CODE BEGIN 0 */
 
+extern void Error_Handler();
+
 /* USER CODE END 0 */
 
 SPI_HandleTypeDef hspi1;
@@ -64,7 +66,7 @@ void MX_SPI1_Init(void)
   hspi1.Init.CRCPolynomial = 10;
   if (HAL_SPI_Init(&hspi1) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+	  Error_Handler();
   }
 
 }
